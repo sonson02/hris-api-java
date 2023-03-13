@@ -47,6 +47,7 @@ public class PajakMasterService {
     public PajakMasterResponse insertPajakMaster(PajakMasterRequest request){
         PajakMasterEntity pme = pajakMasterMapper.mapRequest(request);
         pme.setPajakId(UUID.randomUUID());
+        pme.setDtmUpdate(new Date());
         pme.setIsActive(true);
         pajakMasterRepository.save(pme);
 

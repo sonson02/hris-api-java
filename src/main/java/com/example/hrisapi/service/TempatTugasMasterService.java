@@ -47,6 +47,7 @@ public class TempatTugasMasterService {
     public TempatTugasMasterResponse insertTempatTugasMaster(TempatTugasMasterRequest request){
         TempatTugasMasterEntity ttme = tempatTugasMasterMapper.mapRequest(request);
         ttme.setTempatTugasId(UUID.randomUUID());
+        ttme.setDtmUpdate(new Date());
         ttme.setIsActive(true);
         tempatTugasMasterRepository.save(ttme);
 

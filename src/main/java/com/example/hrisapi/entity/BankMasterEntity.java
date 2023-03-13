@@ -27,5 +27,5 @@ public class BankMasterEntity {
 
     private Boolean isActive;
 
-    private String usr_Update;
+    private String usrUpdate;
 }

@@ -53,6 +53,7 @@ public class UnitMasterService {
     public UnitMasterResponse insertUnitMaster(UnitMasterRequest request){
         UnitMasterEntity ume = unitMasterMapper.mapRequest(request);
         ume.setUnitId(UUID.randomUUID());
+        ume.setDtmUpdate(new Date());
         ume.setIsActive(true);
         unitMasterRepository.save(ume);
 

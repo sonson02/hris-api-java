@@ -19,7 +19,7 @@ public class PajakMasterResponse {
 
     private Boolean isActive;
 
-    private String pajakPersen;
+    private Double pajakPersen;
 
     private String pajakStatus;
 

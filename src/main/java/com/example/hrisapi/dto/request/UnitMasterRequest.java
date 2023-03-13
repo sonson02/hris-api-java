@@ -25,4 +25,5 @@ public class UnitMasterRequest {
 
     private String unitName;
 
+    private String usrUpdate;
 }

@@ -48,6 +48,7 @@ public class JabatanMasterService {
     public JabatanMasterResponse insertJabatanMaster(JabatanMasterRequest request){
         JabatanMasterEntity jme = jabatanMasterMapper.mapRequest(request);
         jme.setJabatanId(UUID.randomUUID());
+        jme.setDtmUpdate(new Date());
         jme.setIsActive(true);
         jabatanMasterRepository.save(jme);
 

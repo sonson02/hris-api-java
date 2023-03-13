@@ -47,6 +47,7 @@ public class IuranMasterService {
     public IuranMasterResponse insertIuranMaster(IuranMasterRequest request){
         IuranMasterEntity ime = iuranMasterMapper.mapRequest(request);
         ime.setIuranId(UUID.randomUUID());
+        ime.setDtmUpdate(new Date());
         ime.setIsActive(true);
         iuranMasterRepository.save(ime);
 

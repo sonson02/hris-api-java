@@ -25,4 +25,5 @@ public class JabatanMasterRequest {
 
     private Boolean isActive;
 
+    private String usrUpdate;
 }

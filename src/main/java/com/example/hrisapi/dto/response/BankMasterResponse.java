@@ -23,5 +23,5 @@ public class BankMasterResponse {
 
     private Boolean isActive;
 
-    private String usr_Update;
+    private String usrUpdate;
 }

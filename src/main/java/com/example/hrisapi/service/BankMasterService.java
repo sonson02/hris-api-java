@@ -47,6 +47,7 @@ public class BankMasterService {
     public BankMasterResponse insertBankMaster(BankMasterRequest request){
         BankMasterEntity bme = bankMasterMapper.mapRequest(request);
         bme.setBankId(UUID.randomUUID());
+        bme.setDtmUpdate(new Date());
         bme.setIsActive(true);
         bankMasterRepository.save(bme);
 

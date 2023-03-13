@@ -24,4 +24,6 @@ public class BankMasterRequest {
     private String bankName;
 
     private Boolean isActive;
+
+    private String usrUpdate;
 }

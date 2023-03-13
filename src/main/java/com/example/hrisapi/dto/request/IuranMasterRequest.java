@@ -26,4 +26,5 @@ public class IuranMasterRequest {
 
     private String iuranType;
 
+    private String usrUpdate;
 }

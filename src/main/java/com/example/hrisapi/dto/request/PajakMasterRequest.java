@@ -21,10 +21,11 @@ public class PajakMasterRequest {
 
     private Boolean isActive;
 
-    private String pajakPersen;
+    private Double pajakPersen;
 
     private String pajakStatus;
 
     private String pajakType;
 
+    private String usrUpdate;
 }

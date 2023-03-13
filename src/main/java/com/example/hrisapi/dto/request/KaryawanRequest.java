@@ -56,4 +56,6 @@ public class KaryawanRequest {
     private String noBpjsTenagaKerja;
 
     private String noBpjsKesehatan;
+
+    private String lampiranCv;
 }

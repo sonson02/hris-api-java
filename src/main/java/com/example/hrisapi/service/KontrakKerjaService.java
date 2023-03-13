@@ -3,12 +3,9 @@ package com.example.hrisapi.service;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.constant.HrisConstant;
-import com.example.hrisapi.dto.request.KaryawanRequest;
 import com.example.hrisapi.dto.request.KontrakKerjaRequest;
-import com.example.hrisapi.dto.response.KaryawanResponse;
 import com.example.hrisapi.dto.response.KontrakKerjaResponse;
 import com.example.hrisapi.entity.*;
-import com.example.hrisapi.mapper.KaryawanMapper;
 import com.example.hrisapi.mapper.KontrakKerjaMapper;
 import com.example.hrisapi.repository.*;
 import org.modelmapper.ModelMapper;
@@ -22,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class KontrakService {
+public class KontrakKerjaService {
 
     @Autowired
     private KaryawanRepository karyawanRepository;
@@ -99,6 +96,19 @@ public class KontrakService {
         objmapper.map(request, kkeExist);
         kkeExist.setDtmUpdate(new Date());
         kontrakKerjaRepository.save(kkeExist);
+
+        KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
+
+        return response;
+    }
+
+    public KontrakKerjaResponse getDetailKontrak(UUID kontrakId){
+
+        KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(kontrakId);
+
+        if(kkeExist==null){
+            throw new DataNotFoundException();
+        }
 
         KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
 

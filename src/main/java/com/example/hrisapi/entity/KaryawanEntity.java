@@ -80,4 +80,6 @@ public class KaryawanEntity {
     private String usrUpdate;
 
     private UUID jabatanId;
+
+    private UUID fileUploadId;
 }

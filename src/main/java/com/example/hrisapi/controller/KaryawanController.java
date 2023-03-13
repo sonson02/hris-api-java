@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/master")
 public class KaryawanController {
@@ -49,6 +51,17 @@ public class KaryawanController {
         var body = new JsonBaseResponse<KaryawanResponse>(
                 System.currentTimeMillis(),
                 karyawanService.updateKaryawan(request)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/karyawan/detail")
+    public ResponseEntity<JsonBaseResponse<KaryawanResponse>> getDetailKaryawan(
+            @RequestParam(required = false) UUID karyawanId)
+    {
+        var body = new JsonBaseResponse<KaryawanResponse>(
+                System.currentTimeMillis(),
+                karyawanService.getDetailKaryawan(karyawanId)
         );
         return ResponseEntity.ok(body);
     }

@@ -39,6 +39,9 @@ public class KaryawanService {
     @Autowired
     private KontrakKerjaRepository kontrakKerjaRepository;
 
+    @Autowired
+    private FileUploadRepository fileUploadRepository;
+
     public PaginatedResponse<KaryawanResponse> getListKaryawan(String nip, String unitName, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = karyawanRepository.getKaryawanIsActive();
         List<KaryawanResponse> listKaryawanResponse = new ArrayList<>();
@@ -70,9 +73,16 @@ public class KaryawanService {
 
     @Transactional
     public KaryawanResponse insertKaryawan(KaryawanRequest request){
+
+        FileUploadEntity fileCv = new FileUploadEntity();
+        fileCv.setFileUploadId(UUID.randomUUID());
+        fileCv.setFileName(request.getLampiranCv());
+        fileUploadRepository.save(fileCv);
+
         KaryawanEntity ke = karyawanMapper.mapRequest(request);
         ke.setKaryawanId(UUID.randomUUID());
         ke.setIsActive(true);
+        ke.setFileUploadId(fileCv.getFileUploadId());
         karyawanRepository.save(ke);
 
         KaryawanResponse response = karyawanMapper.map(ke);
@@ -94,6 +104,19 @@ public class KaryawanService {
         objmapper.map(request, keExist);
         keExist.setDtmUpdate(new Date());
         karyawanRepository.save(keExist);
+
+        KaryawanResponse response = karyawanMapper.map(keExist);
+
+        return response;
+    }
+
+    public KaryawanResponse getDetailKaryawan(UUID karyawanId){
+
+        KaryawanEntity keExist = karyawanRepository.findByKaryawanId(karyawanId);
+
+        if(keExist==null){
+            throw new DataNotFoundException();
+        }
 
         KaryawanResponse response = karyawanMapper.map(keExist);
 

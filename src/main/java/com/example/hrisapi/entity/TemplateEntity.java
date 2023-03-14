@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "template", schema = "hrisnew")
+@Table(name = "template", schema = "dbo")
 public class TemplateEntity {
 
     @Id

@@ -15,19 +15,67 @@ import java.util.UUID;
 public class KaryawanResponse {
     private UUID karyawanId;
 
-    private String karyawanNip;
+    private String agama;
 
-    private String karyawanName;
+    private String alamatRumah;
 
-    private String namaProyek;
+    private String asalSekolah;
 
-    private String unitName;
+    private UUID bankId;
 
-    private String jabatanName;
+    private Date dtmUpdate;
+
+    private String email;
+
+    private Double gaji;
+
+    private String gender;
 
     private Boolean isActive;
 
+    private String jurusan;
+
+    private String karyawanName;
+
+    private String karyawanNip;
+
+    private String noBpjsKesehatan;
+
+    private String noBpjsTenagaKerja;
+
+    private String noHandphone;
+
+    private String nokk;
+
+    private String nonik;
+
+    private String nonpwp;
+
+    private String noRekening;
+
+    private String pendidikanTerakhir;
+
+    private String statusNikah;
+
+    private Date tanggalLahir;
+
+    private String tempatTinggal;
+
+    private UUID tempatTugasId;
+
     private Date tglHabisKontrak;
 
-    private String periodKontrak;
+    private Date tglMasukKerja;
+
+    private String tipeTunjangan;
+
+    private Double uangTelekomunikasi;
+
+    private UUID unitId;
+
+    private String usrUpdate;
+
+    private UUID jabatanId;
+
+    private UUID fileUploadId;
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface JabatanMasterRepository extends JpaRepository<JabatanMasterEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.jabatan_master jm where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.jabatan_master jm where is_active = true", nativeQuery = true)
     List<JabatanMasterEntity> getJabatanMasterIsActive();
 
     JabatanMasterEntity findByJabatanId(UUID jabatanId);

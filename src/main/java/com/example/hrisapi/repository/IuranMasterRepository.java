@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface IuranMasterRepository extends JpaRepository<IuranMasterEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.iuran_master im where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.iuran_master im where is_active = true", nativeQuery = true)
     List<IuranMasterEntity> getIuranMasterIsActive();
 
     IuranMasterEntity findByIuranId(UUID iuranId);

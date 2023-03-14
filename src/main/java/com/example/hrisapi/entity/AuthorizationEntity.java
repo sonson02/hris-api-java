@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authorization", schema = "hrisnew")
+@Table(name = "authorization", schema = "dbo")
 public class AuthorizationEntity {
 
     @Id

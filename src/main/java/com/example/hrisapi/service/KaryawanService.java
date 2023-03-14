@@ -4,7 +4,9 @@ import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.request.KaryawanRequest;
+import com.example.hrisapi.dto.response.KaryawanByNipResponse;
 import com.example.hrisapi.dto.response.KaryawanResponse;
+import com.example.hrisapi.dto.response.ListKaryawanResponse;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.mapper.KaryawanMapper;
 import com.example.hrisapi.repository.*;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,29 +45,38 @@ public class KaryawanService {
     @Autowired
     private FileUploadRepository fileUploadRepository;
 
-    public PaginatedResponse<KaryawanResponse> getListKaryawan(String nip, String unitName, Integer page, Integer size){
+    public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, String unitName, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = karyawanRepository.getKaryawanIsActive();
-        List<KaryawanResponse> listKaryawanResponse = new ArrayList<>();
+        List<ListKaryawanResponse> listKaryawanResponse = new ArrayList<>();
 
         for(KaryawanEntity ke : listKaryawanEntity){
-            KaryawanResponse response = karyawanMapper.map(ke);
+            ListKaryawanResponse response = karyawanMapper.mapList(ke);
 
             TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
-            response.setNamaProyek(ttme.getNamaProyek());
+            if(ttme!=null){
+                response.setNamaProyek(ttme.getNamaProyek());
+            }
 
             UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
-            response.setUnitName(ume.getUnitName());
+            if(ume!=null){
+                response.setUnitName(ume.getUnitName());
+            }
 
             JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
-            response.setJabatanName(jme.getJabatanName());
+            if(jme!=null){
+                response.setJabatanName(jme.getJabatanName());
+            }
 
             KontrakKerjaEntity kk = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
-            response.setPeriodKontrak(kk.getPeriodKontrak());
+            if(kk!=null){
+                response.setPeriodKontrak(kk.getPeriodKontrak());
+                response.setTglHabisKontrak(kk.getEndKontrak());
+            }
 
             listKaryawanResponse.add(response);
         }
 
-        return (PaginatedResponse<KaryawanResponse>) HrisConstant.extractPaginationList(
+        return (PaginatedResponse<ListKaryawanResponse>) HrisConstant.extractPaginationList(
                 page,
                 size,
                 listKaryawanResponse
@@ -72,7 +84,7 @@ public class KaryawanService {
     }
 
     @Transactional
-    public KaryawanResponse insertKaryawan(KaryawanRequest request){
+    public KaryawanResponse insertKaryawan(KaryawanRequest request) throws ParseException {
 
         FileUploadEntity fileCv = new FileUploadEntity();
         fileCv.setFileUploadId(UUID.randomUUID());
@@ -83,6 +95,9 @@ public class KaryawanService {
         ke.setKaryawanId(UUID.randomUUID());
         ke.setIsActive(true);
         ke.setFileUploadId(fileCv.getFileUploadId());
+        ke.setGaji(0D);
+        ke.setUangTelekomunikasi(0D);
+        ke.setDtmUpdate(new Date());
         karyawanRepository.save(ke);
 
         KaryawanResponse response = karyawanMapper.map(ke);
@@ -119,6 +134,19 @@ public class KaryawanService {
         }
 
         KaryawanResponse response = karyawanMapper.map(keExist);
+
+        return response;
+    }
+
+    public KaryawanByNipResponse getKaryawanByNip(String karyawanNip){
+
+        KaryawanEntity keExist = karyawanRepository.findByKaryawanNip(karyawanNip);
+
+        if(keExist==null){
+            throw new DataNotFoundException();
+        }
+
+        KaryawanByNipResponse response = karyawanMapper.mapNip(keExist);
 
         return response;
     }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "client_role_master", schema = "hrisnew")
+@Table(name = "client_role_master", schema = "dbo")
 public class ClientRoleMasterEntity {
 
     @Id

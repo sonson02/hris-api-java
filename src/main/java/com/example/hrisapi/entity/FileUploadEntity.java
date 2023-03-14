@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "file_upload", schema = "hrisnew")
+@Table(name = "file_upload", schema = "dbo")
 public class FileUploadEntity {
 
     @Id

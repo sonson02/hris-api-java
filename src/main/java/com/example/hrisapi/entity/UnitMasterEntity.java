@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "unit_master", schema = "hrisnew")
+@Table(name = "unit_master", schema = "dbo")
 public class UnitMasterEntity {
 
     @Id

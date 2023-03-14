@@ -12,8 +12,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class KontrakKerjaResponse {
-    private UUID kontrakId;
+public class ListKaryawanResponse {
+    private UUID karyawanId;
 
     private String karyawanNip;
 
@@ -25,19 +25,9 @@ public class KontrakKerjaResponse {
 
     private String jabatanName;
 
-    private String periodKontrak;
-
-    private Date tglMasukKerja;
+    private Boolean isActive;
 
     private Date tglHabisKontrak;
 
-    private Boolean isActive;
-
-    private String nonik;
-
-    private Double gaji;
-
-    private Double uangTelekomunikasi;
-
-
+    private String periodKontrak;
 }

@@ -35,8 +35,6 @@ public class KaryawanRequest {
 
     private String noRekening;
 
-    private Boolean isActive;
-
     private String email;
 
     private String noHandphone;

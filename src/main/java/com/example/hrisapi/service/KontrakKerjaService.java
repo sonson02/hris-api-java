@@ -46,19 +46,25 @@ public class KontrakKerjaService {
         for(KontrakKerjaEntity kke : listKontrakKerjaEntity){
             KontrakKerjaResponse response = kontrakKerjaMapper.map(kke);
 
-            KaryawanEntity k = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
-            response.setKaryawanName(k.getKaryawanName());
-            response.setTglMasukKerja(k.getTglMasukKerja());
-            response.setTglHabisKontrak(k.getTglHabisKontrak());
+            KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
+            response.setKaryawanName(ke.getKaryawanName());
+            response.setTglMasukKerja(ke.getTglMasukKerja());
+            response.setTglHabisKontrak(ke.getTglHabisKontrak());
 
-            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
-            response.setNamaProyek(ttme.getNamaProyek());
+            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
+            if(ttme!=null){
+                response.setNamaProyek(ttme.getNamaProyek());
+            }
 
-            UnitMasterEntity ume = unitMasterRepository.findByUnitId(k.getUnitId());
-            response.setUnitName(ume.getUnitName());
+            UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
+            if(ume!=null){
+                response.setUnitName(ume.getUnitName());
+            }
 
-            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(k.getJabatanId());
-            response.setJabatanName(jme.getJabatanName());
+            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
+            if(jme!=null){
+                response.setJabatanName(jme.getJabatanName());
+            }
 
             listKontrakKerjaResponse.add(response);
         }
@@ -74,10 +80,20 @@ public class KontrakKerjaService {
     public KontrakKerjaResponse insertKontrak(KontrakKerjaRequest request){
         KontrakKerjaEntity kke = kontrakKerjaMapper.mapRequest(request);
         kke.setKontrakId(UUID.randomUUID());
+        kke.setDtmUpdate(new Date());
         kke.setIsActive(true);
         kontrakKerjaRepository.save(kke);
 
+        KaryawanEntity k = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
+        k.setGaji(request.getGaji());
+        k.setUangTelekomunikasi(request.getUangTelekomunikasi());
+        k.setTglMasukKerja(request.getTglMasukKerja());
+        k.setTglHabisKontrak(request.getTglHabisKontrak());
+        k.setTipeTunjangan(request.getTipeTunjangan());
+        karyawanRepository.save(k);
+
         KontrakKerjaResponse response = kontrakKerjaMapper.map(kke);
+        response.setKaryawanName(k.getKaryawanName());
 
         return response;
     }
@@ -96,6 +112,14 @@ public class KontrakKerjaService {
         objmapper.map(request, kkeExist);
         kkeExist.setDtmUpdate(new Date());
         kontrakKerjaRepository.save(kkeExist);
+
+        KaryawanEntity k = karyawanRepository.findByKaryawanNip(kkeExist.getKaryawanNip());
+        k.setGaji(request.getGaji());
+        k.setUangTelekomunikasi(request.getUangTelekomunikasi());
+        k.setTglMasukKerja(request.getTglMasukKerja());
+        k.setTglHabisKontrak(request.getTglHabisKontrak());
+        k.setTipeTunjangan(request.getTipeTunjangan());
+        karyawanRepository.save(k);
 
         KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
 

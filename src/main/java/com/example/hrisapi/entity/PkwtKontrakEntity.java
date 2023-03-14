@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "pkwt_kontrak", schema = "hrisnew")
+@Table(name = "pkwt_kontrak", schema = "dbo")
 public class PkwtKontrakEntity {
 
     @Id

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/master")
+@RequestMapping("/api")
 public class KontrakKerjaController {
 
     @Autowired
@@ -21,8 +21,8 @@ public class KontrakKerjaController {
 
     @GetMapping("/kontrak_kerja")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<KontrakKerjaResponse>>> getListKontrak(
-            @RequestParam(required = false) String nip,
-            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false, value = "nip") String nip,
+            @RequestParam(required = false, value = "unit_name") String unitName,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size)
     {
@@ -57,7 +57,7 @@ public class KontrakKerjaController {
 
     @GetMapping("/kontrak_kerja/detail")
     public ResponseEntity<JsonBaseResponse<KontrakKerjaResponse>> getDetailKontrakKerja(
-            @RequestParam(required = false) UUID kontrakId)
+            @RequestParam(required = true, value = "kontrak_id") UUID kontrakId)
     {
         var body = new JsonBaseResponse<KontrakKerjaResponse>(
                 System.currentTimeMillis(),

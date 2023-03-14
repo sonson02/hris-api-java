@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.karyawan k where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.karyawan k where is_active = true", nativeQuery = true)
     List<KaryawanEntity> getKaryawanIsActive();
 
     KaryawanEntity findByKaryawanId(UUID karyawanId);

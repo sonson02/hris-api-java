@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface PajakMasterRepository extends JpaRepository<PajakMasterEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.pajak_master pm where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.pajak_master pm where is_active = true", nativeQuery = true)
     List<PajakMasterEntity> getPajakMasterIsActive();
 
     PajakMasterEntity findByPajakId(UUID pajakId);

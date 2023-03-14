@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface BankMasterRepository extends JpaRepository<BankMasterEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.bank_master bm where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.bank_master bm where is_active = true", nativeQuery = true)
     List<BankMasterEntity> getBankMasterIsActive();
 
     BankMasterEntity findByBankId(UUID bankId);

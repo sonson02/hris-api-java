@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_master", schema = "hrisnew")
+@Table(name = "user_master", schema = "dbo")
 public class UserMasterEntity {
 
     @Id

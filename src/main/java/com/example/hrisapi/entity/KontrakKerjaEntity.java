@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "kontrak_kerja", schema = "hrisnew")
+@Table(name = "kontrak_kerja", schema = "dbo")
 public class KontrakKerjaEntity {
 
     @Id
@@ -21,19 +21,15 @@ public class KontrakKerjaEntity {
 
     private Date dtmUpdate;
 
-    private Date endKontrak;
-
     private Boolean isActive;
+
+    private UUID karyawanId;
 
     private String karyawanNip;
 
     private String kontrakKode;
 
-    private String periodKontrak;
-
-    private Date startKontrak;
-
-    private UUID tempatTugasId;
+    private Integer periodKontrak;
 
     private String usrUpdate;
 }

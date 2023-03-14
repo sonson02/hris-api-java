@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity, UUID> {
 
-    @Query(value = "select * from hrisnew.kontrak_kerja kk where is_active = true", nativeQuery = true)
+    @Query(value = "select * from dbo.kontrak_kerja kk where is_active = true", nativeQuery = true)
     List<KontrakKerjaEntity> getKontrakKerjaIsActive();
 
     KontrakKerjaEntity findByKontrakId(UUID kontrakId);

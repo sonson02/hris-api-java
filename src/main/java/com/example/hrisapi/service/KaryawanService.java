@@ -70,7 +70,6 @@ public class KaryawanService {
             KontrakKerjaEntity kk = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
             if(kk!=null){
                 response.setPeriodKontrak(kk.getPeriodKontrak());
-                response.setTglHabisKontrak(kk.getEndKontrak());
             }
 
             listKaryawanResponse.add(response);

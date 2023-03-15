@@ -29,5 +29,5 @@ public class ListKaryawanResponse {
 
     private Date tglHabisKontrak;
 
-    private String periodKontrak;
+    private Integer periodKontrak;
 }

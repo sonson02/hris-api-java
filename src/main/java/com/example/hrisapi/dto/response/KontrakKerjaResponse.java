@@ -39,5 +39,5 @@ public class KontrakKerjaResponse {
 
     private Double uangTelekomunikasi;
 
-
+    private String kontrakKode;
 }

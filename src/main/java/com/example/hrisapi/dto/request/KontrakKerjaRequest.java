@@ -44,4 +44,6 @@ public class KontrakKerjaRequest {
     private Date tglMasukKerja;
 
     private Date tglHabisKontrak;
+
+    private String kontrakKode;
 }

@@ -27,9 +27,9 @@ public class KontrakKerjaResponse {
 
     private String periodKontrak;
 
-    private Date tglMasukKerja;
+    private String tglMasukKerja;
 
-    private Date tglHabisKontrak;
+    private String tglHabisKontrak;
 
     private Boolean isActive;
 

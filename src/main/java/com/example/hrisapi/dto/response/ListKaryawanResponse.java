@@ -27,7 +27,7 @@ public class ListKaryawanResponse {
 
     private Boolean isActive;
 
-    private Date tglHabisKontrak;
+    private String tglHabisKontrak;
 
     private Integer periodKontrak;
 }

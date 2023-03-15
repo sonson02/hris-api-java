@@ -23,11 +23,11 @@ public class KontrakKerjaRequest {
 
     private String nonik;
 
-    private String unitName;
+    private UUID unitId;
 
-    private String namaProyek;
+    private UUID tempatTugasId;
 
-    private String jabatanName;
+    private UUID jabatanId;
 
     private Double gaji;
 

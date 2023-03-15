@@ -30,4 +30,15 @@ public class HrisConstant {
                 .build();
     }
 
+    private static final String PATTERN_DATE_FORMAT = "yyyy-MM-dd";
+
+    public static String formatDate(Date requestDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat(PATTERN_DATE_FORMAT);
+        String responseDate = "";
+        if (requestDate != null) {
+            responseDate = sdf.format(requestDate);
+        }
+
+        return responseDate;
+    }
 }

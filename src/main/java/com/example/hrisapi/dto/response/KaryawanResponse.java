@@ -57,15 +57,15 @@ public class KaryawanResponse {
 
     private String statusNikah;
 
-    private Date tanggalLahir;
+    private String tanggalLahir;
 
     private String tempatTinggal;
 
     private UUID tempatTugasId;
 
-    private Date tglHabisKontrak;
+    private String tglHabisKontrak;
 
-    private Date tglMasukKerja;
+    private String tglMasukKerja;
 
     private String tipeTunjangan;
 

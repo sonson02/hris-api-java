@@ -45,8 +45,18 @@ public class KaryawanService {
     @Autowired
     private FileUploadRepository fileUploadRepository;
 
-    public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, String unitName, Integer page, Integer size){
-        List<KaryawanEntity> listKaryawanEntity = karyawanRepository.getKaryawanIsActive();
+    public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, UUID unitId, Integer page, Integer size){
+        List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+
+        if(nip!=null){
+            KaryawanEntity karyawanFilterByNip = karyawanRepository.getFilterKaryawanNipAndIsActive(nip);
+            listKaryawanEntity.add(karyawanFilterByNip);
+        } else if (unitId!=null){
+            listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else {
+            listKaryawanEntity = karyawanRepository.getKaryawanIsActive();
+        }
+
         List<ListKaryawanResponse> listKaryawanResponse = new ArrayList<>();
 
         for(KaryawanEntity ke : listKaryawanEntity){
@@ -67,9 +77,11 @@ public class KaryawanService {
                 response.setJabatanName(jme.getJabatanName());
             }
 
-            KontrakKerjaEntity kk = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
-            if(kk!=null){
-                response.setPeriodKontrak(kk.getPeriodKontrak());
+            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
+
+            List<KontrakKerjaEntity> listKkExistCekPeriod = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
+            for(KontrakKerjaEntity kke : listKkExistCekPeriod){
+                response.setPeriodKontrak(kontrakKerjaRepository.getMaxPeriodKontrakForListKaryawan(ke.getKaryawanNip()));
             }
 
             listKaryawanResponse.add(response);
@@ -100,6 +112,9 @@ public class KaryawanService {
         karyawanRepository.save(ke);
 
         KaryawanResponse response = karyawanMapper.map(ke);
+        response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+        response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
+        response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
 
         return response;
     }
@@ -120,6 +135,9 @@ public class KaryawanService {
         karyawanRepository.save(keExist);
 
         KaryawanResponse response = karyawanMapper.map(keExist);
+        response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
+        response.setTglHabisKontrak(HrisConstant.formatDate(keExist.getTglHabisKontrak()));
+        response.setTglMasukKerja(HrisConstant.formatDate(keExist.getTglMasukKerja()));
 
         return response;
     }
@@ -133,6 +151,9 @@ public class KaryawanService {
         }
 
         KaryawanResponse response = karyawanMapper.map(keExist);
+        response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
+        response.setTglHabisKontrak(HrisConstant.formatDate(keExist.getTglHabisKontrak()));
+        response.setTglMasukKerja(HrisConstant.formatDate(keExist.getTglMasukKerja()));
 
         return response;
     }
@@ -146,6 +167,7 @@ public class KaryawanService {
         }
 
         KaryawanByNipResponse response = karyawanMapper.mapNip(keExist);
+        response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
 
         return response;
     }

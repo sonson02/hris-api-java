@@ -21,5 +21,5 @@ public class KaryawanByNipResponse {
 
     private String tempatTinggal;
 
-    private Date tanggalLahir;
+    private String tanggalLahir;
 }

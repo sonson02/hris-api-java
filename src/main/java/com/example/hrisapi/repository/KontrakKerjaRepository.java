@@ -1,8 +1,10 @@
 package com.example.hrisapi.repository;
 
+import com.example.hrisapi.entity.KaryawanEntity;
 import com.example.hrisapi.entity.KontrakKerjaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +18,22 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
 
     KontrakKerjaEntity findByKontrakId(UUID kontrakId);
 
-    KontrakKerjaEntity findByKaryawanNip(String karyawanNip);
+    List<KontrakKerjaEntity> findByKaryawanNip(String karyawanNip);
+
+    @Query(value = "select count(*) from dbo.kontrak_kerja kk where karyawan_nip = :karyawanNip", nativeQuery = true)
+    int getCountPeriodKontrak(@Param("karyawanNip") String karyawanNip);
+
+    @Query(value = "select max(period_kontrak) from dbo.kontrak_kerja kk where karyawan_nip = :karyawanNip", nativeQuery = true)
+    int getMaxPeriodKontrakForListKaryawan(@Param("karyawanNip") String karyawanNip);
+
+    @Query(value = "select kk.kontrak_id, kk.dtm_update ," +
+            "kk.is_active, kk.karyawan_id, kk.karyawan_nip , " +
+            "kk.kontrak_kode , kk.period_kontrak , kk.usr_update ," +
+            "kk.file_upload_id " +
+            "from dbo.kontrak_kerja kk " +
+            "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
+            "where k.is_active = true " +
+            "and k.unit_id = :unitId",
+            nativeQuery = true)
+    List<KontrakKerjaEntity> getFilterKontrakByUnitIdAndIsActive(@Param("unitId") UUID unitId);
 }

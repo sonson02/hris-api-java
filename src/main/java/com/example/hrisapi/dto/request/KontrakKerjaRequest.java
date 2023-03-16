@@ -46,4 +46,8 @@ public class KontrakKerjaRequest {
     private Date tglHabisKontrak;
 
     private String kontrakKode;
+
+    private Boolean isActive;
+
+    private String usrUpdate;
 }

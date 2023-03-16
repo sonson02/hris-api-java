@@ -56,4 +56,8 @@ public class KaryawanRequest {
     private String noBpjsKesehatan;
 
     private String lampiranCv;
+
+    private Boolean isActive;
+
+    private String usrUpdate;
 }

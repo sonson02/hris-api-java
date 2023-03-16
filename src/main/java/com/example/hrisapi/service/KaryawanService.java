@@ -128,9 +128,14 @@ public class KaryawanService {
             throw new DataNotFoundException();
         }
 
+        FileUploadEntity fileCv = new FileUploadEntity();
+        fileCv.setFileName(request.getLampiranCv());
+        fileUploadRepository.save(fileCv);
+
         ModelMapper objmapper = new ModelMapper();
         objmapper.getConfiguration().setSkipNullEnabled(true);
         objmapper.map(request, keExist);
+        keExist.setFileUploadId(fileCv.getFileUploadId());
         keExist.setDtmUpdate(new Date());
         karyawanRepository.save(keExist);
 

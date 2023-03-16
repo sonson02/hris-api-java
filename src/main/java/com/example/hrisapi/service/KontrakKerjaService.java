@@ -63,20 +63,9 @@ public class KontrakKerjaService {
             response.setGaji(ke.getGaji());
             response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
-            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
-            if(ttme!=null){
-                response.setNamaProyek(ttme.getNamaProyek());
-            }
-
-            UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
-            if(ume!=null){
-                response.setUnitName(ume.getUnitName());
-            }
-
-            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
-            if(jme!=null){
-                response.setJabatanName(jme.getJabatanName());
-            }
+            response.setUnitId(ke.getUnitId());
+            response.setTempatTugasId(ke.getTempatTugasId());
+            response.setJabatanId(ke.getJabatanId());
 
             listKontrakKerjaResponse.add(response);
         }
@@ -116,23 +105,9 @@ public class KontrakKerjaService {
         response.setGaji(ke.getGaji());
         response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(request.getTempatTugasId());
-        if(ttme!=null){
-            response.setNamaProyek(ttme.getNamaProyek());
-            ke.setTempatTugasId(ttme.getTempatTugasId());
-        }
-
-        UnitMasterEntity ume = unitMasterRepository.findByUnitId(request.getUnitId());
-        if(ume!=null){
-            response.setUnitName(ume.getUnitName());
-            ke.setUnitId(ume.getUnitId());
-        }
-
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(request.getJabatanId());
-        if(jme!=null){
-            response.setJabatanName(jme.getJabatanName());
-            ke.setJabatanId(jme.getJabatanId());
-        }
+        response.setUnitId(ke.getUnitId());
+        response.setTempatTugasId(ke.getTempatTugasId());
+        response.setJabatanId(ke.getJabatanId());
 
         return response;
     }
@@ -168,23 +143,9 @@ public class KontrakKerjaService {
         response.setGaji(ke.getGaji());
         response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(request.getTempatTugasId());
-        if(ttme!=null){
-            response.setNamaProyek(ttme.getNamaProyek());
-            ke.setTempatTugasId(ttme.getTempatTugasId());
-        }
-
-        UnitMasterEntity ume = unitMasterRepository.findByUnitId(request.getUnitId());
-        if(ume!=null){
-            response.setUnitName(ume.getUnitName());
-            ke.setUnitId(ume.getUnitId());
-        }
-
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(request.getJabatanId());
-        if(jme!=null){
-            response.setJabatanName(jme.getJabatanName());
-            ke.setJabatanId(jme.getJabatanId());
-        }
+        response.setUnitId(ke.getUnitId());
+        response.setTempatTugasId(ke.getTempatTugasId());
+        response.setJabatanId(ke.getJabatanId());
 
         return response;
     }
@@ -208,20 +169,9 @@ public class KontrakKerjaService {
         response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
         response.setKontrakKode(kkeExist.getKontrakKode());
 
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
-        if(ttme!=null){
-            response.setNamaProyek(ttme.getNamaProyek());
-        }
-
-        UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
-        if(ume!=null){
-            response.setUnitName(ume.getUnitName());
-        }
-
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
-        if(jme!=null){
-            response.setJabatanName(jme.getJabatanName());
-        }
+        response.setUnitId(ke.getUnitId());
+        response.setTempatTugasId(ke.getTempatTugasId());
+        response.setJabatanId(ke.getJabatanId());
 
         return response;
     }

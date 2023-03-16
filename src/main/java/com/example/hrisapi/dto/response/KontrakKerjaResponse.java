@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -19,11 +18,11 @@ public class KontrakKerjaResponse {
 
     private String karyawanName;
 
-    private String namaProyek;
+    private UUID tempatTugasId;
 
-    private String unitName;
+    private UUID unitId;
 
-    private String jabatanName;
+    private UUID jabatanId;
 
     private String periodKontrak;
 

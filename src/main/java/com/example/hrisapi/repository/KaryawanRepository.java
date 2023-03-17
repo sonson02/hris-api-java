@@ -25,4 +25,6 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     @Query(value = "select * from dbo.karyawan k where is_active = true and unit_id = :unitId", nativeQuery = true)
     List<KaryawanEntity> getFilterKaryawanByUnitIdAndIsActive(@Param("unitId") UUID unitId);
 
+    @Query(value = "select * from dbo.karyawan k where is_active = true and tempat_tugas_id is not NULL", nativeQuery = true)
+    List<KaryawanEntity> getKaryawanForReportGaji();
 }

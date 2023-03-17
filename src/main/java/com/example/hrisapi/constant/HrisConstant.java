@@ -30,6 +30,8 @@ public class HrisConstant {
                 .build();
     }
 
+    public static final Double MANAJEMEN_FEE_PERSENT = 0.1;
+
     private static final String PATTERN_DATE_FORMAT = "yyyy-MM-dd";
 
     public static String formatDate(Date requestDate) {

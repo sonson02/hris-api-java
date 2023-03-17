@@ -66,6 +66,10 @@ public class KontrakKerjaService {
             response.setUnitId(ke.getUnitId());
             response.setTempatTugasId(ke.getTempatTugasId());
             response.setJabatanId(ke.getJabatanId());
+            response.setTipeTunjangan(ke.getTipeTunjangan());
+
+            response.setTempatTinggal(ke.getTempatTinggal());
+            response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
 
             listKontrakKerjaResponse.add(response);
         }
@@ -113,6 +117,9 @@ public class KontrakKerjaService {
         response.setTempatTugasId(request.getTempatTugasId());
         response.setJabatanId(request.getJabatanId());
 
+        response.setTempatTinggal(ke.getTempatTinggal());
+        response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+
         return response;
     }
 
@@ -155,6 +162,9 @@ public class KontrakKerjaService {
         response.setTempatTugasId(request.getTempatTugasId());
         response.setJabatanId(request.getJabatanId());
 
+        response.setTempatTinggal(ke.getTempatTinggal());
+        response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+
         return response;
     }
 
@@ -180,6 +190,10 @@ public class KontrakKerjaService {
         response.setUnitId(ke.getUnitId());
         response.setTempatTugasId(ke.getTempatTugasId());
         response.setJabatanId(ke.getJabatanId());
+        response.setTipeTunjangan(ke.getTipeTunjangan());
+
+        response.setTempatTinggal(ke.getTempatTinggal());
+        response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
 
         return response;
     }

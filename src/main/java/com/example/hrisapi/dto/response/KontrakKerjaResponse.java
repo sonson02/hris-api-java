@@ -41,4 +41,8 @@ public class KontrakKerjaResponse {
     private String kontrakKode;
 
     private String tipeTunjangan;
+
+    private String tempatTinggal;
+
+    private String tanggalLahir;
 }

@@ -91,6 +91,10 @@ public class KontrakKerjaService {
         ke.setTglMasukKerja(request.getTglMasukKerja());
         ke.setTglHabisKontrak(request.getTglHabisKontrak());
         ke.setTipeTunjangan(request.getTipeTunjangan());
+
+        ke.setTempatTugasId(request.getTempatTugasId());
+        ke.setUnitId(request.getUnitId());
+        ke.setJabatanId(request.getJabatanId());
         karyawanRepository.save(ke);
 
         kke.setKaryawanId(ke.getKaryawanId());
@@ -105,9 +109,9 @@ public class KontrakKerjaService {
         response.setGaji(ke.getGaji());
         response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
-        response.setUnitId(ke.getUnitId());
-        response.setTempatTugasId(ke.getTempatTugasId());
-        response.setJabatanId(ke.getJabatanId());
+        response.setUnitId(request.getUnitId());
+        response.setTempatTugasId(request.getTempatTugasId());
+        response.setJabatanId(request.getJabatanId());
 
         return response;
     }
@@ -133,6 +137,10 @@ public class KontrakKerjaService {
         ke.setTglMasukKerja(request.getTglMasukKerja());
         ke.setTglHabisKontrak(request.getTglHabisKontrak());
         ke.setTipeTunjangan(request.getTipeTunjangan());
+
+        ke.setTempatTugasId(request.getTempatTugasId());
+        ke.setUnitId(request.getUnitId());
+        ke.setJabatanId(request.getJabatanId());
         karyawanRepository.save(ke);
 
         KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
@@ -143,9 +151,9 @@ public class KontrakKerjaService {
         response.setGaji(ke.getGaji());
         response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
-        response.setUnitId(ke.getUnitId());
-        response.setTempatTugasId(ke.getTempatTugasId());
-        response.setJabatanId(ke.getJabatanId());
+        response.setUnitId(request.getUnitId());
+        response.setTempatTugasId(request.getTempatTugasId());
+        response.setJabatanId(request.getJabatanId());
 
         return response;
     }

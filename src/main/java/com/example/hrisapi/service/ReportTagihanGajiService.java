@@ -1,5 +1,6 @@
 package com.example.hrisapi.service;
 
+import com.example.hrisapi.api.base.PaginatedReportResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
@@ -29,19 +30,29 @@ public class ReportTagihanGajiService {
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
 
-    public PaginatedResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, UUID unitId, Integer page, Integer size){
+    public PaginatedReportResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+        List<ReportTagihanGajiResponse> listReportKaryawan = new ArrayList<>();
 
         if(nip!=null){
             KaryawanEntity karyawanFilterByNip = karyawanRepository.getFilterKaryawanNipAndIsActive(nip);
             listKaryawanEntity.add(karyawanFilterByNip);
-        } else if (unitId!=null){
+        } else if (unitId!=null) {
             listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if(periode!=null){
+            int bulan = HrisConstant.getBulanPeriode(periode);
+            int tahun = HrisConstant.getTahunPeriode(periode);
+
+            listKaryawanEntity = karyawanRepository.getKaryawanFilterByPeriode(bulan, tahun);
         } else {
             listKaryawanEntity = karyawanRepository.getKaryawanForReportGaji();
         }
 
-        List<ReportTagihanGajiResponse> listReportKaryawan = new ArrayList<>();
+        var totalGaji=0D;
+        var totalTunjangan=0D;
+        var totalGajiDibayar=0D;
+        var totalManajemenFee=0D;
+        var totalTagihanGaji=0D;
 
         for(KaryawanEntity ke : listKaryawanEntity) {
             ReportTagihanGajiResponse response = new ReportTagihanGajiResponse();
@@ -59,26 +70,37 @@ public class ReportTagihanGajiService {
             }
 
             var gaji = ke.getGaji();
-            var tunjangan = ttme.getNominalTunjangan();
             response.setGaji(gaji);
+            totalGaji += gaji;
+
+            var tunjangan = ttme.getNominalTunjangan();
             response.setTunjangan(tunjangan);
+            totalTunjangan += tunjangan;
 
             var gajiDibayar = gaji + tunjangan;
             response.setGajiDibayar(gajiDibayar);
+            totalGajiDibayar += gajiDibayar;
 
             var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERSENT;
             response.setManajemenFee(manajemenFee);
+            totalManajemenFee += manajemenFee;
 
             var total = gajiDibayar + manajemenFee;
             response.setTotal(total);
+            totalTagihanGaji += total;
 
             listReportKaryawan.add(response);
         }
 
-        return (PaginatedResponse<ReportTagihanGajiResponse>) HrisConstant.extractPaginationList(
+        return (PaginatedReportResponse<ReportTagihanGajiResponse>) HrisConstant.extractPaginationListReport(
                 page,
                 size,
-                listReportKaryawan
+                listReportKaryawan,
+                totalGaji,
+                totalTunjangan,
+                totalGajiDibayar,
+                totalManajemenFee,
+                totalTagihanGaji
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.example.hrisapi.constant;
 
+import com.example.hrisapi.api.base.PaginatedReportResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import lombok.var;
 
@@ -42,5 +43,49 @@ public class HrisConstant {
         }
 
         return responseDate;
+    }
+
+    public static Integer getBulanPeriode(String input){
+        int bulan=0;
+        String[] period = input.split("/");
+        for(int i=0; i< period.length; i++) {
+            bulan = Integer.valueOf(period[0]);
+        }
+        return bulan;
+    }
+
+    public static Integer getTahunPeriode(String input){
+        int tahun=0;
+        String[] period = input.split("/");
+        for(int i=0; i< period.length; i++) {
+            tahun = Integer.valueOf(period[1]);
+        }
+        return tahun;
+    }
+
+    public static PaginatedReportResponse<?> extractPaginationListReport(int page, int size, final List<?> listMaster,
+                                                                         Double totalGaji, Double totalTunjangan, Double totalGajiDibayar,
+                                                                         Double totalManajemenFee, Double totalTagihanGaji) {
+        final var fromIndex = (page - 1) * size;
+        final var paginatedList = new ArrayList<>();
+
+        if (fromIndex < listMaster.size()) {
+            paginatedList.addAll(
+                    listMaster.subList(fromIndex, Math.min(fromIndex + size, listMaster.size()))
+            );
+        }
+
+        return PaginatedReportResponse
+                .builder()
+                .page(page)
+                .size(size)
+                .totalRecord(listMaster.size())
+                .data(paginatedList)
+                .totalGaji(totalGaji)
+                .totalTunjangan(totalTunjangan)
+                .totalGajiDibayar(totalGajiDibayar)
+                .totalManajemenFee(totalManajemenFee)
+                .totalTagihanGaji(totalTagihanGaji)
+                .build();
     }
 }

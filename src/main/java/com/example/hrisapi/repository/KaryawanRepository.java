@@ -27,4 +27,7 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
 
     @Query(value = "select * from dbo.karyawan k where is_active = true and tempat_tugas_id is not NULL", nativeQuery = true)
     List<KaryawanEntity> getKaryawanForReportGaji();
+
+    @Query(value = "select * from dbo.karyawan k where is_active = true and date_part('month', tgl_masuk_kerja) = :bulan and date_part('year', tgl_masuk_kerja) = :tahun ", nativeQuery = true)
+    List<KaryawanEntity> getKaryawanFilterByPeriode(@Param("bulan") Integer bulan, @Param("tahun") Integer tahun);
 }

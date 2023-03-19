@@ -30,5 +30,4 @@ public class ReportTagihanGajiResponse {
     private Double manajemenFee;
 
     private Double total;
-
 }

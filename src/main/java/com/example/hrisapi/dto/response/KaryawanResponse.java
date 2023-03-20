@@ -78,4 +78,6 @@ public class KaryawanResponse {
     private UUID jabatanId;
 
     private UUID fileUploadId;
+
+    private Double uangMakan;
 }

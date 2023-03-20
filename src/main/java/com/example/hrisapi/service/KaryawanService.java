@@ -108,6 +108,7 @@ public class KaryawanService {
         ke.setFileUploadId(fileCv.getFileUploadId());
         ke.setGaji(0D);
         ke.setUangTelekomunikasi(0D);
+        ke.setUangMakan(0D);
         ke.setDtmUpdate(new Date());
         karyawanRepository.save(ke);
 

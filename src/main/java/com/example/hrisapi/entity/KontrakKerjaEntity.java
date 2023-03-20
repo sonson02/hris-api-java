@@ -34,4 +34,8 @@ public class KontrakKerjaEntity {
     private String usrUpdate;
 
     private UUID fileUploadId;
+
+    private String requestNo;
+
+    private Date requestDate;
 }

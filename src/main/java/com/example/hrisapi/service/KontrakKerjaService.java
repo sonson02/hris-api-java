@@ -71,6 +71,10 @@ public class KontrakKerjaService {
             response.setTempatTinggal(ke.getTempatTinggal());
             response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
 
+            response.setRequestDate(HrisConstant.formatDate(kke.getRequestDate()));
+            response.setRequestNo(kke.getRequestNo());
+            response.setUangMakan(ke.getUangMakan());
+
             listKontrakKerjaResponse.add(response);
         }
 
@@ -99,6 +103,7 @@ public class KontrakKerjaService {
         ke.setTempatTugasId(request.getTempatTugasId());
         ke.setUnitId(request.getUnitId());
         ke.setJabatanId(request.getJabatanId());
+        ke.setUangMakan(request.getUangMakan());
         karyawanRepository.save(ke);
 
         kke.setKaryawanId(ke.getKaryawanId());
@@ -119,6 +124,12 @@ public class KontrakKerjaService {
 
         response.setTempatTinggal(ke.getTempatTinggal());
         response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+
+        response.setTipeTunjangan(request.getTipeTunjangan());
+
+        response.setRequestNo(request.getRequestNo());
+        response.setRequestDate(HrisConstant.formatDate(kke.getRequestDate()));
+        response.setUangMakan(request.getUangMakan());
 
         return response;
     }
@@ -148,6 +159,8 @@ public class KontrakKerjaService {
         ke.setTempatTugasId(request.getTempatTugasId());
         ke.setUnitId(request.getUnitId());
         ke.setJabatanId(request.getJabatanId());
+
+        ke.setUangMakan(request.getUangMakan());
         karyawanRepository.save(ke);
 
         KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
@@ -164,6 +177,12 @@ public class KontrakKerjaService {
 
         response.setTempatTinggal(ke.getTempatTinggal());
         response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+
+        response.setTipeTunjangan(request.getTipeTunjangan());
+
+        response.setRequestNo(request.getRequestNo());
+        response.setRequestDate(HrisConstant.formatDate(request.getRequestDate()));
+        response.setUangMakan(request.getUangMakan());
 
         return response;
     }
@@ -194,6 +213,9 @@ public class KontrakKerjaService {
 
         response.setTempatTinggal(ke.getTempatTinggal());
         response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+
+        response.setRequestDate(HrisConstant.formatDate(kkeExist.getRequestDate()));
+        response.setUangMakan(ke.getUangMakan());
 
         return response;
     }

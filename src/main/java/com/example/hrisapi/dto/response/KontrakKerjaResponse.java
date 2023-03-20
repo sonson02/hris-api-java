@@ -45,4 +45,10 @@ public class KontrakKerjaResponse {
     private String tempatTinggal;
 
     private String tanggalLahir;
+
+    private String requestNo;
+
+    private String requestDate;
+
+    private Double uangMakan;
 }

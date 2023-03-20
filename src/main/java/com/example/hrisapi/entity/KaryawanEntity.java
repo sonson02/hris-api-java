@@ -82,4 +82,6 @@ public class KaryawanEntity {
     private UUID jabatanId;
 
     private UUID fileUploadId;
+
+    private Double uangMakan;
 }

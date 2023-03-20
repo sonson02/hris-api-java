@@ -29,7 +29,7 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
     @Query(value = "select kk.kontrak_id, kk.dtm_update ," +
             "kk.is_active, kk.karyawan_id, kk.karyawan_nip , " +
             "kk.kontrak_kode , kk.period_kontrak , kk.usr_update ," +
-            "kk.file_upload_id " +
+            "kk.file_upload_id, kk.request_no, kk.request_date " +
             "from dbo.kontrak_kerja kk " +
             "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
             "where k.is_active = true " +

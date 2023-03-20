@@ -50,4 +50,10 @@ public class KontrakKerjaRequest {
     private Boolean isActive;
 
     private String usrUpdate;
+
+    private String requestNo;
+
+    private Date requestDate;
+
+    private Double uangMakan;
 }

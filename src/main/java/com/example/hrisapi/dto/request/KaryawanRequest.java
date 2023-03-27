@@ -60,4 +60,22 @@ public class KaryawanRequest {
     private Boolean isActive;
 
     private String usrUpdate;
+
+    private String golonganDarah;
+
+    private String namaAyahKandung;
+
+    private String namaIbuKandung;
+
+    private String keluargaYangDihubungi;
+
+    private String namaKeluargaYangDihubungi;
+
+    private String alamatDomisili;
+
+    private String noHpKeluarga;
+
+    private String rekeningAtasNama;
+
+    private String riwayatPekerjaan;
 }

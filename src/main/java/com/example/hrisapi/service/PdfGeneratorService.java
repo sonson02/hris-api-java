@@ -1,14 +1,8 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.constant.HrisConstant;
-import com.example.hrisapi.entity.KaryawanEntity;
-import com.example.hrisapi.entity.KontrakKerjaEntity;
-import com.example.hrisapi.entity.TempatTugasMasterEntity;
-import com.example.hrisapi.entity.UnitMasterEntity;
-import com.example.hrisapi.repository.KaryawanRepository;
-import com.example.hrisapi.repository.KontrakKerjaRepository;
-import com.example.hrisapi.repository.TempatTugasMasterRepository;
-import com.example.hrisapi.repository.UnitMasterRepository;
+import com.example.hrisapi.entity.*;
+import com.example.hrisapi.repository.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -26,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -44,9 +37,12 @@ public class PdfGeneratorService{
     @Autowired
     private TempatTugasMasterRepository tempatTugasMasterRepository;
 
+    @Autowired
+    private JabatanMasterRepository jabatanMasterRepository;
+
     public ByteArrayOutputStream generatePdf(String html) {
         PdfWriter pdfWriter = null;
-        Document document = new Document();
+        Document document;
         try {
             document = new Document();
             document.setPageSize(PageSize.LETTER);
@@ -68,14 +64,14 @@ public class PdfGeneratorService{
         }
     }
 
-    public HttpEntity<byte[]> createPdf(UUID kontrakId) throws IOException {
+    public HttpEntity<byte[]> createPdfPkwt(UUID kontrakId) throws IOException {
 
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         ve.init();
 
-        Template t = ve.getTemplate("templates/helloworld.html");
+        Template t = ve.getTemplate("templates/template-pkwt.html");
 
         //get data
         KontrakKerjaEntity kontrakExist = kontrakKerjaRepository.findByKontrakId(kontrakId);
@@ -86,28 +82,29 @@ public class PdfGeneratorService{
         context.put("karyawanName", karyawanExist.getKaryawanName());
         context.put("nik", karyawanExist.getNonik());
         context.put("jenisKelamin", karyawanExist.getGender());
-        context.put("tanggalLahir", HrisConstant.formatDate(karyawanExist.getTanggalLahir()));
+        context.put("tanggalLahir", HrisConstant.formatDatePkwtPdf(karyawanExist.getTanggalLahir()));
         context.put("alamat", karyawanExist.getAlamatRumah());
 
         UnitMasterEntity ume = unitMasterRepository.findByUnitId(karyawanExist.getUnitId());
         context.put("unitBisnis", ume.getUnitName());
         context.put("requestNo", kontrakExist.getRequestNo());
-        context.put("requestDate", kontrakExist.getRequestDate());
+        context.put("requestDate", HrisConstant.formatDatePkwtPdf(kontrakExist.getRequestDate()));
 
-        context.put("tglMasukKerja", HrisConstant.formatDate(karyawanExist.getTglMasukKerja()));
-        context.put("tglHabisKontrak", HrisConstant.formatDate(karyawanExist.getTglHabisKontrak()));
+        context.put("tglMasukKerja", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglMasukKerja()));
+        context.put("tglHabisKontrak", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglHabisKontrak()));
 
         var gaji = karyawanExist.getGaji();
-        context.put("gajiPokok", gaji);
+        context.put("gajiPokok", HrisConstant.decimalFormatPkwtPdt(gaji));
 
         TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
         var tunjangan = ttme.getNominalTunjangan();
-        context.put("tunjangan", tunjangan);
+        context.put("tunjangan", HrisConstant.decimalFormatPkwtPdt(tunjangan));
 
         var totalPerbulan = gaji + tunjangan;
-        context.put("totalPerBulan", totalPerbulan);
+        context.put("totalPerBulan", HrisConstant.decimalFormatPkwtPdt(totalPerbulan));
+        context.put("terbilang", HrisConstant.angkaToTerbilang(totalPerbulan));
 
-        context.put("uangMakan", karyawanExist.getUangMakan());
+        context.put("uangMakan", HrisConstant.decimalFormatPkwtPdt(karyawanExist.getUangMakan()));
 
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
@@ -118,7 +115,56 @@ public class PdfGeneratorService{
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_PDF);
-        header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=");
+        header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = pkwt.pdf");
+        header.setContentLength(baos.toByteArray().length);
+
+        return new HttpEntity<byte[]>(baos.toByteArray(), header);
+    }
+
+    public HttpEntity<byte[]> createPdfSlipGaji(String karyawanNip) throws IOException {
+
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        ve.init();
+
+        Template t = ve.getTemplate("templates/template-slip-gaji.html");
+
+        //get data
+        KaryawanEntity karyawanExist = karyawanRepository.findByKaryawanNip(karyawanNip);
+
+        VelocityContext context = new VelocityContext();
+        context.put("karyawanName", karyawanExist.getKaryawanName());
+        context.put("karyawanNip", karyawanExist.getKaryawanNip());
+
+        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(karyawanExist.getJabatanId());
+        if(jme!=null){
+            context.put("jabatan", jme.getJabatanName());
+        }
+
+        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
+        if(ttme!=null){
+            context.put("tempatTugas", ttme.getNamaProyek());
+        }
+
+        var gaji = karyawanExist.getGaji();
+        context.put("gajiPokok", HrisConstant.decimalFormatPkwtPdt(gaji));
+
+        var tunjangan = ttme.getNominalTunjangan();
+        context.put("tunjangan", HrisConstant.decimalFormatPkwtPdt(tunjangan));
+
+        context.put("uangMakan", HrisConstant.decimalFormatPkwtPdt(karyawanExist.getUangMakan()));
+
+        StringWriter writer = new StringWriter();
+        t.merge(context, writer);
+
+        ByteArrayOutputStream baos;
+
+        baos = generatePdf(writer.toString());
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_PDF);
+        header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = slip-gaji.pdf");
         header.setContentLength(baos.toByteArray().length);
 
         return new HttpEntity<byte[]>(baos.toByteArray(), header);

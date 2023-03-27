@@ -160,6 +160,13 @@ public class KaryawanService {
         response.setTglHabisKontrak(HrisConstant.formatDate(keExist.getTglHabisKontrak()));
         response.setTglMasukKerja(HrisConstant.formatDate(keExist.getTglMasukKerja()));
 
+        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(keExist.getJabatanId());
+        if(jme!=null){
+            response.setTunjanganJabatan(jme.getTunjangan());
+        } else {
+            response.setTunjanganJabatan(0D);
+        }
+
         return response;
     }
 

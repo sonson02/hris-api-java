@@ -22,6 +22,13 @@ public class PdfExportController {
     public HttpEntity<byte[]> generatePdf(
             @RequestParam(required = true, value = "kontrak_id") UUID kontrakId
     ) throws IOException {
-        return pdfGeneratorService.createPdf(kontrakId);
+        return pdfGeneratorService.createPdfPkwt(kontrakId);
+    }
+
+    @GetMapping("/generate/slip_gaji")
+    public HttpEntity<byte[]> generatePdfSlipGaji(
+            @RequestParam(required = true, value = "nip") String karyawanNip
+    ) throws IOException {
+        return pdfGeneratorService.createPdfSlipGaji(karyawanNip);
     }
 }

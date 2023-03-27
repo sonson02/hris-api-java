@@ -84,4 +84,22 @@ public class KaryawanEntity {
     private UUID fileUploadId;
 
     private Double uangMakan;
+
+    private String golonganDarah;
+
+    private String namaAyahKandung;
+
+    private String namaIbuKandung;
+
+    private String keluargaYangDihubungi;
+
+    private String namaKeluargaYangDihubungi;
+
+    private String alamatDomisili;
+
+    private String noHpKeluarga;
+
+    private String rekeningAtasNama;
+
+    private String riwayatPekerjaan;
 }

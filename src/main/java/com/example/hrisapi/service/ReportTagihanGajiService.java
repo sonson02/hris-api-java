@@ -81,7 +81,7 @@ public class ReportTagihanGajiService {
             response.setGajiDibayar(gajiDibayar);
             totalGajiDibayar += gajiDibayar;
 
-            var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERSENT;
+            var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERCENTAGE;
             response.setManajemenFee(manajemenFee);
             totalManajemenFee += manajemenFee;
 

@@ -1,12 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-    name : $karyawanName <br />
-    NIP : $karyawanNip <br />
-    jabatan : $jabatan <br />
-    tempat tugas : $tempatTugas <br />
-    gaji : $gajiPokok <br />
-    tunjangan : $tunjangan <br />
-    uang makan : $uangMakan
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @page {
+        margin: 0;
+        width: 216mm;
+        height: 279mm;
+      }
+    </style>
+</head>
+<body style="border: 2px solid #333">
+<table style="width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr>
+        <td style="width: 12.4756%">
+            <img
+                    src="https://lh5.googleusercontent.com/p/AF1QipMOa6vMFl7q-HIuHUxJ777KbL1PVr4kTt8lHHZX=w600-h321-p-k-no"
+                    alt=""
+                    width="100px"
+            />
+        </td>
+        <td style="width: 74.4639%">
+            <p style="text-align: center"><strong>SLIP PEMBAYARAN</strong></p>
+            <p style="text-align: center">
+                <strong>KOMPENSASI PEGAWAI</strong>
+            </p>
+            <p style="text-align: center"><strong>PERIODE : $periode</strong></p>
+        </td>
+        <td style="width: 13.0604%">&nbsp;</td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 3px; background-color: #333" />
+<br />
+<hr style="height: 2px; background-color: #333" />
+<table
+        style="
+        height: 90px;
+        width: 100%;
+        border-collapse: collapse;
+        border-style: solid;
+        float: left;
+      "
+        border="0"
+        cellpadding="8"
+>
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 44.7531%; height: 18px; text-align: justify">
+            NAMA
+        </td>
+        <td style="width: 55.2469%; height: 18px">
+            :
+            <strong>$karyawanName</strong>
+        </td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 44.7531%; height: 18px; text-align: justify">
+            N.I.P
+        </td>
+        <td style="width: 55.2469%; height: 18px">: $karyawanNip</td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 44.7531%; height: 18px; text-align: justify">
+            STATUS PEG/KEL
+        </td>
+        <td style="width: 55.2469%; height: 18px">: $status</td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 44.7531%; height: 18px; text-align: justify">
+            JABATAN
+        </td>
+        <td style="width: 55.2469%; height: 18px">: $jabatan</td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 44.7531%; height: 18px; text-align: justify">
+            TEMPAT TUGAS
+        </td>
+        <td style="width: 55.2469%; height: 18px">: $tempatTugas</td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+<table style="height: 71px; width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 50.3086%; height: 18px">
+            <strong>I.&nbsp; &nbsp;GAJI POKOK</strong>
+        </td>
+        <td style="width: 49.6914%; height: 18px">
+            :&nbsp; Rp. $gajiPokok ,-
+        </td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 50.3086%; height: 18px">
+            <strong>II.&nbsp; UANG MAKAN</strong>
+        </td>
+        <td style="width: 49.6914%; height: 18px">
+            &nbsp; &nbsp;Rp. $uangMakan ,-
+        </td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 50.3086%; height: 18px">
+            <strong>II.&nbsp; TUNJANGAN JABATAN</strong>
+        </td>
+        <td style="width: 49.6914%; height: 18px">
+            &nbsp; &nbsp;Rp.
+            <span style="text-decoration: underline">
+              $tunjanganJabatan&nbsp; &nbsp; &nbsp;,-
+            </span>
+        </td>
+    </tr>
+    <tr style="height: 17px">
+        <td style="width: 50.3086%; height: 17px">
+            <p style="padding-left: 40px">
+                <strong>
+                    Penghasilan (I + II)
+                    <br />
+                </strong>
+                <em>(Gaji Pokok + Uang Makan)</em>
+            </p>
+        </td>
+        <td style="width: 49.6914%; height: 17px">
+            <p>:&nbsp; Rp. $penghasilan</p>
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+
+<table style="height: 56px; width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 50%; height: 18px"><strong>III. PAJAK</strong></td>
+        <td style="width: 50%; height: 18px">&nbsp;</td>
+    </tr>
+    <tr style="height: 10px">
+        <td style="width: 50%; height: 10px; padding-left: 40px">
+            <ol>
+                <li>PPh21</li>
+                <li>
+                    PPh21 dibayar Perusahaan
+                    <br />
+                    <strong>Sisa Pajak</strong>
+                </li>
+            </ol>
+        </td>
+        <td style="width: 50%; height: 10px">
+            :&nbsp; Rp. $pph21 ,-
+            <br />
+            :&nbsp; Rp.
+            <span style="text-decoration: underline">$pph21perusahaan</span>
+            ,-
+            <br />
+            :&nbsp; Rp. $sisaPajak ,-
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+
+<table style="height: 54px; width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 50%; height: 18px"><strong>IV. IURAN</strong></td>
+        <td style="width: 50%; height: 18px">&nbsp;</td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 50%; height: 18px">
+            <ol>
+                <li style="list-style-type: none">
+                    <ol>
+                        <li>BPJS Jaminan Pensiun</li>
+                        <li>BPJS Ketenagakerjaan</li>
+                        <li>
+                            BPJS Kesehatan
+                            <br />
+                            <strong>Jumlah Iuran</strong>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </td>
+        <td style="width: 50%; height: 18px">
+            :&nbsp; Rp. $jaminanPensiun ,-
+            <br />
+            :&nbsp; Rp. $ketenagakerjaan ,-
+            <br />
+            :&nbsp; Rp. $kesehatan ,-
+            <br />
+            :&nbsp; Rp. $jumlahIuran ,-
+        </td>
+    </tr>
+    <tr style="height: 18px">
+        <td style="width: 50%; height: 18px; padding-left: 80px">
+            <strong>Gaji Bersih</strong>
+        </td>
+        <td style="width: 50%; height: 18px">
+            :&nbsp; Rp.
+            <span style="text-decoration: underline">$gajiBersih</span>
+            ,-
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+
+<table style="height: 154px; width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 50%; height: 18px"><strong>V. POTONGAN</strong></td>
+        <td style="width: 50%; height: 18px">&nbsp;</td>
+    </tr>
+    <tr style="height: 118px">
+        <td style="width: 50%; padding-left: 40px; height: 118px">
+            <ol>
+                <li>Simp. Wajib</li>
+                <li>Simp. Sukarela</li>
+                <li>Koperasi</li>
+                <li>
+                    Unit PKBL
+                    <br />
+                    <strong>Jumlah Potongan</strong>
+                </li>
+            </ol>
+        </td>
+        <td style="width: 50%; height: 118px">
+            :&nbsp; Rp. $simpWajib ,-
+            <br />
+            :&nbsp; Rp. $simpSukarela ,-
+            <br />
+            :&nbsp; Rp. $koperasi ,-
+            <br />
+            :&nbsp; Rp. $unitPkbl ,-
+            <br />
+            &nbsp; &nbsp;Rp. $jumlahPotongan ,-
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+
+<table style="height: 18px; width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr style="height: 18px">
+        <td style="width: 50%; padding-left: 80px; height: 18px">
+            <strong>DITERIMA BERSIH</strong>
+        </td>
+        <td style="width: 50%; height: 18px">
+            :&nbsp; Rp.
+            <span style="text-decoration: underline">$diterimaBersih</span>
+            ,-
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr style="height: 2px; background-color: #333" />
+
+<table style="width: 100%; border-collapse: collapse">
+    <tbody>
+    <tr>
+        <td style="width: 50%">
+            <p style="text-align: center">
+                <br />
+                <br />
+                Jakarta, $date
+                <br />
+                <strong>Direktur Utama</strong>
+            </p>
+            <p style="text-align: center">&nbsp;</p>
+            <p style="text-align: center">&nbsp;</p>
+            <p style="text-align: center">
+                <br />
+                <br />
+                <br />
+                <strong>( Ir. Eko Sutrisno HP )</strong>
+            </p>
+        </td>
+        <td style="width: 50%">&nbsp;</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

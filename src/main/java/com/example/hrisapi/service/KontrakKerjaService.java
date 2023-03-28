@@ -61,7 +61,6 @@ public class KontrakKerjaService {
             response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
             response.setNonik(ke.getNonik());
             response.setGaji(ke.getGaji());
-            response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
             response.setUnitId(ke.getUnitId());
             response.setTempatTugasId(ke.getTempatTugasId());
@@ -95,7 +94,6 @@ public class KontrakKerjaService {
 
         KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
         ke.setGaji(request.getGaji());
-        ke.setUangTelekomunikasi(request.getUangTelekomunikasi());
         ke.setTglMasukKerja(request.getTglMasukKerja());
         ke.setTglHabisKontrak(request.getTglHabisKontrak());
         ke.setTipeTunjangan(request.getTipeTunjangan());
@@ -116,7 +114,6 @@ public class KontrakKerjaService {
         response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
         response.setNonik(ke.getNonik());
         response.setGaji(ke.getGaji());
-        response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
         response.setUnitId(request.getUnitId());
         response.setTempatTugasId(request.getTempatTugasId());
@@ -151,7 +148,6 @@ public class KontrakKerjaService {
 
         KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kkeExist.getKaryawanNip());
         ke.setGaji(request.getGaji());
-        ke.setUangTelekomunikasi(request.getUangTelekomunikasi());
         ke.setTglMasukKerja(request.getTglMasukKerja());
         ke.setTglHabisKontrak(request.getTglHabisKontrak());
         ke.setTipeTunjangan(request.getTipeTunjangan());
@@ -169,7 +165,6 @@ public class KontrakKerjaService {
         response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
         response.setNonik(ke.getNonik());
         response.setGaji(ke.getGaji());
-        response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
 
         response.setUnitId(request.getUnitId());
         response.setTempatTugasId(request.getTempatTugasId());
@@ -203,7 +198,6 @@ public class KontrakKerjaService {
         response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
         response.setNonik(ke.getNonik());
         response.setGaji(ke.getGaji());
-        response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
         response.setKontrakKode(kkeExist.getKontrakKode());
 
         response.setUnitId(ke.getUnitId());

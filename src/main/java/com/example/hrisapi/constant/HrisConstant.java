@@ -15,6 +15,24 @@ import java.util.*;
 
 public class HrisConstant {
 
+    public static final Double MANAJEMEN_FEE_PERCENTAGE = 0.1;
+
+    private static final String PATTERN_DATE_FORMAT = "yyyy-MM-dd";
+
+    private static final String PATTERN_DATE_FORMAT_PKWT_PDF = "dd MMMM yyyy";
+
+    private static final String PATTERN_DATE_FORMAT_SLIP_GAJI_PERIODE = "MMM-yyyy";
+
+    public static final Double BPJS_JAMINAN_PENSIUN_PERCENTAGE = 0.037;
+
+    public static final Double BPJS_TENAGA_KERJA_PERCENTAGE = 0.02;
+
+    public static final Double LIMIT_BPJS_KESEHATAN = 4641854D;
+
+    public static final Double LIMIT_GAPOK_BPJS_KESEHATAN = 12000000D;
+
+    public static final Double BPJS_KESEHATAN_PERCENTAGE = 0.01;
+
     public static PaginatedResponse<?> extractPaginationList(int page, int size, final List<?> listMaster) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
@@ -33,14 +51,6 @@ public class HrisConstant {
                 .data(paginatedList)
                 .build();
     }
-
-    public static final Double MANAJEMEN_FEE_PERSENT = 0.1;
-
-    private static final String PATTERN_DATE_FORMAT = "yyyy-MM-dd";
-
-    private static final String PATTERN_DATE_FORMAT_PKWT_PDF = "dd MMMM yyyy";
-
-    private static final String PATTERN_DATE_FORMAT_SLIP_GAJI_PERIODE = "MMM-yyyy";
 
     public static String formatDate(Date requestDate) {
         SimpleDateFormat sdf = new SimpleDateFormat(PATTERN_DATE_FORMAT);
@@ -72,7 +82,7 @@ public class HrisConstant {
         return responseDate;
     }
 
-    public static String decimalFormatPkwtPdt(Double input) {
+    public static String decimalFormatIdr(Double input) {
         DecimalFormat df = new DecimalFormat("#,###.##", new DecimalFormatSymbols(Locale.GERMAN));
         String hasil = df.format(input);
         return hasil;

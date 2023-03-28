@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -94,17 +95,17 @@ public class PdfGeneratorService{
         context.put("tglHabisKontrak", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglHabisKontrak()));
 
         var gaji = karyawanExist.getGaji();
-        context.put("gajiPokok", HrisConstant.decimalFormatPkwtPdt(gaji));
+        context.put("gajiPokok", HrisConstant.decimalFormatIdr(gaji));
 
         TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
         var tunjangan = ttme.getNominalTunjangan();
-        context.put("tunjangan", HrisConstant.decimalFormatPkwtPdt(tunjangan));
+        context.put("tunjangan", HrisConstant.decimalFormatIdr(tunjangan));
 
         var totalPerbulan = gaji + tunjangan;
-        context.put("totalPerBulan", HrisConstant.decimalFormatPkwtPdt(totalPerbulan));
+        context.put("totalPerBulan", HrisConstant.decimalFormatIdr(totalPerbulan));
         context.put("terbilang", HrisConstant.angkaToTerbilang(totalPerbulan));
 
-        context.put("uangMakan", HrisConstant.decimalFormatPkwtPdt(karyawanExist.getUangMakan()));
+        context.put("uangMakan", HrisConstant.decimalFormatIdr(karyawanExist.getUangMakan()));
 
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
@@ -134,8 +135,11 @@ public class PdfGeneratorService{
         KaryawanEntity karyawanExist = karyawanRepository.findByKaryawanNip(karyawanNip);
 
         VelocityContext context = new VelocityContext();
+
+        context.put("periode", HrisConstant.formatDateSlipGajiPeriode(karyawanExist.getTglMasukKerja()));
         context.put("karyawanName", karyawanExist.getKaryawanName());
         context.put("karyawanNip", karyawanExist.getKaryawanNip());
+        context.put("status", "OS");
 
         JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(karyawanExist.getJabatanId());
         if(jme!=null){
@@ -147,13 +151,58 @@ public class PdfGeneratorService{
             context.put("tempatTugas", ttme.getNamaProyek());
         }
 
+        //kolom I, II
         var gaji = karyawanExist.getGaji();
-        context.put("gajiPokok", HrisConstant.decimalFormatPkwtPdt(gaji));
+        context.put("gajiPokok", HrisConstant.decimalFormatIdr(gaji));
 
-        var tunjangan = ttme.getNominalTunjangan();
-        context.put("tunjangan", HrisConstant.decimalFormatPkwtPdt(tunjangan));
+        var uangMakan = karyawanExist.getUangMakan();
+        context.put("uangMakan", HrisConstant.decimalFormatIdr(uangMakan));
 
-        context.put("uangMakan", HrisConstant.decimalFormatPkwtPdt(karyawanExist.getUangMakan()));
+        var tunjanganJabatan = ttme.getNominalTunjangan();
+        context.put("tunjanganJabatan", HrisConstant.decimalFormatIdr(tunjanganJabatan));
+
+        var penghasilan = gaji + uangMakan + tunjanganJabatan;
+        context.put("penghasilan", HrisConstant.decimalFormatIdr(penghasilan));
+
+        //kolom III. Pajak
+        context.put("pph21", 0);
+        context.put("pph21perusahaan",0);
+        context.put("sisaPajak", 0);
+
+        //kolom IV. Iuran
+        var bpjsJaminanPensiun = gaji * HrisConstant.BPJS_JAMINAN_PENSIUN_PERCENTAGE;
+        context.put("jaminanPensiun", HrisConstant.decimalFormatIdr(bpjsJaminanPensiun));
+
+        var bpjsTenagaKerja = gaji * HrisConstant.BPJS_TENAGA_KERJA_PERCENTAGE;
+        context.put("ketenagakerjaan", HrisConstant.decimalFormatIdr(bpjsTenagaKerja));
+
+        var bpjsKesehatan=0D;
+        if(gaji<=HrisConstant.LIMIT_BPJS_KESEHATAN){
+            bpjsKesehatan = HrisConstant.LIMIT_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+        } else if(gaji<=HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN){
+            bpjsKesehatan = gaji * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+        } else if(gaji>=HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN){
+            bpjsKesehatan = HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+        }
+        context.put("kesehatan", HrisConstant.decimalFormatIdr(bpjsKesehatan));
+
+        var jumlahIuran = bpjsJaminanPensiun + bpjsTenagaKerja + bpjsKesehatan;
+        context.put("jumlahIuran", HrisConstant.decimalFormatIdr(jumlahIuran));
+
+        var gajiBersih = gaji - jumlahIuran;
+        context.put("gajiBersih", HrisConstant.decimalFormatIdr(gajiBersih));
+
+        //kolom V. Potongan
+        context.put("simpWajib", 0);
+        context.put("simpSukarela", 0);
+        context.put("koperasi", 0);
+        context.put("unitPkbl", 0);
+        context.put("jumlahPotongan", 0);
+
+        var diterimaBersih = gajiBersih;
+        context.put("diterimaBersih", HrisConstant.decimalFormatIdr(diterimaBersih));
+
+        context.put("date", HrisConstant.formatDatePkwtPdf(new Date()));
 
         StringWriter writer = new StringWriter();
         t.merge(context, writer);

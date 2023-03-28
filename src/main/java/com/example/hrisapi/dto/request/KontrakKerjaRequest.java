@@ -31,8 +31,6 @@ public class KontrakKerjaRequest {
 
     private Double gaji;
 
-    private Double uangTelekomunikasi;
-
     private String karyawanName;
 
     private String tempatTinggal;

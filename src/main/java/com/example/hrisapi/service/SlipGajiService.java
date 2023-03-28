@@ -61,7 +61,7 @@ public class SlipGajiService {
                 response.setUnitName(ume.getUnitName());
             }
 
-            response.setPeiode(HrisConstant.formatDateSlipGajiPeriode(ke.getTglMasukKerja()));
+            response.setPeriode(HrisConstant.formatDateSlipGajiPeriode(ke.getTglMasukKerja()));
 
             listSlipGajiKaryawan.add(response);
         }

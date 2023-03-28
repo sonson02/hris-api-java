@@ -19,5 +19,5 @@ public class SlipGajiResponse {
 
     private String unitName;
 
-    private String peiode;
+    private String periode;
 }

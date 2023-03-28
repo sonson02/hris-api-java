@@ -13,8 +13,16 @@
       }
     </style>
 </head>
-<body style="border: 2px solid #333">
-<table style="width: 100%; border-collapse: collapse">
+
+<body>
+<table
+        style="
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
     <tr>
         <td style="width: 12.4756%">
@@ -29,246 +37,342 @@
             <p style="text-align: center">
                 <strong>KOMPENSASI PEGAWAI</strong>
             </p>
-            <p style="text-align: center"><strong>PERIODE : $periode</strong></p>
+            <p style="text-align: center">
+                <strong>PERIODE : $periode</strong>
+            </p>
         </td>
         <td style="width: 13.0604%">&nbsp;</td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 3px; background-color: #333" />
-<br />
-<hr style="height: 2px; background-color: #333" />
 <table
         style="
         height: 90px;
         width: 100%;
         border-collapse: collapse;
-        border-style: solid;
         float: left;
+        border: 2px solid #333;
+        margin-bottom: 5px;
       "
-        border="0"
-        cellpadding="8"
 >
     <tbody>
-    <tr style="height: 18px">
-        <td style="width: 44.7531%; height: 18px; text-align: justify">
+    <tr style="height: 24px">
+        <td style="width: 44.7531%; height: 24px; text-align: justify">
             NAMA
         </td>
-        <td style="width: 55.2469%; height: 18px">
+        <td style="width: 55.2469%; height: 24px">
             :
             <strong>$karyawanName</strong>
         </td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 44.7531%; height: 18px; text-align: justify">
+    <tr style="height: 24px">
+        <td style="width: 44.7531%; height: 24px; text-align: justify">
             N.I.P
         </td>
-        <td style="width: 55.2469%; height: 18px">: $karyawanNip</td>
+        <td style="width: 55.2469%; height: 24px">: $karyawanNip</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 44.7531%; height: 18px; text-align: justify">
+    <tr style="height: 24px">
+        <td style="width: 44.7531%; height: 24px; text-align: justify">
             STATUS PEG/KEL
         </td>
-        <td style="width: 55.2469%; height: 18px">: $status</td>
+        <td style="width: 55.2469%; height: 24px">: $status</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 44.7531%; height: 18px; text-align: justify">
+    <tr style="height: 24px">
+        <td style="width: 44.7531%; height: 24px; text-align: justify">
             JABATAN
         </td>
-        <td style="width: 55.2469%; height: 18px">: $jabatan</td>
+        <td style="width: 55.2469%; height: 24px">: $jabatan</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 44.7531%; height: 18px; text-align: justify">
+    <tr style="height: 24px">
+        <td style="width: 44.7531%; height: 24px; text-align: justify">
             TEMPAT TUGAS
         </td>
-        <td style="width: 55.2469%; height: 18px">: $tempatTugas</td>
+        <td style="width: 55.2469%; height: 24px">: $tempatTugas</td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 2px; background-color: #333" />
-<table style="height: 71px; width: 100%; border-collapse: collapse">
+<table
+        style="
+        height: 100px;
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
-    <tr style="height: 18px">
-        <td style="width: 50.3086%; height: 18px">
+    <tr style="height: 24px">
+        <td style="width: 51.5183%; height: 24px">
             <strong>I.&nbsp; &nbsp;GAJI POKOK</strong>
         </td>
-        <td style="width: 49.6914%; height: 18px">
-            :&nbsp; Rp. $gajiPokok ,-
-        </td>
+        <td style="width: 7.47122%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.5877%; height: 24px">$gajiPokok&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 50.3086%; height: 18px">
+    <tr style="height: 24px">
+        <td style="width: 51.5183%; height: 24px">
             <strong>II.&nbsp; UANG MAKAN</strong>
         </td>
-        <td style="width: 49.6914%; height: 18px">
-            &nbsp; &nbsp;Rp. $uangMakan ,-
-        </td>
+        <td style="width: 7.47122%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.5877%; height: 24px">$uangMakan&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 50.3086%; height: 18px">
+    <tr style="height: 24px">
+        <td style="width: 51.5183%; height: 24px">
             <strong>II.&nbsp; TUNJANGAN JABATAN</strong>
         </td>
-        <td style="width: 49.6914%; height: 18px">
-            &nbsp; &nbsp;Rp.
-            <span style="text-decoration: underline">
-              $tunjanganJabatan&nbsp; &nbsp; &nbsp;,-
-            </span>
+        <td style="width: 7.47122%; height: 24px">: Rp.&nbsp;</td>
+        <td
+                style="width: 28.5877%; height: 24px; border-bottom: 1px solid #000"
+        >
+            $tunjanganJabatan&nbsp;&nbsp;
         </td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
     </tr>
-    <tr style="height: 17px">
-        <td style="width: 50.3086%; height: 17px">
-            <p style="padding-left: 40px">
-                <strong>
-                    Penghasilan (I + II)
-                    <br />
-                </strong>
-                <em>(Gaji Pokok + Uang Makan)</em>
-            </p>
+    <tr style="height: 24px">
+        <td style="width: 51.5183%; padding-left: 40px; height: 24px">
+            <strong>Penghasilan (I + II)</strong>
         </td>
-        <td style="width: 49.6914%; height: 17px">
-            <p>:&nbsp; Rp. $penghasilan</p>
-            <p>&nbsp;</p>
-        </td>
+        <td style="width: 7.47122%; height: 24px">: Rp.</td>
+        <td style="width: 28.5877%; height: 24px">$penghasilan</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
     </tr>
-    </tbody>
-</table>
-<hr style="height: 2px; background-color: #333" />
-
-<table style="height: 56px; width: 100%; border-collapse: collapse">
-    <tbody>
-    <tr style="height: 18px">
-        <td style="width: 50%; height: 18px"><strong>III. PAJAK</strong></td>
-        <td style="width: 50%; height: 18px">&nbsp;</td>
-    </tr>
-    <tr style="height: 10px">
-        <td style="width: 50%; height: 10px; padding-left: 40px">
-            <ol>
-                <li>PPh21</li>
-                <li>
-                    PPh21 dibayar Perusahaan
-                    <br />
-                    <strong>Sisa Pajak</strong>
-                </li>
-            </ol>
+    <tr style="height: 24px">
+        <td style="width: 51.5183%; padding-left: 40px; height: 24px">
+            <em>(Gaji Pokok + Uang Makan)</em>
         </td>
-        <td style="width: 50%; height: 10px">
-            :&nbsp; Rp. $pph21 ,-
-            <br />
-            :&nbsp; Rp.
-            <span style="text-decoration: underline">$pph21perusahaan</span>
-            ,-
-            <br />
-            :&nbsp; Rp. $sisaPajak ,-
-        </td>
+        <td style="width: 7.47122%; height: 24px">&nbsp;</td>
+        <td style="width: 28.5877%; height: 24px">&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">&nbsp;</td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 2px; background-color: #333" />
-
-<table style="height: 54px; width: 100%; border-collapse: collapse">
+<table
+        style="
+        height: 100px;
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
-    <tr style="height: 18px">
-        <td style="width: 50%; height: 18px"><strong>IV. IURAN</strong></td>
-        <td style="width: 50%; height: 18px">&nbsp;</td>
-    </tr>
-    <tr style="height: 18px">
-        <td style="width: 50%; height: 18px">
-            <ol>
-                <li style="list-style-type: none">
-                    <ol>
-                        <li>BPJS Jaminan Pensiun</li>
-                        <li>BPJS Ketenagakerjaan</li>
-                        <li>
-                            BPJS Kesehatan
-                            <br />
-                            <strong>Jumlah Iuran</strong>
-                        </li>
-                    </ol>
-                </li>
-            </ol>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px">
+            <strong>III. PAJAK</strong>
         </td>
-        <td style="width: 50%; height: 18px">
-            :&nbsp; Rp. $jaminanPensiun ,-
-            <br />
-            :&nbsp; Rp. $ketenagakerjaan ,-
-            <br />
-            :&nbsp; Rp. $kesehatan ,-
-            <br />
-            :&nbsp; Rp. $jumlahIuran ,-
-        </td>
+        <td style="width: 7.31277%; height: 24px">&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">&nbsp;</td>
     </tr>
-    <tr style="height: 18px">
-        <td style="width: 50%; height: 18px; padding-left: 80px">
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            1. PPh21
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">$pph21</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            2. PPh21 dibayar Perusahaan
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td
+                style="width: 28.7462%; height: 24px; border-bottom: 1px solid #000"
+        >
+            $pph21perusahaan&nbsp;
+        </td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            <strong>Sisa Pajak</strong>
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.</td>
+        <td style="width: 28.7462%; height: 24px">$sisaPajak</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    </tbody>
+</table>
+<table
+        style="
+        height: 108px;
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
+    <tbody>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px">
+            <strong>IV. IURAN</strong>
+        </td>
+        <td style="width: 7.31277%; height: 24px">&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">&nbsp;</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            1. BPJS Jaminan Pensiun
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">$jaminanPensiun</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            2. BPJS Ketenagakerjaan
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">$ketenagakerjaan</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            3. BPJS Kesehatan
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.</td>
+        <td
+                style="width: 28.7462%; height: 24px; border-bottom: 1px solid #000"
+        >
+            $kesehatan
+        </td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            <strong>Jumlah Iuran</strong>
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.</td>
+        <td style="width: 28.7462%; height: 24px">$jumlahIuran</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
             <strong>Gaji Bersih</strong>
         </td>
-        <td style="width: 50%; height: 18px">
-            :&nbsp; Rp.
-            <span style="text-decoration: underline">$gajiBersih</span>
-            ,-
+        <td style="width: 7.31277%; height: 24px">: Rp</td>
+        <td
+                style="width: 28.7462%; height: 24px; border-bottom: 1px solid #000"
+        >
+            $gajiBersih
         </td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 5px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px"></td>
+        <td style="width: 7.31277%; height: 24px"></td>
+        <td
+                style="width: 28.7462%; height: 24px; border-top: 1px solid #000"
+        ></td>
+        <td style="width: 12.4229%; height: 24px"></td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 2px; background-color: #333" />
-
-<table style="height: 154px; width: 100%; border-collapse: collapse">
+<table
+        style="
+        height: 108px;
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
-    <tr style="height: 18px">
-        <td style="width: 50%; height: 18px"><strong>V. POTONGAN</strong></td>
-        <td style="width: 50%; height: 18px">&nbsp;</td>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px">
+            <strong>V. POTONGAN</strong>
+        </td>
+        <td style="width: 7.31277%; height: 24px">&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">&nbsp;</td>
+        <td style="width: 12.4229%; height: 24px">&nbsp;</td>
     </tr>
-    <tr style="height: 118px">
-        <td style="width: 50%; padding-left: 40px; height: 118px">
-            <ol>
-                <li>Simp. Wajib</li>
-                <li>Simp. Sukarela</li>
-                <li>Koperasi</li>
-                <li>
-                    Unit PKBL
-                    <br />
-                    <strong>Jumlah Potongan</strong>
-                </li>
-            </ol>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            1. Simp. Wajib
         </td>
-        <td style="width: 50%; height: 118px">
-            :&nbsp; Rp. $simpWajib ,-
-            <br />
-            :&nbsp; Rp. $simpSukarela ,-
-            <br />
-            :&nbsp; Rp. $koperasi ,-
-            <br />
-            :&nbsp; Rp. $unitPkbl ,-
-            <br />
-            &nbsp; &nbsp;Rp. $jumlahPotongan ,-
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">$simpWajib</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            2. Simp. Sukarela
         </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.&nbsp;</td>
+        <td style="width: 28.7462%; height: 24px">$simpSukarela</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            3. Koperasi
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.</td>
+        <td style="width: 28.7462%; height: 24px">$koperasi</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            4. Unit PKBL
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp.</td>
+        <td
+                style="width: 28.7462%; height: 24px; border-bottom: 1px solid #000"
+        >
+            $unitPkbl
+        </td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
+    </tr>
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 24px; padding-left: 40px">
+            <strong>Jumlah Potongan</strong>
+        </td>
+        <td style="width: 7.31277%; height: 24px">: Rp</td>
+        <td style="width: 28.7462%; height: 24px">$jumlahPotongan</td>
+        <td style="width: 12.4229%; height: 24px">,-</td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 2px; background-color: #333" />
-
-<table style="height: 18px; width: 100%; border-collapse: collapse">
+<table
+        style="
+        height: 10px;
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
-    <tr style="height: 18px">
-        <td style="width: 50%; padding-left: 80px; height: 18px">
+    <tr style="height: 24px">
+        <td style="width: 51.5182%; height: 10px; padding-left: 40px">
             <strong>DITERIMA BERSIH</strong>
         </td>
-        <td style="width: 50%; height: 18px">
-            :&nbsp; Rp.
-            <span style="text-decoration: underline">$diterimaBersih</span>
-            ,-
+        <td style="width: 7.31277%; height: 10px">: Rp</td>
+        <td
+                style="width: 28.7462%; height: 10px; border-bottom: 1px solid #000"
+        >
+            <strong>
+                <span>$diterimaBersih</span>
+            </strong>
         </td>
+        <td style="width: 12.4229%; height: 10px">,-</td>
     </tr>
     </tbody>
 </table>
-<hr style="height: 2px; background-color: #333" />
-
-<table style="width: 100%; border-collapse: collapse">
+<table
+        style="
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #333;
+        margin-bottom: 5px;
+      "
+>
     <tbody>
     <tr>
         <td style="width: 50%">
             <p style="text-align: center">
-                <br />
-                <br />
                 Jakarta, $date
                 <br />
                 <strong>Direktur Utama</strong>

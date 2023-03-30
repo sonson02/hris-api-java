@@ -1,5 +1,6 @@
 package com.example.hrisapi.service;
 
+import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.constant.HrisConstant;
@@ -10,6 +11,7 @@ import com.example.hrisapi.dto.response.ListKaryawanResponse;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.mapper.KaryawanMapper;
 import com.example.hrisapi.repository.*;
+import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -182,5 +184,42 @@ public class KaryawanService {
         response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
 
         return response;
+    }
+
+    public PaginatedDashboardResponse<ListKaryawanResponse> getKaryawanDashboard(Integer page, Integer size){
+        List<KaryawanEntity> listKaryawanEntity = karyawanRepository.getKaryawanDashboard();
+        List<ListKaryawanResponse> listKaryawanResponse = new ArrayList<>();
+
+        for(KaryawanEntity ke : listKaryawanEntity){
+            ListKaryawanResponse response = karyawanMapper.mapList(ke);
+
+            UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
+            if(ume!=null){
+                response.setUnitName(ume.getUnitName());
+            }
+
+            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
+
+            List<KontrakKerjaEntity> listKkExistCekPeriod = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
+            for(KontrakKerjaEntity kke : listKkExistCekPeriod){
+                response.setPeriodKontrak(kontrakKerjaRepository.getMaxPeriodKontrakForListKaryawan(ke.getKaryawanNip()));
+                response.setNoKontrak(kke.getKontrakKode());
+            }
+
+            listKaryawanResponse.add(response);
+        }
+
+        var count30Days = karyawanRepository.getKaryawanDashboard_30_Days();
+        var count60Days = karyawanRepository.getKaryawanDashboard_60_Days();
+        var count90Days = karyawanRepository.getKaryawanDashboard_90_Days();
+
+        return (PaginatedDashboardResponse<ListKaryawanResponse>) HrisConstant.extractPaginationDashboard(
+                page,
+                size,
+                listKaryawanResponse,
+                count30Days,
+                count60Days,
+                count90Days
+        );
     }
 }

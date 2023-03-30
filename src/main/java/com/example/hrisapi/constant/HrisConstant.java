@@ -1,5 +1,6 @@
 package com.example.hrisapi.constant;
 
+import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedReportResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
@@ -157,5 +158,28 @@ public class HrisConstant {
         if(angka >= 1000000000000000L && angka <= 999999999999999999L)
             return angkaToTerbilang(angka / 1000000000000000L) + " Quadrilyun " + angkaToTerbilang(angka % 1000000000000000L);
         return "";
+    }
+
+    public static PaginatedDashboardResponse<?> extractPaginationDashboard(int page, int size, final List<?> listMaster,
+                                                                           Integer count30Days, Integer count60Days, Integer count90Days) {
+        final var fromIndex = (page - 1) * size;
+        final var paginatedList = new ArrayList<>();
+
+        if (fromIndex < listMaster.size()) {
+            paginatedList.addAll(
+                    listMaster.subList(fromIndex, Math.min(fromIndex + size, listMaster.size()))
+            );
+        }
+
+        return PaginatedDashboardResponse
+                .builder()
+                .page(page)
+                .size(size)
+                .totalRecord(listMaster.size())
+                .data(paginatedList)
+                .total30Days(count30Days)
+                .total60Days(count60Days)
+                .total90Days(count90Days)
+                .build();
     }
 }

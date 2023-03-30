@@ -1,6 +1,7 @@
 package com.example.hrisapi.controller;
 
 import com.example.hrisapi.api.base.JsonBaseResponse;
+import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.dto.request.KaryawanRequest;
 import com.example.hrisapi.dto.response.KaryawanByNipResponse;
@@ -75,6 +76,18 @@ public class KaryawanController {
         var body = new JsonBaseResponse<KaryawanByNipResponse>(
                 System.currentTimeMillis(),
                 karyawanService.getKaryawanByNip(karyawanNip)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/karyawan/dashboard")
+    public ResponseEntity<JsonBaseResponse<PaginatedDashboardResponse<ListKaryawanResponse>>> getKaryawanDashboard(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size)
+    {
+        var body = new JsonBaseResponse<PaginatedDashboardResponse<ListKaryawanResponse>>(
+                System.currentTimeMillis(),
+                karyawanService.getKaryawanDashboard(page, size)
         );
         return ResponseEntity.ok(body);
     }

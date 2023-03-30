@@ -30,4 +30,6 @@ public class ListKaryawanResponse {
     private String tglHabisKontrak;
 
     private Integer periodKontrak;
+
+    private String noKontrak;
 }

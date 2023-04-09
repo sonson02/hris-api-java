@@ -22,13 +22,14 @@ public class KontrakKerjaController {
     @GetMapping("/kontrak_kerja")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<KontrakKerjaResponse>>> getListKontrak(
             @RequestParam(required = false, value = "nip") String nip,
+            @RequestParam(required = false, value = "karyawan_name") String name,
             @RequestParam(required = false, value = "unit_id") UUID unitId,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<KontrakKerjaResponse>>(
                 System.currentTimeMillis(),
-                kontrakKerjaService.getListKontrak(nip, unitId, page, size)
+                kontrakKerjaService.getListKontrak(nip, name, unitId, page, size)
         );
         return ResponseEntity.ok(body);
     }

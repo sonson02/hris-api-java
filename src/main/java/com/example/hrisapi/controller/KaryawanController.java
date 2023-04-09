@@ -26,13 +26,14 @@ public class KaryawanController {
     @GetMapping("/karyawan")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<ListKaryawanResponse>>> getListKaryawan(
             @RequestParam(required = false, value = "nip") String nip,
+            @RequestParam(required = false, value = "karyawan_name") String name,
             @RequestParam(required = false, value = "unit_id") UUID unitId,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<ListKaryawanResponse>>(
                 System.currentTimeMillis(),
-                karyawanService.getListKaryawan(nip, unitId, page, size)
+                karyawanService.getListKaryawan(nip, name, unitId, page, size)
         );
         return ResponseEntity.ok(body);
     }

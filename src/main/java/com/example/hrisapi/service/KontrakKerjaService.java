@@ -39,14 +39,16 @@ public class KontrakKerjaService {
     @Autowired
     private KontrakKerjaRepository kontrakKerjaRepository;
 
-    public PaginatedResponse<KontrakKerjaResponse> getListKontrak(String nip, UUID unitId, Integer page, Integer size){
+    public PaginatedResponse<KontrakKerjaResponse> getListKontrak(String nip, String name, UUID unitId, Integer page, Integer size){
         List<KontrakKerjaEntity> listKontrakKerjaEntity = new ArrayList<>();
 
         if(nip!=null){
             listKontrakKerjaEntity = kontrakKerjaRepository.findByKaryawanNip(nip);
         } else if (unitId!=null){
             listKontrakKerjaEntity = kontrakKerjaRepository.getFilterKontrakByUnitIdAndIsActive(unitId);
-        } else {
+        } else if (name!=null){
+            listKontrakKerjaEntity = kontrakKerjaRepository.getFilterKontrakByKaryawanNameAndIsActive(name);
+        }else {
             listKontrakKerjaEntity = kontrakKerjaRepository.getKontrakKerjaIsActive();
         }
 

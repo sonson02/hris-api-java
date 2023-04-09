@@ -58,4 +58,9 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             "between symmetric now() + INTERVAL '61 day' and now() + INTERVAL '90 day' "
             , nativeQuery = true)
     Integer getKaryawanDashboard_90_Days();
+
+//    @Query(value = "select * from dbo.karyawan k where is_active = true and k.karyawan_name LIKE :name", nativeQuery = true)
+//    List<KaryawanEntity> getKaryawanFilterByName(@Param("name") String name);
+
+    List<KaryawanEntity> findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(String name);
 }

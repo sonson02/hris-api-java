@@ -47,14 +47,16 @@ public class KaryawanService {
     @Autowired
     private FileUploadRepository fileUploadRepository;
 
-    public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, UUID unitId, Integer page, Integer size){
+    public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, String name, UUID unitId, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
 
         if(nip!=null){
             KaryawanEntity karyawanFilterByNip = karyawanRepository.getFilterKaryawanNipAndIsActive(nip);
             listKaryawanEntity.add(karyawanFilterByNip);
-        } else if (unitId!=null){
+        } else if (unitId!=null) {
             listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if (name!=null){
+            listKaryawanEntity = karyawanRepository.findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(name);
         } else {
             listKaryawanEntity = karyawanRepository.getKaryawanIsActive();
         }

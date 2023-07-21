@@ -1,6 +1,7 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedResponse;
+import com.example.hrisapi.api.base.PaginatedSlipGajiByNipResponse;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.SlipGajiResponse;
 import com.example.hrisapi.entity.JabatanMasterEntity;

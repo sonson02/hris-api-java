@@ -3,6 +3,7 @@ package com.example.hrisapi.constant;
 import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedReportResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
+import com.example.hrisapi.api.base.PaginatedSlipGajiByNipResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.entity.UnitMasterEntity;
 import com.example.hrisapi.repository.UnitMasterRepository;
@@ -180,6 +181,16 @@ public class HrisConstant {
                 .total30Days(count30Days)
                 .total60Days(count60Days)
                 .total90Days(count90Days)
+                .build();
+    }
+
+    public static PaginatedSlipGajiByNipResponse<?> extractPaginationSlipGajiByNip(final List<?> listMaster) {
+        final var paginatedList = new ArrayList<>();
+
+        return PaginatedSlipGajiByNipResponse
+                .builder()
+                .totalRecord(listMaster.size())
+                .data(paginatedList)
                 .build();
     }
 }

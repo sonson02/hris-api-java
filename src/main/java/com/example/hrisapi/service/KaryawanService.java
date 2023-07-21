@@ -184,6 +184,8 @@ public class KaryawanService {
 
         KaryawanByNipResponse response = karyawanMapper.mapNip(keExist);
         response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
+        response.setTglHabisKontrak(HrisConstant.formatDate(keExist.getTglHabisKontrak()));
+        response.setTglMasukKerja(HrisConstant.formatDate(keExist.getTglMasukKerja()));
 
         return response;
     }

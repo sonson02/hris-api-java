@@ -32,4 +32,6 @@ public class ListKaryawanResponse {
     private Integer periodKontrak;
 
     private String noKontrak;
+
+    private UUID kontrakId;
 }

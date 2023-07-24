@@ -208,6 +208,7 @@ public class KaryawanService {
             for(KontrakKerjaEntity kke : listKkExistCekPeriod){
                 response.setPeriodKontrak(kontrakKerjaRepository.getMaxPeriodKontrakForListKaryawan(ke.getKaryawanNip()));
                 response.setNoKontrak(kke.getKontrakKode());
+                response.setKontrakId(kke.getKontrakId());
             }
 
             listKaryawanResponse.add(response);

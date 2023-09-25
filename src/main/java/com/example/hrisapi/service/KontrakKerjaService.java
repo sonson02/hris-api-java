@@ -96,6 +96,17 @@ public class KontrakKerjaService {
     @Transactional
     public KontrakKerjaResponse insertKontrak(KontrakKerjaRequest request){
 
+        List<KontrakKerjaEntity> listKontrak = kontrakKerjaRepository.findAll();
+        for(KontrakKerjaEntity k : listKontrak){
+            if(k.getRequestNo().equalsIgnoreCase(request.getRequestNo())){
+                throw new RequestNumberAlreadyExistException();
+            }
+
+            if(k.getKontrakKode().equalsIgnoreCase(request.getKontrakKode())){
+                throw new ContractAlreadyExistException();
+            }
+        }
+
         KontrakKerjaEntity kke = kontrakKerjaMapper.mapRequest(request);
         kke.setKontrakId(UUID.randomUUID());
         kke.setDtmUpdate(new Date());
@@ -148,6 +159,23 @@ public class KontrakKerjaService {
 
     @Transactional
     public KontrakKerjaResponse updateKontrak(KontrakKerjaRequest request){
+
+        List<KontrakKerjaEntity> listKontrak = kontrakKerjaRepository.findAll();
+        for(KontrakKerjaEntity k : listKontrak){
+            if(k.getRequestNo().equalsIgnoreCase(request.getRequestNo())){
+                throw new RequestNumberAlreadyExistException();
+            }
+
+            if(k.getKontrakKode().equalsIgnoreCase(request.getKontrakKode())){
+                throw new ContractAlreadyExistException();
+            }
+
+            if(k.getKontrakId().equals(request.getKontrakId())){
+                if(k.getIsActive()==true){
+                    throw new ContractStillActiveException();
+                }
+            }
+        }
 
         KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(request.getKontrakId());
 

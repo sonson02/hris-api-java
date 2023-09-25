@@ -21,7 +21,7 @@ public class ReportTagihanGajiResponse {
 
     private String namaProyek;
 
-    private Double gaji;
+    private Long gaji;
 
     private Double tunjangan;
 

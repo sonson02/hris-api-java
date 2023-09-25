@@ -3,6 +3,7 @@ package com.example.hrisapi.controller;
 import com.example.hrisapi.api.base.JsonBaseResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.dto.request.KontrakKerjaRequest;
+import com.example.hrisapi.dto.response.KontrakKerjaByNipResponse;
 import com.example.hrisapi.dto.response.KontrakKerjaResponse;
 import com.example.hrisapi.service.KontrakKerjaService;
 import lombok.var;
@@ -63,6 +64,30 @@ public class KontrakKerjaController {
         var body = new JsonBaseResponse<KontrakKerjaResponse>(
                 System.currentTimeMillis(),
                 kontrakKerjaService.getDetailKontrak(kontrakId)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/kontrak_kerja/by_nip")
+    public ResponseEntity<JsonBaseResponse<PaginatedResponse<KontrakKerjaByNipResponse>>> getListKontrakByNip(
+            @RequestParam(required = false, value = "nip") String nip,
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size)
+    {
+        var body = new JsonBaseResponse<PaginatedResponse<KontrakKerjaByNipResponse>>(
+                System.currentTimeMillis(),
+                kontrakKerjaService.getListKontrakByNip(nip,page, size)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/kontrak_kerja/stop_kontrak")
+    public ResponseEntity<JsonBaseResponse<KontrakKerjaResponse>> stopKontrak(
+            @RequestParam(required = true, value = "kontrak_id") UUID kontrakId)
+    {
+        var body = new JsonBaseResponse<KontrakKerjaResponse>(
+                System.currentTimeMillis(),
+                kontrakKerjaService.stopKontrak(kontrakId)
         );
         return ResponseEntity.ok(body);
     }

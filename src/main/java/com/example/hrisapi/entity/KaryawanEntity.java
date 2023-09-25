@@ -31,7 +31,7 @@ public class KaryawanEntity {
 
     private String email;
 
-    private Double gaji;
+    private Long gaji;
 
     private String gender;
 

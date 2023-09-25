@@ -95,7 +95,7 @@ public class PdfGeneratorService{
         context.put("tglHabisKontrak", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglHabisKontrak()));
 
         var gaji = karyawanExist.getGaji();
-        context.put("gajiPokok", HrisConstant.decimalFormatIdr(gaji));
+        context.put("gajiPokok", HrisConstant.decimalFormatIdrGaji(gaji));
 
         TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
         var tunjangan = ttme.getNominalTunjangan();
@@ -153,7 +153,7 @@ public class PdfGeneratorService{
 
         //kolom I, II
         var gaji = karyawanExist.getGaji();
-        context.put("gajiPokok", HrisConstant.decimalFormatIdr(gaji));
+        context.put("gajiPokok", HrisConstant.decimalFormatIdrGaji(gaji));
 
         var uangMakan = karyawanExist.getUangMakan();
         context.put("uangMakan", HrisConstant.decimalFormatIdr(uangMakan));

@@ -34,7 +34,7 @@ public class KontrakKerjaResponse {
 
     private String nonik;
 
-    private Double gaji;
+    private Long gaji;
 
     private String kontrakKode;
 

@@ -20,6 +20,8 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
 
     List<KontrakKerjaEntity> findByKaryawanNip(String karyawanNip);
 
+    List<KontrakKerjaEntity> findByKaryawanNipAndIsActiveTrue(String karyawanNip);
+
     @Query(value = "select count(*) from dbo.kontrak_kerja kk where karyawan_nip = :karyawanNip", nativeQuery = true)
     int getCountPeriodKontrak(@Param("karyawanNip") String karyawanNip);
 

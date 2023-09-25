@@ -90,6 +90,12 @@ public class HrisConstant {
         return hasil;
     }
 
+    public static String decimalFormatIdrGaji(Long input) {
+        DecimalFormat df = new DecimalFormat("#,###.##", new DecimalFormatSymbols(Locale.GERMAN));
+        String hasil = df.format(input);
+        return hasil;
+    }
+
     public static Integer getBulanPeriode(String input){
         int bulan=0;
         String[] period = input.split("/");

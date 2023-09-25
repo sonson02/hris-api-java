@@ -110,7 +110,7 @@ public class KaryawanService {
         ke.setKaryawanId(UUID.randomUUID());
         ke.setIsActive(true);
         ke.setFileUploadId(fileCv.getFileUploadId());
-        ke.setGaji(0D);
+        ke.setGaji(0L);
         ke.setUangTelekomunikasi(0D);
         ke.setUangMakan(0D);
         ke.setDtmUpdate(new Date());

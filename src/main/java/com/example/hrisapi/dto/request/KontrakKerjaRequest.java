@@ -29,7 +29,7 @@ public class KontrakKerjaRequest {
 
     private UUID jabatanId;
 
-    private Double gaji;
+    private Long gaji;
 
     private String karyawanName;
 

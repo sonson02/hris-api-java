@@ -27,7 +27,7 @@ public class KaryawanResponse {
 
     private String email;
 
-    private Double gaji;
+    private Long gaji;
 
     private String gender;
 

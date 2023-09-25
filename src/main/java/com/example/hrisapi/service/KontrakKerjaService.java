@@ -1,9 +1,13 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedResponse;
+import com.example.hrisapi.api.exception.ContractAlreadyExistException;
+import com.example.hrisapi.api.exception.ContractStillActiveException;
 import com.example.hrisapi.api.exception.DataNotFoundException;
+import com.example.hrisapi.api.exception.RequestNumberAlreadyExistException;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.request.KontrakKerjaRequest;
+import com.example.hrisapi.dto.response.KontrakKerjaByNipResponse;
 import com.example.hrisapi.dto.response.KontrakKerjaResponse;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.mapper.KontrakKerjaMapper;
@@ -43,7 +47,7 @@ public class KontrakKerjaService {
         List<KontrakKerjaEntity> listKontrakKerjaEntity = new ArrayList<>();
 
         if(nip!=null){
-            listKontrakKerjaEntity = kontrakKerjaRepository.findByKaryawanNip(nip);
+            listKontrakKerjaEntity = kontrakKerjaRepository.findByKaryawanNipAndIsActiveTrue(nip);
         } else if (unitId!=null){
             listKontrakKerjaEntity = kontrakKerjaRepository.getFilterKontrakByUnitIdAndIsActive(unitId);
         } else if (name!=null){
@@ -91,6 +95,7 @@ public class KontrakKerjaService {
 
     @Transactional
     public KontrakKerjaResponse insertKontrak(KontrakKerjaRequest request){
+
         KontrakKerjaEntity kke = kontrakKerjaMapper.mapRequest(request);
         kke.setKontrakId(UUID.randomUUID());
         kke.setDtmUpdate(new Date());
@@ -228,6 +233,47 @@ public class KontrakKerjaService {
 
             return response;
         }
+        return null;
+    }
+
+    public PaginatedResponse<KontrakKerjaByNipResponse> getListKontrakByNip(String nip, Integer page, Integer size){
+        List<KontrakKerjaEntity> listKontrakKerjaEntity = new ArrayList<>();
+
+        if(nip!=null){
+            listKontrakKerjaEntity = kontrakKerjaRepository.findByKaryawanNip(nip);
+        }
+
+        List<KontrakKerjaByNipResponse> listKontrakKerjaResponse = new ArrayList<>();
+
+        for(KontrakKerjaEntity kke : listKontrakKerjaEntity){
+            KontrakKerjaByNipResponse response = kontrakKerjaMapper.mapByNip(kke);
+
+            KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
+
+            response.setKaryawanName(ke.getKaryawanName());
+            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
+            response.setUnitId(ke.getUnitId());
+            listKontrakKerjaResponse.add(response);
+        }
+
+        return (PaginatedResponse<KontrakKerjaByNipResponse>) HrisConstant.extractPaginationList(
+                page,
+                size,
+                listKontrakKerjaResponse
+        );
+    }
+
+    public KontrakKerjaResponse stopKontrak(UUID kontrakId){
+
+        KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(kontrakId);
+
+        if(kkeExist==null){
+            throw new DataNotFoundException();
+        }
+
+        kkeExist.setIsActive(false);
+        kontrakKerjaRepository.save(kkeExist);
+
         return null;
     }
 }

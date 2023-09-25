@@ -1,7 +1,6 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedReportResponse;
-import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.JabatanMasterEntity;

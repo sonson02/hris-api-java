@@ -35,7 +35,7 @@ public class KaryawanByNipResponse {
 
     private String email;
 
-    private Double gaji;
+    private Long gaji;
 
     private String gender;
 

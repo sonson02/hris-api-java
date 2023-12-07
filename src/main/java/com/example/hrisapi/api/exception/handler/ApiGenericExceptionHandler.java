@@ -2,10 +2,7 @@ package com.example.hrisapi.api.exception.handler;
 
 import com.example.hrisapi.api.base.JsonBaseError;
 import com.example.hrisapi.api.base.JsonBaseResponse;
-import com.example.hrisapi.api.exception.ContractAlreadyExistException;
-import com.example.hrisapi.api.exception.ContractStillActiveException;
-import com.example.hrisapi.api.exception.DataNotFoundException;
-import com.example.hrisapi.api.exception.RequestNumberAlreadyExistException;
+import com.example.hrisapi.api.exception.*;
 import com.example.hrisapi.constant.ApiExceptionConstants;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -86,6 +83,42 @@ public class ApiGenericExceptionHandler {
             .builder()
             .code(ApiExceptionConstants.CODE_PROCESSING_ERROR)
             .message(ApiExceptionConstants.CONTRACT_STILL_ACTIVE)
+            .cause(ApiExceptionConstants.CAUSE_DATA_NOT_FOUND)
+            .build();
+    var body = new JsonBaseResponse<String>(startTime, genericError);
+
+    return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .body(body);
+  }
+
+  @ExceptionHandler({ NipAlreadyExistException.class })
+  public ResponseEntity<JsonBaseResponse<String>> handleNipAlreadyExistException(NipAlreadyExistException e) {
+    var startTime = System.currentTimeMillis();
+
+    var genericError = JsonBaseError
+            .builder()
+            .code(ApiExceptionConstants.CODE_PROCESSING_ERROR)
+            .message(ApiExceptionConstants.NIP_ALREADY_EXIST)
+            .cause(ApiExceptionConstants.CAUSE_DATA_NOT_FOUND)
+            .build();
+    var body = new JsonBaseResponse<String>(startTime, genericError);
+
+    return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .body(body);
+  }
+
+  @ExceptionHandler({ NikAlreadyExistException.class })
+  public ResponseEntity<JsonBaseResponse<String>> handleNikAlreadyExistException(NikAlreadyExistException e) {
+    var startTime = System.currentTimeMillis();
+
+    var genericError = JsonBaseError
+            .builder()
+            .code(ApiExceptionConstants.CODE_PROCESSING_ERROR)
+            .message(ApiExceptionConstants.NIK_ALREADY_EXIST)
             .cause(ApiExceptionConstants.CAUSE_DATA_NOT_FOUND)
             .build();
     var body = new JsonBaseResponse<String>(startTime, genericError);

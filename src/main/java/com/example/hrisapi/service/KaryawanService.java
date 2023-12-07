@@ -3,6 +3,8 @@ package com.example.hrisapi.service;
 import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.DataNotFoundException;
+import com.example.hrisapi.api.exception.NikAlreadyExistException;
+import com.example.hrisapi.api.exception.NipAlreadyExistException;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.request.KaryawanRequest;
 import com.example.hrisapi.dto.response.KaryawanByNipResponse;
@@ -100,6 +102,19 @@ public class KaryawanService {
 
     @Transactional
     public KaryawanResponse insertKaryawan(KaryawanRequest request) throws ParseException {
+
+        List<KaryawanEntity> listKaryawanAll = karyawanRepository.findAll();
+        for(KaryawanEntity k : listKaryawanAll){
+
+            if(k.getKaryawanNip().equalsIgnoreCase(request.getKaryawanNip())){
+                throw new NipAlreadyExistException();
+            }
+
+            if(k.getNonik().equalsIgnoreCase(request.getNonik())){
+                throw new NikAlreadyExistException();
+            }
+
+        }
 
         FileUploadEntity fileCv = new FileUploadEntity();
         fileCv.setFileUploadId(UUID.randomUUID());
@@ -227,4 +242,5 @@ public class KaryawanService {
                 count90Days
         );
     }
+
 }

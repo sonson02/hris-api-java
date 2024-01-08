@@ -3,8 +3,10 @@ package com.example.hrisapi.controller;
 import com.example.hrisapi.api.base.JsonBaseResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.dto.request.KontrakKerjaRequest;
+import com.example.hrisapi.dto.request.StopKontrakRequest;
 import com.example.hrisapi.dto.response.KontrakKerjaByNipResponse;
 import com.example.hrisapi.dto.response.KontrakKerjaResponse;
+import com.example.hrisapi.dto.response.StopKontrakResponse;
 import com.example.hrisapi.service.KontrakKerjaService;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,13 +83,13 @@ public class KontrakKerjaController {
         return ResponseEntity.ok(body);
     }
 
-    @GetMapping("/kontrak_kerja/stop_kontrak")
-    public ResponseEntity<JsonBaseResponse<KontrakKerjaResponse>> stopKontrak(
-            @RequestParam(required = true, value = "kontrak_id") UUID kontrakId)
+    @PostMapping("/kontrak_kerja/stop_kontrak")
+    public ResponseEntity<JsonBaseResponse<StopKontrakResponse>> stopKontrak(
+            @RequestBody StopKontrakRequest request)
     {
-        var body = new JsonBaseResponse<KontrakKerjaResponse>(
+        var body = new JsonBaseResponse<StopKontrakResponse>(
                 System.currentTimeMillis(),
-                kontrakKerjaService.stopKontrak(kontrakId)
+                kontrakKerjaService.stopKontrak(request)
         );
         return ResponseEntity.ok(body);
     }

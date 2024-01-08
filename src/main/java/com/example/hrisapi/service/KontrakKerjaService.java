@@ -7,8 +7,10 @@ import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.api.exception.RequestNumberAlreadyExistException;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.request.KontrakKerjaRequest;
+import com.example.hrisapi.dto.request.StopKontrakRequest;
 import com.example.hrisapi.dto.response.KontrakKerjaByNipResponse;
 import com.example.hrisapi.dto.response.KontrakKerjaResponse;
+import com.example.hrisapi.dto.response.StopKontrakResponse;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.mapper.KontrakKerjaMapper;
 import com.example.hrisapi.repository.*;
@@ -291,9 +293,10 @@ public class KontrakKerjaService {
         );
     }
 
-    public KontrakKerjaResponse stopKontrak(UUID kontrakId){
+    public StopKontrakResponse stopKontrak(StopKontrakRequest request){
 
-        KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(kontrakId);
+        StopKontrakResponse response = new StopKontrakResponse();
+        KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(request.getKontrakId());
 
         if(kkeExist==null){
             throw new DataNotFoundException();
@@ -302,6 +305,9 @@ public class KontrakKerjaService {
         kkeExist.setIsActive(false);
         kontrakKerjaRepository.save(kkeExist);
 
-        return null;
+        response.setKontrakId(request.getKontrakId());
+        response.setAlasan(request.getAlasan());
+
+        return response;
     }
 }

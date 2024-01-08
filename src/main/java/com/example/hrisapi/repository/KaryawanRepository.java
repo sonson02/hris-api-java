@@ -33,8 +33,8 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
 
     @Query(value = "select * from dbo.karyawan k " +
             "where is_active = true and " +
-            "tgl_habis_kontrak " +
-            "between symmetric now() and now() + INTERVAL '90 day' "
+            "tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
+            "order by tgl_habis_kontrak asc "
             , nativeQuery = true)
     List<KaryawanEntity> getKaryawanDashboard();
 

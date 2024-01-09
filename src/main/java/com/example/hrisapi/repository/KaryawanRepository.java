@@ -32,9 +32,10 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     List<KaryawanEntity> getKaryawanFilterByPeriode(@Param("bulan") Integer bulan, @Param("tahun") Integer tahun);
 
     @Query(value = "select * from dbo.karyawan k " +
-            "where is_active = true and " +
-            "tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
-            "order by tgl_habis_kontrak asc "
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "k.tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
+            "order by k.tgl_habis_kontrak asc, kk.period_kontrak desc"
             , nativeQuery = true)
     List<KaryawanEntity> getKaryawanDashboard();
 

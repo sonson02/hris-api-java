@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -45,7 +46,7 @@ public class KaryawanRequest {
 
     private String nonpwp;
 
-    private String pendidikanTerakhir;
+    private List<DetailPendidikanRequest> pendidikanTerakhir;
 
     private String jurusan;
 
@@ -57,7 +58,7 @@ public class KaryawanRequest {
 
     private String lampiranCv;
 
-    private Boolean isActive;
+    private Boolean isActive=true;
 
     private String usrUpdate;
 
@@ -77,5 +78,5 @@ public class KaryawanRequest {
 
     private String rekeningAtasNama;
 
-    private String riwayatPekerjaan;
+    private List<DetailRiwayatPekerjaanRequest> riwayatPekerjaan;
 }

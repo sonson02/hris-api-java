@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.List;
 
 @Data
 @Builder
@@ -55,7 +56,7 @@ public class KaryawanByNipResponse {
 
     private String noRekening;
 
-    private String pendidikanTerakhir;
+    private List<DetailPendidikanResponse> pendidikanTerakhir;
 
     private String statusNikah;
 
@@ -95,7 +96,7 @@ public class KaryawanByNipResponse {
 
     private String rekeningAtasNama;
 
-    private String riwayatPekerjaan;
+    private List<DetailRiwayatPekerjaanResponse> riwayatPekerjaan;
 
     private Double tunjanganJabatan;
 }

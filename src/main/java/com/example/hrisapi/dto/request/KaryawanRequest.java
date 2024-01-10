@@ -48,10 +48,6 @@ public class KaryawanRequest {
 
     private List<DetailPendidikanRequest> pendidikanTerakhir;
 
-    private String jurusan;
-
-    private String asalSekolah;
-
     private String noBpjsTenagaKerja;
 
     private String noBpjsKesehatan;

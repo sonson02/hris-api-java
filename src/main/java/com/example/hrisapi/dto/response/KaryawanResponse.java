@@ -20,8 +20,6 @@ public class KaryawanResponse {
 
     private String alamatRumah;
 
-    private String asalSekolah;
-
     private UUID bankId;
 
     private Date dtmUpdate;
@@ -33,8 +31,6 @@ public class KaryawanResponse {
     private String gender;
 
     private Boolean isActive;
-
-    private String jurusan;
 
     private String karyawanName;
 

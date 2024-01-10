@@ -28,8 +28,6 @@ public class KaryawanByNipResponse {
 
     private String alamatRumah;
 
-    private String asalSekolah;
-
     private UUID bankId;
 
     private Date dtmUpdate;
@@ -41,8 +39,6 @@ public class KaryawanByNipResponse {
     private String gender;
 
     private Boolean isActive;
-
-    private String jurusan;
 
     private String noBpjsKesehatan;
 

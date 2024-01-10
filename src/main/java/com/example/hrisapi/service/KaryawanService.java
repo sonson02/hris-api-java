@@ -113,8 +113,6 @@ public class KaryawanService {
         ke.setNonik(request.getNonik());
         ke.setNokk(request.getNokk());
         ke.setNonpwp(request.getNonpwp());
-        ke.setJurusan(request.getJurusan());
-        ke.setAsalSekolah(request.getAsalSekolah());
         ke.setNoBpjsKesehatan(request.getNoBpjsKesehatan());
         ke.setNoBpjsTenagaKerja(request.getNoBpjsTenagaKerja());
         ke.setGolonganDarah(request.getGolonganDarah());
@@ -156,14 +154,12 @@ public class KaryawanService {
         response.setKaryawanId(ke.getKaryawanId());
         response.setAgama(ke.getAgama());
         response.setAlamatRumah(ke.getAlamatRumah());
-        response.setAsalSekolah(ke.getAsalSekolah());
         response.setBankId(ke.getBankId());
         response.setDtmUpdate(ke.getDtmUpdate());
         response.setEmail(ke.getEmail());
         response.setGaji(ke.getGaji());
         response.setGender(ke.getGender());
         response.setIsActive(ke.getIsActive());
-        response.setJurusan(ke.getJurusan());
         response.setKaryawanName(ke.getKaryawanName());
         response.setKaryawanNip(ke.getKaryawanNip());
         response.setNoBpjsKesehatan(ke.getNoBpjsKesehatan());
@@ -283,14 +279,12 @@ public class KaryawanService {
         response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
         response.setAgama(keExist.getAgama());
         response.setAlamatRumah(keExist.getAlamatRumah());
-        response.setAsalSekolah(keExist.getAsalSekolah());
         response.setBankId(keExist.getBankId());
         response.setDtmUpdate(keExist.getDtmUpdate());
         response.setEmail(keExist.getEmail());
         response.setGaji(keExist.getGaji());
         response.setGender(keExist.getGender());
         response.setIsActive(keExist.getIsActive());
-        response.setJurusan(keExist.getJurusan());
         response.setNoBpjsKesehatan(keExist.getNoBpjsKesehatan());
         response.setNoBpjsTenagaKerja(keExist.getNoBpjsTenagaKerja());
         response.setNoHandphone(keExist.getNoHandphone());

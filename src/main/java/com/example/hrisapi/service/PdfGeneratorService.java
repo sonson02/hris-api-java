@@ -190,7 +190,6 @@ public class PdfGeneratorService{
         context.put("jumlahIuran", HrisConstant.decimalFormatIdr(jumlahIuran));
 
         var gajiBersih = gaji - jumlahIuran;
-        context.put("gajiBersih", HrisConstant.decimalFormatIdr(gajiBersih));
 
         //kolom V. Potongan
         context.put("simpWajib", 0);

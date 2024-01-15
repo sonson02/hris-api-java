@@ -28,7 +28,7 @@ public class SlipGajiService {
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
 
-    public PaginatedResponse<SlipGajiResponse> getListSlipGaji(String nip, UUID unitId, String periode, Integer page, Integer size){
+    public PaginatedResponse<SlipGajiResponse> getListSlipGaji(String nip, String name, UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
         List<SlipGajiResponse> listSlipGajiKaryawan = new ArrayList<>();
 
@@ -37,6 +37,8 @@ public class SlipGajiService {
             listKaryawanEntity.add(karyawanFilterByNip);
         } else if (unitId!=null) {
             listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if (name!=null){
+            listKaryawanEntity = karyawanRepository.findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(name);
         } else if(periode!=null){
             int bulan = HrisConstant.getBulanPeriode(periode);
             int tahun = HrisConstant.getTahunPeriode(periode);

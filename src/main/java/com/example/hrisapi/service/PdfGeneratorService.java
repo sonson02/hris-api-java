@@ -158,10 +158,10 @@ public class PdfGeneratorService{
         var uangMakan = karyawanExist.getUangMakan();
         context.put("uangMakan", HrisConstant.decimalFormatIdr(uangMakan));
 
-        var tunjanganJabatan = ttme.getNominalTunjangan();
-        context.put("tunjanganJabatan", HrisConstant.decimalFormatIdr(tunjanganJabatan));
+        var tunjangan = ttme.getNominalTunjangan();
+        context.put("tunjangan", HrisConstant.decimalFormatIdr(tunjangan));
 
-        var penghasilan = gaji + uangMakan + tunjanganJabatan;
+        var penghasilan = gaji + uangMakan + tunjangan;
         context.put("penghasilan", HrisConstant.decimalFormatIdr(penghasilan));
 
         //kolom III. Pajak

@@ -18,6 +18,8 @@ public class DetailPendidikanResponse {
 
     private String detailPendidikanId;
 
+    private String pendidikan;
+
     private String namaSekolah;
 
     private String jurusan;

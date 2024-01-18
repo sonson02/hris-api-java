@@ -96,14 +96,8 @@ public class PdfGeneratorService{
 
         var gaji = karyawanExist.getGaji();
         context.put("gajiPokok", HrisConstant.decimalFormatIdrGaji(gaji));
-
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
-        var tunjangan = ttme.getNominalTunjangan();
-        context.put("tunjangan", HrisConstant.decimalFormatIdr(tunjangan));
-
-        var totalPerbulan = gaji + tunjangan;
-        context.put("totalPerBulan", HrisConstant.decimalFormatIdr(totalPerbulan));
-        context.put("terbilang", HrisConstant.angkaToTerbilang(totalPerbulan));
+        context.put("totalPerBulan", HrisConstant.decimalFormatIdrGaji(gaji));
+        context.put("terbilang", HrisConstant.angkaToTerbilang(Double.valueOf(gaji)));
 
         context.put("uangMakan", HrisConstant.decimalFormatIdr(karyawanExist.getUangMakan()));
 

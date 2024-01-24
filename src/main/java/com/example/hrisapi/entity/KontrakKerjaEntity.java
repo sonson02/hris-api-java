@@ -38,4 +38,26 @@ public class KontrakKerjaEntity {
     private String requestNo;
 
     private Date requestDate;
+
+    private Long gaji;
+
+    private UUID tempatTugasId;
+
+    private Date tglHabisKontrak;
+
+    private Date tglMasukKerja;
+
+    private UUID unitId;
+
+    private UUID jabatanId;
+
+    private Long tunjanganKomunikasi;
+
+    private Long uangMakan;
+
+    private Long tunjangan;
+
+    private Long tunjanganKhusus;
+
+    private Long tunjanganVariable;
 }

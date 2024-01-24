@@ -22,46 +22,57 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     @Query(value = "select * from dbo.karyawan k where is_active = true and karyawan_nip = :karyawanNip", nativeQuery = true)
     KaryawanEntity getFilterKaryawanNipAndIsActive(@Param("karyawanNip") String karyawanNip);
 
-    @Query(value = "select * from dbo.karyawan k where is_active = true and unit_id = :unitId", nativeQuery = true)
+    @Query(value = "select * from dbo.kontrak_kerja kk " +
+            "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and kk.unit_id = :unitId", nativeQuery = true)
     List<KaryawanEntity> getFilterKaryawanByUnitIdAndIsActive(@Param("unitId") UUID unitId);
 
-    @Query(value = "select * from dbo.karyawan k where is_active = true and tempat_tugas_id is not NULL", nativeQuery = true)
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tempat_tugas_id is not NULL",
+            nativeQuery = true)
     List<KaryawanEntity> getKaryawanForReportGaji();
 
-    @Query(value = "select * from dbo.karyawan k where is_active = true and date_part('month', tgl_masuk_kerja) = :bulan and date_part('year', tgl_masuk_kerja) = :tahun ", nativeQuery = true)
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "date_part('month', kk.tgl_masuk_kerja) = :bulan and " +
+            "date_part('year', kk.tgl_masuk_kerja) = :tahun ",
+            nativeQuery = true)
     List<KaryawanEntity> getKaryawanFilterByPeriode(@Param("bulan") Integer bulan, @Param("tahun") Integer tahun);
 
     @Query(value = "select * from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
             "where k.is_active = true and kk.is_active = true and " +
-            "k.tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
-            "order by k.tgl_habis_kontrak asc, kk.period_kontrak desc"
+            "kk.tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
+            "order by kk.tgl_habis_kontrak asc, kk.period_kontrak desc"
             , nativeQuery = true)
     List<KaryawanEntity> getKaryawanDashboard();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
-            "where is_active = true and " +
-            "tgl_habis_kontrak " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
             "between symmetric now() and now() + INTERVAL '30 day' "
             , nativeQuery = true)
     Integer getKaryawanDashboard_30_Days();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
-            "where is_active = true and " +
-            "tgl_habis_kontrak " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
             "between symmetric now() + INTERVAL '31 day' and now() + INTERVAL '60 day' "
             , nativeQuery = true)
     Integer getKaryawanDashboard_60_Days();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
-            "where is_active = true and " +
-            "tgl_habis_kontrak " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
             "between symmetric now() + INTERVAL '61 day' and now() + INTERVAL '90 day' "
             , nativeQuery = true)
     Integer getKaryawanDashboard_90_Days();
-
-//    @Query(value = "select * from dbo.karyawan k where is_active = true and k.karyawan_name LIKE :name", nativeQuery = true)
-//    List<KaryawanEntity> getKaryawanFilterByName(@Param("name") String name);
 
     List<KaryawanEntity> findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(String name);
 }

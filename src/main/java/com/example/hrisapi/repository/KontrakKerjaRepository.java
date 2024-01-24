@@ -28,25 +28,24 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
     @Query(value = "select max(period_kontrak) from dbo.kontrak_kerja kk where karyawan_nip = :karyawanNip", nativeQuery = true)
     int getMaxPeriodKontrakForListKaryawan(@Param("karyawanNip") String karyawanNip);
 
-    @Query(value = "select kk.kontrak_id, kk.dtm_update ," +
-            "kk.is_active, kk.karyawan_id, kk.karyawan_nip , " +
-            "kk.kontrak_kode , kk.period_kontrak , kk.usr_update ," +
-            "kk.file_upload_id, kk.request_no, kk.request_date " +
-            "from dbo.kontrak_kerja kk " +
+    @Query(value = "select * from dbo.kontrak_kerja kk " +
             "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
-            "where k.is_active = true " +
-            "and k.unit_id = :unitId",
+            "where k.is_active = true and kk.is_active = true " +
+            "and kk.unit_id = :unitId",
             nativeQuery = true)
     List<KontrakKerjaEntity> getFilterKontrakByUnitIdAndIsActive(@Param("unitId") UUID unitId);
 
-    @Query(value = "select kk.kontrak_id, kk.dtm_update ," +
-            "kk.is_active, kk.karyawan_id, kk.karyawan_nip , " +
-            "kk.kontrak_kode , kk.period_kontrak , kk.usr_update ," +
-            "kk.file_upload_id, kk.request_no, kk.request_date " +
-            "from dbo.kontrak_kerja kk " +
+    @Query(value = "select * from dbo.kontrak_kerja kk " +
             "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
-            "where k.is_active = true " +
+            "where k.is_active = true and kk.is_active = true " +
             "and k.karyawan_name ILIKE %:karyawanName% ",
             nativeQuery = true)
     List<KontrakKerjaEntity> getFilterKontrakByKaryawanNameAndIsActive(@Param("karyawanName") String name);
+
+    @Query(value = "select * from dbo.kontrak_kerja kk " +
+            "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true " +
+            "and kk.karyawan_nip = :karyawanNip",
+            nativeQuery = true)
+    KontrakKerjaEntity getKaryawanNipAndIsActive(@Param("karyawanNip") String karyawanNip);
 }

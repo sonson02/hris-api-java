@@ -2,7 +2,6 @@ package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.api.exception.ContractAlreadyExistException;
-import com.example.hrisapi.api.exception.ContractStillActiveException;
 import com.example.hrisapi.api.exception.DataNotFoundException;
 import com.example.hrisapi.api.exception.RequestNumberAlreadyExistException;
 import com.example.hrisapi.constant.HrisConstant;
@@ -61,28 +60,13 @@ public class KontrakKerjaService {
         List<KontrakKerjaResponse> listKontrakKerjaResponse = new ArrayList<>();
 
         for(KontrakKerjaEntity kke : listKontrakKerjaEntity){
-            KontrakKerjaResponse response = kontrakKerjaMapper.map(kke);
+
+            KontrakKerjaResponse response = new KontrakKerjaResponse();
 
             KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
 
             if(ke.getIsActive()==true){
-                response.setKaryawanName(ke.getKaryawanName());
-                response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
-                response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-                response.setNonik(ke.getNonik());
-                response.setGaji(ke.getGaji());
-
-                response.setUnitId(ke.getUnitId());
-                response.setTempatTugasId(ke.getTempatTugasId());
-                response.setJabatanId(ke.getJabatanId());
-                response.setTipeTunjangan(ke.getTipeTunjangan());
-
-                response.setTempatTinggal(ke.getTempatTinggal());
-                response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
-
-                response.setRequestDate(HrisConstant.formatDate(kke.getRequestDate()));
-                response.setRequestNo(kke.getRequestNo());
-                response.setUangMakan(ke.getUangMakan());
+                extractedEntityToResponse(kke, response, ke);
 
                 listKontrakKerjaResponse.add(response);
             }
@@ -93,6 +77,32 @@ public class KontrakKerjaService {
                 size,
                 listKontrakKerjaResponse
         );
+    }
+
+    private void extractedEntityToResponse(KontrakKerjaEntity kke, KontrakKerjaResponse response, KaryawanEntity ke) {
+        response.setKontrakId(kke.getKontrakId());
+        response.setKaryawanNip(kke.getKaryawanNip());
+        response.setKaryawanName(ke.getKaryawanName());
+        response.setNonik(ke.getNonik());
+        response.setTempatLahir(ke.getTempatLahir());
+        response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
+        response.setKontrakKode(kke.getKontrakKode());
+        response.setRequestNo(kke.getRequestNo());
+        response.setGaji(kke.getGaji());
+        response.setTglMasukKerja(HrisConstant.formatDate(kke.getTglMasukKerja()));
+        response.setTglHabisKontrak(HrisConstant.formatDate(kke.getTglHabisKontrak()));
+        response.setTempatTugasId(kke.getTempatTugasId());
+        response.setUnitId(kke.getUnitId());
+        response.setJabatanId(kke.getJabatanId());
+        response.setIsActive(kke.getIsActive());
+        response.setPeriodKontrak(String.valueOf(kontrakKerjaRepository.getCountPeriodKontrak(ke.getKaryawanNip())));
+        response.setRequestDate(HrisConstant.formatDate(kke.getRequestDate()));
+        response.setTunjanganKomunikasi(kke.getTunjanganKomunikasi());
+        response.setUangMakan(kke.getUangMakan());
+        response.setTunjangan(kke.getTunjangan());
+        response.setTunjanganKhusus(kke.getTunjanganKhusus());
+        response.setTunjanganVariable(kke.getTunjanganVariable());
+        response.setUsrUpdate(kke.getUsrUpdate());
     }
 
     @Transactional
@@ -109,75 +119,47 @@ public class KontrakKerjaService {
             }
         }
 
-        KontrakKerjaEntity kke = kontrakKerjaMapper.mapRequest(request);
-        kke.setKontrakId(UUID.randomUUID());
-        kke.setDtmUpdate(new Date());
-        kke.setIsActive(true);
-        kontrakKerjaRepository.save(kke);
+        KontrakKerjaEntity kke = new KontrakKerjaEntity();
+        extractedRequestToEntity(request, kke);
 
         KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
 
         if(ke.getIsActive()==true){
-            ke.setGaji(request.getGaji());
-            ke.setTglMasukKerja(request.getTglMasukKerja());
-            ke.setTglHabisKontrak(request.getTglHabisKontrak());
-            ke.setTipeTunjangan(request.getTipeTunjangan());
-
-            ke.setTempatTugasId(request.getTempatTugasId());
-            ke.setUnitId(request.getUnitId());
-            ke.setJabatanId(request.getJabatanId());
-            ke.setUangMakan(request.getUangMakan());
-            karyawanRepository.save(ke);
-
             kke.setKaryawanId(ke.getKaryawanId());
             kke.setPeriodKontrak(kontrakKerjaRepository.getCountPeriodKontrak(ke.getKaryawanNip()));
             kontrakKerjaRepository.save(kke);
 
-            KontrakKerjaResponse response = kontrakKerjaMapper.map(kke);
-            response.setKaryawanName(ke.getKaryawanName());
-            response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
-            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-            response.setNonik(ke.getNonik());
-            response.setGaji(ke.getGaji());
-
-            response.setUnitId(request.getUnitId());
-            response.setTempatTugasId(request.getTempatTugasId());
-            response.setJabatanId(request.getJabatanId());
-
-            response.setTempatTinggal(ke.getTempatTinggal());
-            response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
-
-            response.setTipeTunjangan(request.getTipeTunjangan());
-
-            response.setRequestNo(request.getRequestNo());
-            response.setRequestDate(HrisConstant.formatDate(kke.getRequestDate()));
-            response.setUangMakan(request.getUangMakan());
-
+            KontrakKerjaResponse response = new KontrakKerjaResponse();
+            extractedEntityToResponse(kke, response, ke);
             return response;
         }
 
         return null;
     }
 
+    private void extractedRequestToEntity(KontrakKerjaRequest request, KontrakKerjaEntity kke) {
+        kke.setKontrakId(UUID.randomUUID());
+        kke.setIsActive(true);
+        kke.setKaryawanNip(request.getKaryawanNip());
+        kke.setKontrakKode(request.getKontrakKode());
+        kke.setRequestNo(request.getRequestNo());
+        kke.setGaji(request.getGaji());
+        kke.setTglMasukKerja(request.getTglMasukKerja());
+        kke.setTglHabisKontrak(request.getTglHabisKontrak());
+        kke.setTempatTugasId(request.getTempatTugasId());
+        kke.setUnitId(request.getUnitId());
+        kke.setJabatanId(request.getJabatanId());
+        kke.setRequestDate(request.getRequestDate());
+        kke.setTunjanganKomunikasi(request.getTunjanganKomunikasi());
+        kke.setUangMakan(request.getUangMakan());
+        kke.setTunjangan(request.getTunjangan());
+        kke.setTunjanganKhusus(request.getTunjanganKhusus());
+        kke.setTunjanganVariable(request.getTunjanganVariable());
+        kontrakKerjaRepository.save(kke);
+    }
+
     @Transactional
     public KontrakKerjaResponse updateKontrak(KontrakKerjaRequest request){
-
-        List<KontrakKerjaEntity> listKontrak = kontrakKerjaRepository.findAll();
-        for(KontrakKerjaEntity k : listKontrak){
-            if(k.getRequestNo().equalsIgnoreCase(request.getRequestNo())){
-                throw new RequestNumberAlreadyExistException();
-            }
-
-            if(k.getKontrakKode().equalsIgnoreCase(request.getKontrakKode())){
-                throw new ContractAlreadyExistException();
-            }
-
-            if(k.getKontrakId().equals(request.getKontrakId())){
-                if(k.getIsActive()==true){
-                    throw new ContractStillActiveException();
-                }
-            }
-        }
 
         KontrakKerjaEntity kkeExist = kontrakKerjaRepository.findByKontrakId(request.getKontrakId());
 
@@ -194,37 +176,8 @@ public class KontrakKerjaService {
         KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kkeExist.getKaryawanNip());
 
         if(ke.getIsActive()){
-            ke.setGaji(request.getGaji());
-            ke.setTglMasukKerja(request.getTglMasukKerja());
-            ke.setTglHabisKontrak(request.getTglHabisKontrak());
-            ke.setTipeTunjangan(request.getTipeTunjangan());
-
-            ke.setTempatTugasId(request.getTempatTugasId());
-            ke.setUnitId(request.getUnitId());
-            ke.setJabatanId(request.getJabatanId());
-
-            ke.setUangMakan(request.getUangMakan());
-            karyawanRepository.save(ke);
-
-            KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
-            response.setKaryawanName(ke.getKaryawanName());
-            response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
-            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-            response.setNonik(ke.getNonik());
-            response.setGaji(ke.getGaji());
-
-            response.setUnitId(request.getUnitId());
-            response.setTempatTugasId(request.getTempatTugasId());
-            response.setJabatanId(request.getJabatanId());
-
-            response.setTempatTinggal(ke.getTempatTinggal());
-            response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
-
-            response.setTipeTunjangan(request.getTipeTunjangan());
-
-            response.setRequestNo(request.getRequestNo());
-            response.setRequestDate(HrisConstant.formatDate(request.getRequestDate()));
-            response.setUangMakan(request.getUangMakan());
+            KontrakKerjaResponse response = new KontrakKerjaResponse();
+            extractedEntityToResponse(kkeExist,response,ke);
 
             return response;
         }
@@ -242,24 +195,9 @@ public class KontrakKerjaService {
         KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kkeExist.getKaryawanNip());
 
         if(ke.getIsActive()==true){
-            KontrakKerjaResponse response = kontrakKerjaMapper.map(kkeExist);
-            response.setKaryawanName(ke.getKaryawanName());
-            response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
-            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-            response.setNonik(ke.getNonik());
-            response.setGaji(ke.getGaji());
-            response.setKontrakKode(kkeExist.getKontrakKode());
-
-            response.setUnitId(ke.getUnitId());
-            response.setTempatTugasId(ke.getTempatTugasId());
-            response.setJabatanId(ke.getJabatanId());
-            response.setTipeTunjangan(ke.getTipeTunjangan());
-
-            response.setTempatTinggal(ke.getTempatTinggal());
-            response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
-
+            KontrakKerjaResponse response = new KontrakKerjaResponse();
+            extractedEntityToResponse(kkeExist, response, ke);
             response.setRequestDate(HrisConstant.formatDate(kkeExist.getRequestDate()));
-            response.setUangMakan(ke.getUangMakan());
 
             return response;
         }
@@ -281,8 +219,8 @@ public class KontrakKerjaService {
             KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
 
             response.setKaryawanName(ke.getKaryawanName());
-            response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-            response.setUnitId(ke.getUnitId());
+            response.setTglHabisKontrak(HrisConstant.formatDate(kke.getTglHabisKontrak()));
+            response.setUnitId(kke.getUnitId());
             listKontrakKerjaResponse.add(response);
         }
 

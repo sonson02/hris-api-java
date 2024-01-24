@@ -20,7 +20,7 @@ public class KaryawanByNipResponse {
 
     private String nonik;
 
-    private String tempatTinggal;
+    private String tempatLahir;
 
     private String tanggalLahir;
 
@@ -33,8 +33,6 @@ public class KaryawanByNipResponse {
     private Date dtmUpdate;
 
     private String email;
-
-    private Long gaji;
 
     private String gender;
 
@@ -56,25 +54,9 @@ public class KaryawanByNipResponse {
 
     private String statusNikah;
 
-    private UUID tempatTugasId;
-
-    private String tglHabisKontrak;
-
-    private String tglMasukKerja;
-
-    private String tipeTunjangan;
-
-    private Double uangTelekomunikasi;
-
-    private UUID unitId;
-
     private String usrUpdate;
 
-    private UUID jabatanId;
-
     private UUID fileUploadId;
-
-    private Double uangMakan;
 
     private String golonganDarah;
 
@@ -94,5 +76,5 @@ public class KaryawanByNipResponse {
 
     private List<DetailRiwayatPekerjaanResponse> riwayatPekerjaan;
 
-    private Double tunjanganJabatan;
+    private String photoKaryawan;
 }

@@ -5,9 +5,11 @@ import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.JabatanMasterEntity;
 import com.example.hrisapi.entity.KaryawanEntity;
+import com.example.hrisapi.entity.KontrakKerjaEntity;
 import com.example.hrisapi.entity.TempatTugasMasterEntity;
 import com.example.hrisapi.repository.JabatanMasterRepository;
 import com.example.hrisapi.repository.KaryawanRepository;
+import com.example.hrisapi.repository.KontrakKerjaRepository;
 import com.example.hrisapi.repository.TempatTugasMasterRepository;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class ReportTagihanGajiService {
 
     @Autowired
     private KaryawanRepository karyawanRepository;
+
+    @Autowired
+    private KontrakKerjaRepository kontrakKerjaRepository;
 
     @Autowired
     private TempatTugasMasterRepository tempatTugasMasterRepository;
@@ -58,17 +63,19 @@ public class ReportTagihanGajiService {
             response.setKaryawanNip(ke.getKaryawanNip());
             response.setKaryawanName(ke.getKaryawanName());
 
-            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
+            KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
+
+            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
             if(jme!=null){
                 response.setJabatanName(jme.getJabatanName());
             }
 
-            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
+            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
             if(ttme!=null){
                 response.setNamaProyek(ttme.getNamaProyek());
             }
 
-            var gaji = ke.getGaji();
+            var gaji = kke.getGaji();
             response.setGaji(gaji);
             totalGaji += gaji;
 

@@ -8,9 +8,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface KontrakKerjaMapper {
-    KontrakKerjaResponse map(KontrakKerjaEntity kontrakKerjaEntity);
-
-    KontrakKerjaEntity mapRequest(KontrakKerjaRequest kontrakKerjaRequest);
 
     KontrakKerjaByNipResponse mapByNip(KontrakKerjaEntity kontrakKerjaEntity);
 }

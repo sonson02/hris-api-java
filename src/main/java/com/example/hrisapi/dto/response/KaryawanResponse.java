@@ -26,8 +26,6 @@ public class KaryawanResponse {
 
     private String email;
 
-    private Long gaji;
-
     private String gender;
 
     private Boolean isActive;
@@ -56,27 +54,11 @@ public class KaryawanResponse {
 
     private String tanggalLahir;
 
-    private String tempatTinggal;
-
-    private UUID tempatTugasId;
-
-    private String tglHabisKontrak;
-
-    private String tglMasukKerja;
-
-    private String tipeTunjangan;
-
-    private Double uangTelekomunikasi;
-
-    private UUID unitId;
+    private String tempatLahir;
 
     private String usrUpdate;
 
-    private UUID jabatanId;
-
     private UUID fileUploadId;
-
-    private Double uangMakan;
 
     private String golonganDarah;
 
@@ -96,5 +78,5 @@ public class KaryawanResponse {
 
     private List<DetailRiwayatPekerjaanResponse> riwayatPekerjaan;
 
-    private Double tunjanganJabatan;
+    private String photoKaryawan;
 }

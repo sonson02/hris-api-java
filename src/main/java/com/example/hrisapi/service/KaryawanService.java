@@ -75,13 +75,14 @@ public class KaryawanService {
     public KaryawanResponse insertKaryawan(KaryawanRequest request) throws ParseException {
         List<KaryawanEntity> listKaryawanAll = karyawanRepository.findAll();
         for(KaryawanEntity k : listKaryawanAll){
+            if(k.getIsActive()==true){
+                if(k.getKaryawanNip().equalsIgnoreCase(request.getKaryawanNip())){
+                    throw new NipAlreadyExistException();
+                }
 
-            if(k.getKaryawanNip().equalsIgnoreCase(request.getKaryawanNip())){
-                throw new NipAlreadyExistException();
-            }
-
-            if(k.getNonik().equalsIgnoreCase(request.getNonik())){
-                throw new NikAlreadyExistException();
+                if(k.getNonik().equalsIgnoreCase(request.getNonik())){
+                    throw new NikAlreadyExistException();
+                }
             }
         }
         KaryawanEntity ke = getKaryawanEntity(request);
@@ -100,7 +101,7 @@ public class KaryawanService {
         ke.setKaryawanId(UUID.randomUUID());
         ke.setKaryawanNip(request.getKaryawanNip());
         ke.setKaryawanName(request.getKaryawanName());
-        ke.setTempatTinggal(request.getTempatTinggal());
+        ke.setTempatLahir(request.getTempatLahir());
         ke.setTanggalLahir(request.getTanggalLahir());
         ke.setAgama(request.getAgama());
         ke.setGender(request.getGender());
@@ -126,9 +127,6 @@ public class KaryawanService {
 
         ke.setIsActive(true);
         ke.setFileUploadId(fileCv.getFileUploadId());
-        ke.setGaji(0L);
-        ke.setUangTelekomunikasi(0D);
-        ke.setUangMakan(0D);
         ke.setDtmUpdate(new Date());
 
         try {
@@ -140,6 +138,7 @@ public class KaryawanService {
         karyawanRepository.save(ke);
         return ke;
     }
+
     private KaryawanResponse getKaryawanResponse(KaryawanEntity ke) {
         List<DetailPendidikanResponse> listDetailPendidikan = null;
         List<DetailRiwayatPekerjaanResponse> listDetailPekerjaan = null;
@@ -157,7 +156,6 @@ public class KaryawanService {
         response.setBankId(ke.getBankId());
         response.setDtmUpdate(ke.getDtmUpdate());
         response.setEmail(ke.getEmail());
-        response.setGaji(ke.getGaji());
         response.setGender(ke.getGender());
         response.setIsActive(ke.getIsActive());
         response.setKaryawanName(ke.getKaryawanName());
@@ -172,17 +170,9 @@ public class KaryawanService {
         response.setPendidikanTerakhir(listDetailPendidikan);
         response.setStatusNikah(ke.getStatusNikah());
         response.setTanggalLahir(HrisConstant.formatDate(ke.getTanggalLahir()));
-        response.setTempatTinggal(ke.getTempatTinggal());
-        response.setTempatTugasId(ke.getTempatTugasId());
-        response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
-        response.setTglMasukKerja(HrisConstant.formatDate(ke.getTglMasukKerja()));
-        response.setTipeTunjangan(ke.getTipeTunjangan());
-        response.setUangTelekomunikasi(ke.getUangTelekomunikasi());
-        response.setUnitId(ke.getUnitId());
+        response.setTempatLahir(ke.getTempatLahir());
         response.setUsrUpdate(ke.getUsrUpdate());
-        response.setJabatanId(ke.getJabatanId());
         response.setFileUploadId(ke.getFileUploadId());
-        response.setUangMakan(ke.getUangMakan());
         response.setGolonganDarah(ke.getGolonganDarah());
         response.setNamaAyahKandung(ke.getNamaAyahKandung());
         response.setNamaIbuKandung(ke.getNamaIbuKandung());
@@ -195,7 +185,6 @@ public class KaryawanService {
 
         return response;
     }
-
     @Transactional
     public KaryawanResponse updateKaryawan(KaryawanRequest request){
 
@@ -238,13 +227,6 @@ public class KaryawanService {
 
         KaryawanResponse response = getKaryawanResponse(keExist);
 
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(keExist.getJabatanId());
-        if(jme!=null){
-            response.setTunjanganJabatan(jme.getTunjangan());
-        } else {
-            response.setTunjanganJabatan(0D);
-        }
-
         return response;
     }
 
@@ -275,14 +257,13 @@ public class KaryawanService {
         response.setKaryawanNip(keExist.getKaryawanNip());
         response.setKaryawanName(keExist.getKaryawanName());
         response.setNonik(keExist.getNonik());
-        response.setTempatTinggal(keExist.getTempatTinggal());
+        response.setTempatLahir(keExist.getTempatLahir());
         response.setTanggalLahir(HrisConstant.formatDate(keExist.getTanggalLahir()));
         response.setAgama(keExist.getAgama());
         response.setAlamatRumah(keExist.getAlamatRumah());
         response.setBankId(keExist.getBankId());
         response.setDtmUpdate(keExist.getDtmUpdate());
         response.setEmail(keExist.getEmail());
-        response.setGaji(keExist.getGaji());
         response.setGender(keExist.getGender());
         response.setIsActive(keExist.getIsActive());
         response.setNoBpjsKesehatan(keExist.getNoBpjsKesehatan());
@@ -293,16 +274,8 @@ public class KaryawanService {
         response.setNoRekening(keExist.getNoRekening());
         response.setPendidikanTerakhir(listDetailPendidikan);
         response.setStatusNikah(keExist.getStatusNikah());
-        response.setTempatTugasId(keExist.getTempatTugasId());
-        response.setTglHabisKontrak(HrisConstant.formatDate(keExist.getTglHabisKontrak()));
-        response.setTglMasukKerja(HrisConstant.formatDate(keExist.getTglMasukKerja()));
-        response.setTipeTunjangan(keExist.getTipeTunjangan());
-        response.setUangTelekomunikasi(keExist.getUangTelekomunikasi());
-        response.setUnitId(keExist.getUnitId());
         response.setUsrUpdate(keExist.getUsrUpdate());
-        response.setJabatanId(keExist.getJabatanId());
         response.setFileUploadId(keExist.getFileUploadId());
-        response.setUangMakan(keExist.getUangMakan());
         response.setGolonganDarah(keExist.getGolonganDarah());
         response.setNamaAyahKandung(keExist.getNamaAyahKandung());
         response.setNamaIbuKandung(keExist.getNamaIbuKandung());
@@ -343,26 +316,27 @@ public class KaryawanService {
         response.setKaryawanId(ke.getKaryawanId());
         response.setKaryawanNip(ke.getKaryawanNip());
         response.setKaryawanName(ke.getKaryawanName());
-
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(ke.getTempatTugasId());
-        if(ttme!=null){
-            response.setNamaProyek(ttme.getNamaProyek());
-        }
-
-        UnitMasterEntity ume = unitMasterRepository.findByUnitId(ke.getUnitId());
-        if(ume!=null){
-            response.setUnitName(ume.getUnitName());
-        }
-
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(ke.getJabatanId());
-        if(jme!=null){
-            response.setJabatanName(jme.getJabatanName());
-        }
         response.setIsActive(ke.getIsActive());
-        response.setTglHabisKontrak(HrisConstant.formatDate(ke.getTglHabisKontrak()));
 
         List<KontrakKerjaEntity> listKkExistCekPeriod = kontrakKerjaRepository.findByKaryawanNip(ke.getKaryawanNip());
         for(KontrakKerjaEntity kke : listKkExistCekPeriod){
+
+            UnitMasterEntity ume = unitMasterRepository.findByUnitId(kke.getUnitId());
+            if(ume!=null){
+                response.setUnitName(ume.getUnitName());
+            }
+
+            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
+            if(jme!=null){
+                response.setJabatanName(jme.getJabatanName());
+            }
+
+            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
+            if(ttme!=null){
+                response.setNamaProyek(ttme.getNamaProyek());
+            }
+
+            response.setTglHabisKontrak(HrisConstant.formatDate(kke.getTglHabisKontrak()));
             response.setPeriodKontrak(kontrakKerjaRepository.getMaxPeriodKontrakForListKaryawan(ke.getKaryawanNip()));
             response.setNoKontrak(kke.getKontrakKode());
             response.setKontrakId(kke.getKontrakId());

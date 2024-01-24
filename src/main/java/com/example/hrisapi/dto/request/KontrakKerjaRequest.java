@@ -21,37 +21,35 @@ public class KontrakKerjaRequest {
 
     private String karyawanNip;
 
-    private String nonik;
+    private String kontrakKode;
 
-    private UUID unitId;
-
-    private UUID tempatTugasId;
-
-    private UUID jabatanId;
+    private String requestNo;
 
     private Long gaji;
-
-    private String karyawanName;
-
-    private String tempatTinggal;
-
-    private Date tanggalLahir;
-
-    private String tipeTunjangan;
 
     private Date tglMasukKerja;
 
     private Date tglHabisKontrak;
 
-    private String kontrakKode;
+    private UUID tempatTugasId;
+
+    private UUID unitId;
+
+    private UUID jabatanId;
 
     private Boolean isActive;
 
     private String usrUpdate;
 
-    private String requestNo;
-
     private Date requestDate;
 
-    private Double uangMakan;
+    private Long tunjanganKomunikasi;
+
+    private Long uangMakan;
+
+    private Long tunjangan;
+
+    private Long tunjanganKhusus;
+
+    private Long tunjanganVariable;
 }

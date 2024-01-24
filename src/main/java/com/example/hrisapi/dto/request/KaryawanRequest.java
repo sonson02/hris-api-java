@@ -20,7 +20,7 @@ public class KaryawanRequest {
 
     private String karyawanName;
 
-    private String tempatTinggal;
+    private String tempatLahir;
 
     private Date tanggalLahir;
 

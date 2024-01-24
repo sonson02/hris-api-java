@@ -86,20 +86,20 @@ public class PdfGeneratorService{
         context.put("tanggalLahir", HrisConstant.formatDatePkwtPdf(karyawanExist.getTanggalLahir()));
         context.put("alamat", karyawanExist.getAlamatRumah());
 
-        UnitMasterEntity ume = unitMasterRepository.findByUnitId(karyawanExist.getUnitId());
+        UnitMasterEntity ume = unitMasterRepository.findByUnitId(kontrakExist.getUnitId());
         context.put("unitBisnis", ume.getUnitName());
         context.put("requestNo", kontrakExist.getRequestNo());
         context.put("requestDate", HrisConstant.formatDatePkwtPdf(kontrakExist.getRequestDate()));
 
-        context.put("tglMasukKerja", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglMasukKerja()));
-        context.put("tglHabisKontrak", HrisConstant.formatDatePkwtPdf(karyawanExist.getTglHabisKontrak()));
+        context.put("tglMasukKerja", HrisConstant.formatDatePkwtPdf(kontrakExist.getTglMasukKerja()));
+        context.put("tglHabisKontrak", HrisConstant.formatDatePkwtPdf(kontrakExist.getTglHabisKontrak()));
 
-        var gaji = karyawanExist.getGaji();
+        var gaji = kontrakExist.getGaji();
         context.put("gajiPokok", HrisConstant.decimalFormatIdrGaji(gaji));
         context.put("totalPerBulan", HrisConstant.decimalFormatIdrGaji(gaji));
         context.put("terbilang", HrisConstant.angkaToTerbilang(Double.valueOf(gaji)));
 
-        context.put("uangMakan", HrisConstant.decimalFormatIdr(karyawanExist.getUangMakan()));
+        context.put("uangMakan", HrisConstant.decimalFormatIdr(Double.valueOf(kontrakExist.getUangMakan())));
 
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
@@ -127,36 +127,36 @@ public class PdfGeneratorService{
 
         //get data
         KaryawanEntity karyawanExist = karyawanRepository.findByKaryawanNip(karyawanNip);
-
+        KontrakKerjaEntity kkeExist = kontrakKerjaRepository.getKaryawanNipAndIsActive(karyawanExist.getKaryawanNip());
         VelocityContext context = new VelocityContext();
 
-        context.put("periode", HrisConstant.formatDateSlipGajiPeriode(karyawanExist.getTglMasukKerja()));
+        context.put("periode", "2024");
         context.put("karyawanName", karyawanExist.getKaryawanName());
         context.put("karyawanNip", karyawanExist.getKaryawanNip());
         context.put("status", "OS");
 
-        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(karyawanExist.getJabatanId());
-        if(jme!=null){
+        JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kkeExist.getJabatanId());
+        if(jme!=null) {
             context.put("jabatan", jme.getJabatanName());
         }
 
-        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(karyawanExist.getTempatTugasId());
+        TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kkeExist.getTempatTugasId());
         if(ttme!=null){
             context.put("tempatTugas", ttme.getNamaProyek());
         }
 
         //kolom I, II
-        var gaji = karyawanExist.getGaji();
+        var gaji = kkeExist.getGaji();
         context.put("gajiPokok", HrisConstant.decimalFormatIdrGaji(gaji));
 
-        var uangMakan = karyawanExist.getUangMakan();
-        context.put("uangMakan", HrisConstant.decimalFormatIdr(uangMakan));
+        var uangMakan = kkeExist.getUangMakan();
+        context.put("uangMakan", HrisConstant.decimalFormatIdr(Double.valueOf(uangMakan)));
 
-        var tunjangan = ttme.getNominalTunjangan();
-        context.put("tunjangan", HrisConstant.decimalFormatIdr(tunjangan));
+        var tunjangan = kkeExist.getTunjangan();
+        context.put("tunjangan", HrisConstant.decimalFormatIdr(Double.valueOf(tunjangan)));
 
         var penghasilan = gaji + uangMakan + tunjangan;
-        context.put("penghasilan", HrisConstant.decimalFormatIdr(penghasilan));
+        context.put("penghasilan", HrisConstant.decimalFormatIdr(Double.valueOf(penghasilan)));
 
         //kolom III. Pajak
         context.put("pph21", 0);

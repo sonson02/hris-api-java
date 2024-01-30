@@ -58,4 +58,8 @@ public class KontrakKerjaResponse {
     private Long tunjanganKhusus;
 
     private Long tunjanganVariable;
+
+    private String uploadDocKontrak;
+
+    private Boolean isUpload;
 }

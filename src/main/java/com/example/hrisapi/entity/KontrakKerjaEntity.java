@@ -60,4 +60,8 @@ public class KontrakKerjaEntity {
     private Long tunjanganKhusus;
 
     private Long tunjanganVariable;
+
+    private String uploadDocKontrak;
+
+    private Boolean isUpload;
 }

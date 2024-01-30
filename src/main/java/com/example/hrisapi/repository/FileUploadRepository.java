@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface FileUploadRepository extends JpaRepository<FileUploadEntity, UUID> {
     FileUploadEntity findByFileUploadId(UUID fileUploadId);
+
+    FileUploadEntity findByFileName(String fileName);
 }

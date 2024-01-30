@@ -44,6 +44,9 @@ public class KontrakKerjaService {
     @Autowired
     private KontrakKerjaRepository kontrakKerjaRepository;
 
+    @Autowired
+    private FileUploadRepository fileUploadRepository;
+
     public PaginatedResponse<KontrakKerjaResponse> getListKontrak(String nip, String name, UUID unitId, Integer page, Integer size){
         List<KontrakKerjaEntity> listKontrakKerjaEntity = new ArrayList<>();
 
@@ -67,6 +70,10 @@ public class KontrakKerjaService {
 
             if(ke.getIsActive()==true){
                 extractedEntityToResponse(kke, response, ke);
+
+                if(kke.getUploadDocKontrak()!=null){
+                    response.setUploadDocKontrak(kke.getUploadDocKontrak());
+                }
 
                 listKontrakKerjaResponse.add(response);
             }
@@ -103,6 +110,8 @@ public class KontrakKerjaService {
         response.setTunjanganKhusus(kke.getTunjanganKhusus());
         response.setTunjanganVariable(kke.getTunjanganVariable());
         response.setUsrUpdate(kke.getUsrUpdate());
+        response.setUploadDocKontrak(kke.getUploadDocKontrak());
+        response.setIsUpload(kke.getIsUpload());
     }
 
     @Transactional
@@ -155,6 +164,7 @@ public class KontrakKerjaService {
         kke.setTunjangan(request.getTunjangan());
         kke.setTunjanganKhusus(request.getTunjanganKhusus());
         kke.setTunjanganVariable(request.getTunjanganVariable());
+        kke.setIsUpload(false);
         kontrakKerjaRepository.save(kke);
     }
 
@@ -178,6 +188,7 @@ public class KontrakKerjaService {
         if(ke.getIsActive()){
             KontrakKerjaResponse response = new KontrakKerjaResponse();
             extractedEntityToResponse(kkeExist,response,ke);
+            response.setUploadDocKontrak(request.getUploadDocKontrak());
 
             return response;
         }

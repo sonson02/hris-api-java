@@ -26,10 +26,6 @@ public class TempatTugasMasterRequest {
 
     private String namaProyek;
 
-    private Double nominalTunjangan;
-
-    private Double tunjanganTetap;
-
     private UUID unitId;
 
     private String usrUpdate;

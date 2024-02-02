@@ -29,10 +29,6 @@ public class TempatTugasMasterEntity {
 
     private String namaProyek;
 
-    private Double nominalTunjangan;
-
-    private Double tunjanganTetap;
-
     private UUID unitId;
 
     private String usrUpdate;

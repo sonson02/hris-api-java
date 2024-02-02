@@ -68,14 +68,16 @@ public class KontrakKerjaService {
 
             KaryawanEntity ke = karyawanRepository.findByKaryawanNip(kke.getKaryawanNip());
 
-            if(ke.getIsActive()==true){
-                extractedEntityToResponse(kke, response, ke);
+            if(ke!=null){
+                if(ke.getIsActive()==true){
+                    extractedEntityToResponse(kke, response, ke);
 
-                if(kke.getUploadDocKontrak()!=null){
-                    response.setUploadDocKontrak(kke.getUploadDocKontrak());
+                    if(kke.getUploadDocKontrak()!=null){
+                        response.setUploadDocKontrak(kke.getUploadDocKontrak());
+                    }
+
+                    listKontrakKerjaResponse.add(response);
                 }
-
-                listKontrakKerjaResponse.add(response);
             }
         }
 

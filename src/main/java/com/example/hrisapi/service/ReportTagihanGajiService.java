@@ -79,12 +79,12 @@ public class ReportTagihanGajiService {
             response.setGaji(gaji);
             totalGaji += gaji;
 
-            var tunjangan = ttme.getNominalTunjangan();
-            response.setTunjangan(tunjangan);
+            var tunjangan = kke.getTunjangan();
+            response.setTunjangan(Double.valueOf(tunjangan));
             totalTunjangan += tunjangan;
 
             var gajiDibayar = gaji + tunjangan;
-            response.setGajiDibayar(gajiDibayar);
+            response.setGajiDibayar(Double.valueOf(gajiDibayar));
             totalGajiDibayar += gajiDibayar;
 
             var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERCENTAGE;

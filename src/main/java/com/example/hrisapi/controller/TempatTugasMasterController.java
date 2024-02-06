@@ -19,8 +19,8 @@ public class TempatTugasMasterController {
 
     @GetMapping("/tempat_tugas")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<TempatTugasMasterResponse>>> getListTempatTugasMaster(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size)
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "1000") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<TempatTugasMasterResponse>>(
                 System.currentTimeMillis(),

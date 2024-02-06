@@ -22,8 +22,8 @@ public class PajakMasterController {
 
     @GetMapping("/pajak")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<PajakMasterResponse>>> getListPajakMaster(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size)
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "1000") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<PajakMasterResponse>>(
                 System.currentTimeMillis(),

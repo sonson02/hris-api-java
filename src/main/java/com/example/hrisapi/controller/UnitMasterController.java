@@ -22,8 +22,8 @@ public class UnitMasterController {
 
     @GetMapping("/unit")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<UnitMasterResponse>>> getListUnitMaster(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size)
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "1000") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<UnitMasterResponse>>(
                 System.currentTimeMillis(),

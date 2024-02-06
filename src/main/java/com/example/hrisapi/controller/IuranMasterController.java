@@ -19,8 +19,8 @@ public class IuranMasterController {
 
     @GetMapping("/iuran")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<IuranMasterResponse>>> getListIuranMaster(
-            @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer size)
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<IuranMasterResponse>>(
                 System.currentTimeMillis(),

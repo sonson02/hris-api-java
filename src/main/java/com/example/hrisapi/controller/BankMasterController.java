@@ -19,8 +19,8 @@ public class BankMasterController {
 
     @GetMapping("/bank")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<BankMasterResponse>>> getListBankMaster(
-            @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer size)
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<BankMasterResponse>>(
                 System.currentTimeMillis(),

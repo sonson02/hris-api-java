@@ -19,8 +19,8 @@ public class JabatanMasterController {
 
     @GetMapping("/jabatan")
     public ResponseEntity<JsonBaseResponse<PaginatedResponse<JabatanMasterResponse>>> getListJabatanMaster(
-            @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer size)
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size)
     {
         var body = new JsonBaseResponse<PaginatedResponse<JabatanMasterResponse>>(
                 System.currentTimeMillis(),

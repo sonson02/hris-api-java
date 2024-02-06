@@ -4,9 +4,9 @@ import com.example.hrisapi.api.base.JsonBaseResponse;
 import com.example.hrisapi.api.base.PaginatedDashboardResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.dto.request.KaryawanRequest;
-import com.example.hrisapi.dto.response.KaryawanByNipResponse;
-import com.example.hrisapi.dto.response.KaryawanResponse;
-import com.example.hrisapi.dto.response.ListKaryawanResponse;
+import com.example.hrisapi.dto.request.StopKaryawanRequest;
+import com.example.hrisapi.dto.request.StopKontrakRequest;
+import com.example.hrisapi.dto.response.*;
 import com.example.hrisapi.service.KaryawanService;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +89,17 @@ public class KaryawanController {
         var body = new JsonBaseResponse<PaginatedDashboardResponse<ListKaryawanResponse>>(
                 System.currentTimeMillis(),
                 karyawanService.getKaryawanDashboard(page, size)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @PostMapping("/karyawan/stop_karyawan")
+    public ResponseEntity<JsonBaseResponse<StopKaryawanResponse>> stopKaryawan(
+            @RequestBody StopKaryawanRequest request)
+    {
+        var body = new JsonBaseResponse<StopKaryawanResponse>(
+                System.currentTimeMillis(),
+                karyawanService.stopKaryawan(request)
         );
         return ResponseEntity.ok(body);
     }

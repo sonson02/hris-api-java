@@ -30,4 +30,12 @@ public class ReportTagihanGajiResponse {
     private Double manajemenFee;
 
     private Double total;
+
+    private Long tunjanganKomunikasi;
+
+    private Long uangMakan;
+
+    private Long tunjanganKhusus;
+
+    private Long tunjanganVariable;
 }

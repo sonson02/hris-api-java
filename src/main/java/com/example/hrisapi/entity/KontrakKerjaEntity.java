@@ -64,4 +64,6 @@ public class KontrakKerjaEntity {
     private String uploadDocKontrak;
 
     private Boolean isUpload;
+
+    private String alasan;
 }

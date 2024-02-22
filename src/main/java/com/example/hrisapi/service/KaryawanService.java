@@ -291,17 +291,40 @@ public class KaryawanService {
         return response;
     }
 
-    public PaginatedDashboardResponse<ListKaryawanResponse> getKaryawanDashboard(Integer page, Integer size){
-        List<KaryawanEntity> listKaryawanEntity = karyawanRepository.getKaryawanDashboard();
+    public PaginatedDashboardResponse<ListKaryawanResponse> getKaryawanDashboard(Integer page, Integer size, Integer days){
+
+        List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+
+        if(days!=null) {
+            switch (days) {
+                case 30 :
+                    listKaryawanEntity = karyawanRepository.getKaryawanDashboard30Days();
+                    break;
+
+                case 60 :
+                    listKaryawanEntity = karyawanRepository.getKaryawanDashboard60Days();
+                    break;
+
+                case 90 :
+                    listKaryawanEntity = karyawanRepository.getKaryawanDashboard90Days();
+                    break;
+
+                default :
+                    throw new DataNotFoundException();
+            }
+        } else {
+            listKaryawanEntity = karyawanRepository.getKaryawanDashboardAll();
+        }
+
         List<ListKaryawanResponse> listKaryawanResponse = new ArrayList<>();
 
         for(KaryawanEntity ke : listKaryawanEntity){
             extracted(listKaryawanResponse, ke);
         }
 
-        var count30Days = karyawanRepository.getKaryawanDashboard_30_Days();
-        var count60Days = karyawanRepository.getKaryawanDashboard_60_Days();
-        var count90Days = karyawanRepository.getKaryawanDashboard_90_Days();
+        var count30Days = karyawanRepository.getTotalKaryawanDashboard_30_Days();
+        var count60Days = karyawanRepository.getTotalKaryawanDashboard_60_Days();
+        var count90Days = karyawanRepository.getTotalKaryawanDashboard_90_Days();
 
         return (PaginatedDashboardResponse<ListKaryawanResponse>) HrisConstant.extractPaginationDashboard(
                 page,

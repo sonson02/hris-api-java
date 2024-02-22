@@ -84,11 +84,12 @@ public class KaryawanController {
     @GetMapping("/karyawan/dashboard")
     public ResponseEntity<JsonBaseResponse<PaginatedDashboardResponse<ListKaryawanResponse>>> getKaryawanDashboard(
             @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer size)
+            @RequestParam(required = false, defaultValue = "10") Integer size,
+            @RequestParam(required = false) Integer days)
     {
         var body = new JsonBaseResponse<PaginatedDashboardResponse<ListKaryawanResponse>>(
                 System.currentTimeMillis(),
-                karyawanService.getKaryawanDashboard(page, size)
+                karyawanService.getKaryawanDashboard(page, size, days)
         );
         return ResponseEntity.ok(body);
     }

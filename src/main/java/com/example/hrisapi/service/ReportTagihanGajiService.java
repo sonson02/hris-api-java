@@ -57,6 +57,11 @@ public class ReportTagihanGajiService {
         var totalGajiDibayar=0D;
         var totalManajemenFee=0D;
         var totalTagihanGaji=0D;
+        var totalUangMakan=0D;
+        var totalTunjanganKomunikasi=0D;
+        var totalTunjanganVariabel=0D;
+        var totalTunjanganKhusus=0D;
+        var totalPph11=0D;
 
         for(KaryawanEntity ke : listKaryawanEntity) {
             ReportTagihanGajiResponse response = new ReportTagihanGajiResponse();
@@ -83,7 +88,23 @@ public class ReportTagihanGajiService {
             response.setTunjangan(Double.valueOf(tunjangan));
             totalTunjangan += tunjangan;
 
-            var gajiDibayar = gaji + tunjangan;
+            var uangMakan = kke.getUangMakan();
+            response.setUangMakan(uangMakan);
+            totalUangMakan += uangMakan;
+
+            var tunjanganKomunikasi = kke.getTunjanganKomunikasi();
+            response.setTunjanganKomunikasi(tunjanganKomunikasi);
+            totalTunjanganKomunikasi += tunjanganKomunikasi;
+
+            var tunjanganVariabel = kke.getTunjanganVariable();
+            response.setTunjanganVariable(tunjanganVariabel);
+            totalTunjanganVariabel += tunjanganVariabel;
+
+            var tunjanganKhusus = kke.getTunjanganKhusus();
+            response.setTunjanganKhusus(tunjanganKhusus);
+            totalTunjanganKhusus += tunjanganKhusus;
+
+            var gajiDibayar = gaji + tunjangan + uangMakan + tunjanganKomunikasi + tunjanganVariabel + tunjanganKhusus;
             response.setGajiDibayar(Double.valueOf(gajiDibayar));
             totalGajiDibayar += gajiDibayar;
 
@@ -94,6 +115,8 @@ public class ReportTagihanGajiService {
             var total = gajiDibayar + manajemenFee;
             response.setTotal(total);
             totalTagihanGaji += total;
+
+            totalPph11 = (totalManajemenFee * HrisConstant.MANAJEMEN_FEE_PPH_11);
 
             listReportKaryawan.add(response);
         }
@@ -106,7 +129,12 @@ public class ReportTagihanGajiService {
                 totalTunjangan,
                 totalGajiDibayar,
                 totalManajemenFee,
-                totalTagihanGaji
+                totalTagihanGaji,
+                totalUangMakan,
+                totalTunjanganKhusus,
+                totalTunjanganVariabel,
+                totalTunjanganKomunikasi,
+                totalPph11
         );
     }
 }

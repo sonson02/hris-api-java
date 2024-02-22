@@ -45,7 +45,9 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
     @Query(value = "select * from dbo.kontrak_kerja kk " +
             "join dbo.karyawan k on kk.karyawan_nip = k.karyawan_nip " +
             "where k.is_active = true and kk.is_active = true " +
-            "and kk.karyawan_nip = :karyawanNip",
+            "and kk.karyawan_nip = :karyawanNip " +
+            "order by kk.period_kontrak desc " +
+            "limit 1",
             nativeQuery = true)
     KontrakKerjaEntity getKaryawanNipAndIsActive(@Param("karyawanNip") String karyawanNip);
 }

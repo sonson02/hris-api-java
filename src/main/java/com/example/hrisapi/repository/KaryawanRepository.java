@@ -27,7 +27,7 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             "where k.is_active = true and kk.is_active = true and kk.unit_id = :unitId", nativeQuery = true)
     List<KaryawanEntity> getFilterKaryawanByUnitIdAndIsActive(@Param("unitId") UUID unitId);
 
-    @Query(value = "select * from dbo.karyawan k " +
+    @Query(value = "select distinct on (1) * from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
             "where k.is_active = true and kk.is_active = true and " +
             "kk.tempat_tugas_id is not NULL",
@@ -45,10 +45,34 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     @Query(value = "select * from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
             "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
+            "between symmetric now() and now() + INTERVAL '30 day' "
+            , nativeQuery = true)
+    List<KaryawanEntity> getKaryawanDashboard30Days();
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
+            "between symmetric now() + INTERVAL '31 day' and now() + INTERVAL '60 day' "
+            , nativeQuery = true)
+    List<KaryawanEntity> getKaryawanDashboard60Days();
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "kk.tgl_habis_kontrak " +
+            "between symmetric now() + INTERVAL '61 day' and now() + INTERVAL '90 day' "
+            , nativeQuery = true)
+    List<KaryawanEntity> getKaryawanDashboard90Days();
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
             "kk.tgl_habis_kontrak between symmetric now() and now() + INTERVAL '90 day' " +
             "order by kk.tgl_habis_kontrak asc, kk.period_kontrak desc"
             , nativeQuery = true)
-    List<KaryawanEntity> getKaryawanDashboard();
+    List<KaryawanEntity> getKaryawanDashboardAll();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
@@ -56,7 +80,7 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             "kk.tgl_habis_kontrak " +
             "between symmetric now() and now() + INTERVAL '30 day' "
             , nativeQuery = true)
-    Integer getKaryawanDashboard_30_Days();
+    Integer getTotalKaryawanDashboard_30_Days();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
@@ -64,7 +88,7 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             "kk.tgl_habis_kontrak " +
             "between symmetric now() + INTERVAL '31 day' and now() + INTERVAL '60 day' "
             , nativeQuery = true)
-    Integer getKaryawanDashboard_60_Days();
+    Integer getTotalKaryawanDashboard_60_Days();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
             "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
@@ -72,7 +96,7 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             "kk.tgl_habis_kontrak " +
             "between symmetric now() + INTERVAL '61 day' and now() + INTERVAL '90 day' "
             , nativeQuery = true)
-    Integer getKaryawanDashboard_90_Days();
+    Integer getTotalKaryawanDashboard_90_Days();
 
     List<KaryawanEntity> findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(String name);
 }

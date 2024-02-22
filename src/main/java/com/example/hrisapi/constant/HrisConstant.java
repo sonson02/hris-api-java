@@ -19,6 +19,8 @@ public class HrisConstant {
 
     public static final Double MANAJEMEN_FEE_PERCENTAGE = 0.1;
 
+    public static final Double MANAJEMEN_FEE_PPH_11 = 0.11;
+
     private static final String PATTERN_DATE_FORMAT = "yyyy-MM-dd";
 
     private static final String PATTERN_DATE_FORMAT_PKWT_PDF = "dd MMMM yyyy";
@@ -116,7 +118,9 @@ public class HrisConstant {
 
     public static PaginatedReportResponse<?> extractPaginationListReport(int page, int size, final List<?> listMaster,
                                                                          Double totalGaji, Double totalTunjangan, Double totalGajiDibayar,
-                                                                         Double totalManajemenFee, Double totalTagihanGaji) {
+                                                                         Double totalManajemenFee, Double totalTagihanGaji, Double totalUangMakan,
+                                                                         Double totalTunjanganKhusus, Double totalTunjanganVariabel,
+                                                                         Double totalTunjanganKomunikasi, Double totalPph11) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
 
@@ -137,6 +141,11 @@ public class HrisConstant {
                 .totalGajiDibayar(totalGajiDibayar)
                 .totalManajemenFee(totalManajemenFee)
                 .totalTagihanGaji(totalTagihanGaji)
+                .totalUangMakan(totalUangMakan)
+                .totalTunjanganKhusus(totalTunjanganKhusus)
+                .totalTunjanganVariabel(totalTunjanganVariabel)
+                .totalTunjanganKomunikasi(totalTunjanganKomunikasi)
+                .totalPph11(totalPph11)
                 .build();
     }
 

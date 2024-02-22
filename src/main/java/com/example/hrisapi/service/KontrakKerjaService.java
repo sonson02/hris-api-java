@@ -254,6 +254,7 @@ public class KontrakKerjaService {
         }
 
         kkeExist.setIsActive(false);
+        kkeExist.setAlasan(request.getAlasan());
         kontrakKerjaRepository.save(kkeExist);
 
         response.setKontrakId(request.getKontrakId());

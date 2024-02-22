@@ -30,4 +30,14 @@ public class PaginatedReportResponse<T> {
   private Double totalManajemenFee;
 
   private Double totalTagihanGaji;
+
+  private Double totalUangMakan;
+
+  private Double totalTunjanganKhusus;
+
+  private Double totalTunjanganVariabel;
+
+  private Double totalTunjanganKomunikasi;
+
+  private Double totalPph11;
 }

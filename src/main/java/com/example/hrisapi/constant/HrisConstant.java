@@ -177,7 +177,8 @@ public class HrisConstant {
     }
 
     public static PaginatedDashboardResponse<?> extractPaginationDashboard(int page, int size, final List<?> listMaster,
-                                                                           Integer count30Days, Integer count60Days, Integer count90Days) {
+                                                                           Integer count30Days, Integer count60Days, Integer count90Days,
+                                                                           Integer totalKaryawanActive, Integer totalKaryawanBaru, Integer totalKaryawanBerhenti) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
 
@@ -196,6 +197,9 @@ public class HrisConstant {
                 .total30Days(count30Days)
                 .total60Days(count60Days)
                 .total90Days(count90Days)
+                .totalKaryawanActive(totalKaryawanActive)
+                .totalKaryawanBaru(totalKaryawanBaru)
+                .totalKaryawanBerhenti(totalKaryawanBerhenti)
                 .build();
     }
 

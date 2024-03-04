@@ -66,4 +66,6 @@ public class KontrakKerjaEntity {
     private Boolean isUpload;
 
     private String alasan;
+
+    private Date tglBerhentiKerja;
 }

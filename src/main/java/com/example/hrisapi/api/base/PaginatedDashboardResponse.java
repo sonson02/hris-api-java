@@ -26,4 +26,11 @@ public class PaginatedDashboardResponse<T> {
   private Integer total60Days;
 
   private Integer total90Days;
+
+  private Integer totalKaryawanActive;
+
+  private Integer totalKaryawanBaru;
+
+  private Integer totalKaryawanBerhenti;
+
 }

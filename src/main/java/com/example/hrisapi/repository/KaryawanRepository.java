@@ -99,4 +99,25 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     Integer getTotalKaryawanDashboard_90_Days();
 
     List<KaryawanEntity> findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(String name);
+
+    @Query(value = "select count(*) from dbo.karyawan k where k.is_active = true "
+            , nativeQuery = true)
+    Integer getTotalKaryawanActive();
+
+    @Query(value = "select count(*) from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = true and kk.is_active = true and " +
+            "date_part('month', kk.tgl_masuk_kerja) = date_part('month', now()) and " +
+            "date_part('year', kk.tgl_masuk_kerja) = date_part('year', now()) "
+            , nativeQuery = true)
+    Integer getTotalKaryawanBaru();
+
+    @Query(value = "select count(*) from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
+            "where k.is_active = false and kk.is_active = false and " +
+            "date_part('month', kk.tgl_berhenti_kerja) = date_part('month', now()) and " +
+            "date_part('year', kk.tgl_berhenti_kerja) = date_part('year', now()) "
+            , nativeQuery = true)
+    Integer getTotalKaryawanBerhenti();
+
 }

@@ -326,13 +326,20 @@ public class KaryawanService {
         var count60Days = karyawanRepository.getTotalKaryawanDashboard_60_Days();
         var count90Days = karyawanRepository.getTotalKaryawanDashboard_90_Days();
 
+        var totalKaryawanActive = karyawanRepository.getTotalKaryawanActive();
+        var totalKaryawanBaru = karyawanRepository.getTotalKaryawanBaru();
+        var totalKaryawanBerhenti = karyawanRepository.getTotalKaryawanBerhenti();
+
         return (PaginatedDashboardResponse<ListKaryawanResponse>) HrisConstant.extractPaginationDashboard(
                 page,
                 size,
                 listKaryawanResponse,
                 count30Days,
                 count60Days,
-                count90Days
+                count90Days,
+                totalKaryawanActive,
+                totalKaryawanBaru,
+                totalKaryawanBerhenti
         );
     }
 

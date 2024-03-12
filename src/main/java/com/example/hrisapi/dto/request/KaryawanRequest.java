@@ -75,4 +75,8 @@ public class KaryawanRequest {
     private String rekeningAtasNama;
 
     private List<DetailRiwayatPekerjaanRequest> riwayatPekerjaan;
+
+    private Boolean suratPeringatan;
+
+    private Date tanggalSuratPeringatan;
 }

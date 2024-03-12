@@ -22,6 +22,8 @@ public class KontrakKerjaByNipResponse {
 
     private UUID unitId;
 
+    private String unitName;
+
     private String tglHabisKontrak;
 
     private String periodKontrak;

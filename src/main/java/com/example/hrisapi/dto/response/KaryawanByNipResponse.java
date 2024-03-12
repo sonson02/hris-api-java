@@ -30,6 +30,8 @@ public class KaryawanByNipResponse {
 
     private UUID bankId;
 
+    private String bankName;
+
     private Date dtmUpdate;
 
     private String email;
@@ -77,4 +79,8 @@ public class KaryawanByNipResponse {
     private List<DetailRiwayatPekerjaanResponse> riwayatPekerjaan;
 
     private String photoKaryawan;
+
+    private Boolean suratPeringatan;
+
+    private String tanggalSuratPeringatan;
 }

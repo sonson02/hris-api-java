@@ -37,9 +37,15 @@ public class KontrakKerjaResponse {
 
     private UUID tempatTugasId;
 
+    private String namaProyek;
+
     private UUID unitId;
 
+    private String unitName;
+
     private UUID jabatanId;
+
+    private String jabatanName;
 
     private Boolean isActive;
 

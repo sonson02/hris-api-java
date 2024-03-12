@@ -80,4 +80,10 @@ public class KaryawanEntity {
     private String riwayatPekerjaan;
 
     private String photoKaryawan;
+
+    private Boolean suratPeringatan;
+
+    private Date tanggalSuratPeringatan;
+
+    private Date createdDate;
 }

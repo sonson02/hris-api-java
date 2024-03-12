@@ -105,10 +105,9 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
     Integer getTotalKaryawanActive();
 
     @Query(value = "select count(*) from dbo.karyawan k " +
-            "join dbo.kontrak_kerja kk on kk.karyawan_nip  = k.karyawan_nip " +
-            "where k.is_active = true and kk.is_active = true and " +
-            "date_part('month', kk.tgl_masuk_kerja) = date_part('month', now()) and " +
-            "date_part('year', kk.tgl_masuk_kerja) = date_part('year', now()) "
+            "where k.is_active = true and " +
+            "date_part('month', k.created_date) = date_part('month', now()) and " +
+            "date_part('year', k.created_date) = date_part('year', now()) "
             , nativeQuery = true)
     Integer getTotalKaryawanBaru();
 

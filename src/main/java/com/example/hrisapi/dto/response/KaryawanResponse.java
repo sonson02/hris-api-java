@@ -22,6 +22,8 @@ public class KaryawanResponse {
 
     private UUID bankId;
 
+    private String bankName;
+
     private Date dtmUpdate;
 
     private String email;
@@ -79,4 +81,8 @@ public class KaryawanResponse {
     private List<DetailRiwayatPekerjaanResponse> riwayatPekerjaan;
 
     private String photoKaryawan;
+
+    private Boolean suratPeringatan;
+
+    private String tanggalSuratPeringatan;
 }

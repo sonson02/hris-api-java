@@ -2,9 +2,8 @@ package com.example.hrisapi.controller;
 
 import com.example.hrisapi.api.base.JsonBaseResponse;
 import com.example.hrisapi.api.base.PaginatedReportResponse;
-import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
-import com.example.hrisapi.service.ReportTagihanGajiService;
+import com.example.hrisapi.service.ReportService;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class ReportController {
 
     @Autowired
-    private ReportTagihanGajiService reportTagihanGajiService;
+    private ReportService reportTagihanGajiService;
 
     @GetMapping("/tagihan_gaji")
     public ResponseEntity<JsonBaseResponse<PaginatedReportResponse<ReportTagihanGajiResponse>>> reportTagihanGaji(

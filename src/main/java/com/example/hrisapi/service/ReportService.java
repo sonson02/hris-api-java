@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ReportTagihanGajiService {
+public class ReportService {
 
     @Autowired
     private KaryawanRepository karyawanRepository;

@@ -34,7 +34,7 @@ public class ReportService {
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
 
-    public PaginatedReportResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, UUID unitId, String periode, Integer page, Integer size){
+    public PaginatedReportResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, String name, UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
         List<ReportTagihanGajiResponse> listReportKaryawan = new ArrayList<>();
 
@@ -43,6 +43,8 @@ public class ReportService {
             listKaryawanEntity.add(karyawanFilterByNip);
         } else if (unitId!=null) {
             listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if (name!=null) {
+            listKaryawanEntity = karyawanRepository.findByKaryawanNameContainingIgnoreCaseAndIsActiveTrue(name);
         } else if(periode!=null){
             int bulan = HrisConstant.getBulanPeriode(periode);
             int tahun = HrisConstant.getTahunPeriode(periode);
@@ -70,54 +72,55 @@ public class ReportService {
 
             KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
 
-            JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
-            if(jme!=null){
-                response.setJabatanName(jme.getJabatanName());
+            if(kke!=null){
+                JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
+                if(jme!=null){
+                    response.setJabatanName(jme.getJabatanName());
+                }
+
+                TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
+                if(ttme!=null){
+                    response.setNamaProyek(ttme.getNamaProyek());
+                }
+
+                var gaji = kke.getGaji();
+                response.setGaji(gaji);
+                totalGaji += gaji;
+
+                var tunjangan = kke.getTunjangan();
+                response.setTunjangan(Double.valueOf(tunjangan));
+                totalTunjangan += tunjangan;
+
+                var uangMakan = kke.getUangMakan();
+                response.setUangMakan(uangMakan);
+                totalUangMakan += uangMakan;
+
+                var tunjanganKomunikasi = kke.getTunjanganKomunikasi();
+                response.setTunjanganKomunikasi(tunjanganKomunikasi);
+                totalTunjanganKomunikasi += tunjanganKomunikasi;
+
+                var tunjanganVariabel = kke.getTunjanganVariable();
+                response.setTunjanganVariable(tunjanganVariabel);
+                totalTunjanganVariabel += tunjanganVariabel;
+
+                var tunjanganKhusus = kke.getTunjanganKhusus();
+                response.setTunjanganKhusus(tunjanganKhusus);
+                totalTunjanganKhusus += tunjanganKhusus;
+
+                var gajiDibayar = gaji + tunjangan + uangMakan + tunjanganKomunikasi + tunjanganVariabel + tunjanganKhusus;
+                response.setGajiDibayar(Double.valueOf(gajiDibayar));
+                totalGajiDibayar += gajiDibayar;
+
+                var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERCENTAGE;
+                response.setManajemenFee(manajemenFee);
+                totalManajemenFee += manajemenFee;
+
+                var total = gajiDibayar + manajemenFee;
+                response.setTotal(total);
+                totalTagihanGaji += total;
+
+                totalPph11 = (totalManajemenFee * HrisConstant.MANAJEMEN_FEE_PPH_11);
             }
-
-            TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
-            if(ttme!=null){
-                response.setNamaProyek(ttme.getNamaProyek());
-            }
-
-            var gaji = kke.getGaji();
-            response.setGaji(gaji);
-            totalGaji += gaji;
-
-            var tunjangan = kke.getTunjangan();
-            response.setTunjangan(Double.valueOf(tunjangan));
-            totalTunjangan += tunjangan;
-
-            var uangMakan = kke.getUangMakan();
-            response.setUangMakan(uangMakan);
-            totalUangMakan += uangMakan;
-
-            var tunjanganKomunikasi = kke.getTunjanganKomunikasi();
-            response.setTunjanganKomunikasi(tunjanganKomunikasi);
-            totalTunjanganKomunikasi += tunjanganKomunikasi;
-
-            var tunjanganVariabel = kke.getTunjanganVariable();
-            response.setTunjanganVariable(tunjanganVariabel);
-            totalTunjanganVariabel += tunjanganVariabel;
-
-            var tunjanganKhusus = kke.getTunjanganKhusus();
-            response.setTunjanganKhusus(tunjanganKhusus);
-            totalTunjanganKhusus += tunjanganKhusus;
-
-            var gajiDibayar = gaji + tunjangan + uangMakan + tunjanganKomunikasi + tunjanganVariabel + tunjanganKhusus;
-            response.setGajiDibayar(Double.valueOf(gajiDibayar));
-            totalGajiDibayar += gajiDibayar;
-
-            var manajemenFee = gajiDibayar * HrisConstant.MANAJEMEN_FEE_PERCENTAGE;
-            response.setManajemenFee(manajemenFee);
-            totalManajemenFee += manajemenFee;
-
-            var total = gajiDibayar + manajemenFee;
-            response.setTotal(total);
-            totalTagihanGaji += total;
-
-            totalPph11 = (totalManajemenFee * HrisConstant.MANAJEMEN_FEE_PPH_11);
-
             listReportKaryawan.add(response);
         }
 

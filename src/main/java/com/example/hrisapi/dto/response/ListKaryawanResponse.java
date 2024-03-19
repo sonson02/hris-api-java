@@ -94,7 +94,7 @@ public class ListKaryawanResponse {
 
     private UUID kontrakId;
 
-    private Boolean suratPeringatan;
+    private Integer suratPeringatan;
 
     private String tanggalSuratPeringatan;
 

@@ -82,7 +82,7 @@ public class KaryawanResponse {
 
     private String photoKaryawan;
 
-    private Boolean suratPeringatan;
+    private Integer suratPeringatan;
 
     private String tanggalSuratPeringatan;
 }

@@ -8,7 +8,6 @@ import com.example.hrisapi.api.exception.NipAlreadyExistException;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.request.KaryawanRequest;
 import com.example.hrisapi.dto.request.StopKaryawanRequest;
-import com.example.hrisapi.dto.request.StopKontrakRequest;
 import com.example.hrisapi.dto.response.*;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.repository.*;

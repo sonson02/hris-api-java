@@ -119,4 +119,29 @@ public interface KaryawanRepository extends JpaRepository<KaryawanEntity, UUID> 
             , nativeQuery = true)
     Integer getTotalKaryawanBerhenti();
 
+    @Query(value = "select * from dbo.karyawan k " +
+            "where k.is_active = true and " +
+            "k.surat_peringatan > 0",
+            nativeQuery = true)
+    List<KaryawanEntity> getKaryawanSP();
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "where k.is_active = true and " +
+            "k.surat_peringatan > 0 and k.karyawan_name ILIKE %:karyawanName% ",
+            nativeQuery = true)
+    List<KaryawanEntity> getKaryawanSPByName(@Param("karyawanName") String name);
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "join dbo.kontrak_kerja kk on kk.karyawan_nip = k.karyawan_nip " +
+            "where kk.is_active = true and k.is_active = true and kk.unit_id = :unitId and " +
+            "k.surat_peringatan > 0 ",
+            nativeQuery = true)
+    List<KaryawanEntity> getKaryawanSPByUnitId(@Param("unitId") UUID unitId);
+
+    @Query(value = "select * from dbo.karyawan k " +
+            "where k.is_active = true and " +
+            "date_part('month', k.tanggal_surat_peringatan) = :bulan and " +
+            "date_part('year', k.tanggal_surat_peringatan) = :tahun ",
+            nativeQuery = true)
+    List<KaryawanEntity> getKaryawanSPFilterByPeriode(@Param("bulan") Integer bulan, @Param("tahun") Integer tahun);
 }

@@ -1,7 +1,9 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedReportResponse;
+import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.constant.HrisConstant;
+import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.JabatanMasterEntity;
 import com.example.hrisapi.entity.KaryawanEntity;
@@ -138,6 +140,55 @@ public class ReportService {
                 totalTunjanganVariabel,
                 totalTunjanganKomunikasi,
                 totalPph11
+        );
+    }
+
+    public PaginatedResponse<ReportSPResponse> getReportSP(String name, UUID unitId, String periode, Integer page, Integer size) {
+        List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+        List<ReportSPResponse> listReportSPKaryawan = new ArrayList<>();
+
+        if (name != null) {
+            listKaryawanEntity = karyawanRepository.getKaryawanSPByName(name);
+        } else if (unitId != null) {
+            listKaryawanEntity = karyawanRepository.getKaryawanSPByUnitId(unitId);
+        } else if (periode != null) {
+            int bulan = HrisConstant.getBulanPeriode(periode);
+            int tahun = HrisConstant.getTahunPeriode(periode);
+
+            listKaryawanEntity = karyawanRepository.getKaryawanSPFilterByPeriode(bulan, tahun);
+        } else {
+            listKaryawanEntity = karyawanRepository.getKaryawanSP();
+        }
+
+        for (KaryawanEntity ke : listKaryawanEntity) {
+            ReportSPResponse response = new ReportSPResponse();
+            response.setKaryawanNip(ke.getKaryawanNip());
+            response.setKaryawanName(ke.getKaryawanName());
+
+            KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
+
+            if(kke!=null){
+                JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
+                if(jme!=null){
+                    response.setJabatanName(jme.getJabatanName());
+                }
+
+                TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
+                if(ttme!=null){
+                    response.setNamaProyek(ttme.getNamaProyek());
+                }
+            }
+
+            response.setSuratPeringatan(ke.getSuratPeringatan());
+            response.setTanggalSuratPeringatan(HrisConstant.formatDate(ke.getTanggalSuratPeringatan()));
+
+            listReportSPKaryawan.add(response);
+        }
+
+        return (PaginatedResponse<ReportSPResponse>) HrisConstant.extractPaginationList(
+                page,
+                size,
+                listReportSPKaryawan
         );
     }
 }

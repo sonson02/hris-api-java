@@ -76,7 +76,7 @@ public class KaryawanRequest {
 
     private List<DetailRiwayatPekerjaanRequest> riwayatPekerjaan;
 
-    private Boolean suratPeringatan;
+    private Integer suratPeringatan;
 
     private Date tanggalSuratPeringatan;
 }

@@ -1,8 +1,10 @@
 package com.example.hrisapi.service;
 
-import com.example.hrisapi.api.base.PaginatedReportResponse;
+import com.example.hrisapi.api.base.PaginatedReportJamsosResponse;
+import com.example.hrisapi.api.base.PaginatedReportTagihanGajiResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.constant.HrisConstant;
+import com.example.hrisapi.dto.response.ReportJamsosResponse;
 import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.JabatanMasterEntity;
@@ -36,7 +38,7 @@ public class ReportService {
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
 
-    public PaginatedReportResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, String name, UUID unitId, String periode, Integer page, Integer size){
+    public PaginatedReportTagihanGajiResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, String name, UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
         List<ReportTagihanGajiResponse> listReportKaryawan = new ArrayList<>();
 
@@ -126,7 +128,7 @@ public class ReportService {
             listReportKaryawan.add(response);
         }
 
-        return (PaginatedReportResponse<ReportTagihanGajiResponse>) HrisConstant.extractPaginationListReport(
+        return (PaginatedReportTagihanGajiResponse<ReportTagihanGajiResponse>) HrisConstant.extractPaginationListReportTagihanGaji(
                 page,
                 size,
                 listReportKaryawan,
@@ -189,6 +191,152 @@ public class ReportService {
                 page,
                 size,
                 listReportSPKaryawan
+        );
+    }
+
+    public PaginatedReportJamsosResponse<ReportJamsosResponse> getReportJamsos(Integer page, Integer size){
+        List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+        List<ReportJamsosResponse> listReportKaryawan = new ArrayList<>();
+
+        listKaryawanEntity = karyawanRepository.getKaryawanForReportGaji();
+
+        var totalGaji=0D;
+        var totalGajiTambahUangMakan=0D;
+
+        var totalBpjsKKJkk=0D;
+        var totalBpjsKKJkm=0D;
+        var totalBpjsKKJht=0D;
+        var totalBpjsKKJkkJkmJht=0D;
+
+        var totalBpjsKKBebanPegawai=0D;
+
+        var totalBpjsKSBebanPerusahaan=0D;
+        var totalBpjsKSBebanPegawai=0D;
+
+        var totalBpjsTKBebanPerusahaan=0D;
+        var totalBpjsTKBebanPegawai=0D;
+
+        var totalPphPasal21=0D;
+        var totalGajiDiterima=0D;
+
+        for(KaryawanEntity ke : listKaryawanEntity){
+            ReportJamsosResponse response = new ReportJamsosResponse();
+            response.setKaryawanNip(ke.getKaryawanNip());
+            response.setKaryawanName(ke.getKaryawanName());
+
+            KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
+
+            if(kke!=null){
+                JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
+                if(jme!=null){
+                    response.setJabatanName(jme.getJabatanName());
+                }
+
+                TempatTugasMasterEntity ttme = tempatTugasMasterRepository.findByTempatTugasId(kke.getTempatTugasId());
+                if(ttme!=null){
+                    response.setNamaProyek(ttme.getNamaProyek());
+                }
+
+                var gaji = kke.getGaji();
+                response.setGaji(gaji);
+                totalGaji += gaji;
+
+                var gajiTambahUangMakan = gaji + kke.getUangMakan();
+                response.setGajiTambahUangMakan(Double.valueOf(gajiTambahUangMakan));
+                totalGajiTambahUangMakan += gajiTambahUangMakan;
+
+                var bpjsKKJkk = gaji * HrisConstant.BPJS_KK_JKK;
+                response.setBpjsKkJkk(bpjsKKJkk);
+                totalBpjsKKJkk += bpjsKKJkk;
+
+                var bpjsKKJkm = gaji * HrisConstant.BPJS_KK_JKM;
+                response.setBpjsKkJkm(bpjsKKJkm);
+                totalBpjsKKJkm += bpjsKKJkm;
+
+                var bpjsKKJht = gaji * HrisConstant.BPJS_KK_JHT;
+                response.setBpjsKkJht(bpjsKKJht);
+                totalBpjsKKJht += bpjsKKJht;
+
+                var bpjsJkkJkmJht = bpjsKKJkk + bpjsKKJkm + bpjsKKJht;
+                response.setBpjsKkJkkJkmJht(bpjsJkkJkmJht);
+                totalBpjsKKJkkJkmJht += bpjsJkkJkmJht;
+
+                //BPJS KK BEBAN PEGAWAI
+                var bpjsKKBebanPegawai = gaji * HrisConstant.BPJS_KK_B_PEG;
+                response.setBpjsKkBebanPegawai(bpjsKKBebanPegawai);
+                totalBpjsKKBebanPegawai += bpjsKKBebanPegawai;
+
+                //BPJS KS BEBAN PERUSAHAAN
+                var bpjsKSBebanPerusahaan = 0D;
+                if(gaji <= HrisConstant.LIMIT_BAWAH_BPJS_KESEHATAN){
+                    bpjsKSBebanPerusahaan = HrisConstant.LIMIT_BAWAH_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+                } else if(gaji <= HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN) {
+                    bpjsKSBebanPerusahaan =  gaji * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+                } else if(gaji > HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN) {
+                    bpjsKSBebanPerusahaan = HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+                }
+                response.setBpjsKsBebanPerusahaan(bpjsKSBebanPerusahaan);
+                totalBpjsKSBebanPerusahaan += bpjsKSBebanPerusahaan;
+
+                //BPJS KS BEBAN PEGAWAI
+                var bpjsKSBebanPegawai = 0D;
+                if(gaji <= HrisConstant.LIMIT_BAWAH_BPJS_KS_BEBAN_PEGAWAI){
+                    bpjsKSBebanPerusahaan = HrisConstant.LIMIT_BAWAH_BPJS_KS_BEBAN_PEGAWAI * HrisConstant.BPJS_KS_BEBAN_PEGAWAI_PERCENTAGE;
+                } else if(gaji <= HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN && gaji > HrisConstant.LIMIT_BAWAH_BPJS_KS_BEBAN_PEGAWAI) {
+                    bpjsKSBebanPerusahaan =  gaji * HrisConstant.BPJS_KS_BEBAN_PEGAWAI_PERCENTAGE;
+                } else if(gaji > HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN) {
+                    bpjsKSBebanPerusahaan = HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN * HrisConstant.BPJS_KS_BEBAN_PEGAWAI_PERCENTAGE;
+                }
+                response.setBpjsKsBebanPegawai(bpjsKSBebanPegawai);
+                totalBpjsKSBebanPegawai += bpjsKSBebanPegawai;
+
+                //BPJS TK BEBAN PERUSAHAAN
+                var bpjsTKBebanPerusahaan = 0D;
+                if(gaji<=HrisConstant.LIMIT_BPJS_TK){
+                    bpjsTKBebanPerusahaan = gaji * HrisConstant.BPJS_KK_B_PEG;
+                } else if(gaji > HrisConstant.LIMIT_BPJS_TK){
+                    bpjsTKBebanPerusahaan = HrisConstant.LIMIT_BPJS_TK * HrisConstant.BPJS_KK_B_PEG;
+                }
+                response.setBpjsTkBebanPerusahaan(bpjsTKBebanPerusahaan);
+                totalBpjsTKBebanPerusahaan += bpjsTKBebanPerusahaan;
+
+                //BPJS TK BEBAN PEGAWAI
+                var bpjsTKBebanPegawai = 0D;
+                if(gaji<=HrisConstant.LIMIT_BPJS_TK){
+                    bpjsTKBebanPegawai = gaji * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+                } else if(gaji > HrisConstant.LIMIT_BPJS_TK){
+                    bpjsTKBebanPegawai = HrisConstant.LIMIT_BPJS_TK * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+                }
+                response.setBpjsTkBebanPerusahaan(bpjsTKBebanPegawai);
+                totalBpjsTKBebanPegawai += bpjsTKBebanPegawai;
+
+                //PPH PASAL 21
+
+                //GAJI DITERIMA
+                var gajiDiterima = gajiTambahUangMakan - bpjsKKBebanPegawai - bpjsKSBebanPegawai - bpjsTKBebanPegawai;
+                response.setGajiDiterima(gajiDiterima);
+                totalGajiDiterima += gajiDiterima;
+            }
+            listReportKaryawan.add(response);
+        }
+
+        return (PaginatedReportJamsosResponse<ReportJamsosResponse>) HrisConstant.extractPaginationListReportJamsos(
+                page,
+                size,
+                listReportKaryawan,
+                totalGaji,
+                totalGajiTambahUangMakan,
+                totalBpjsKKJkk,
+                totalBpjsKKJkm,
+                totalBpjsKKJht,
+                totalBpjsKKJkkJkmJht,
+                totalBpjsKKBebanPegawai,
+                totalBpjsKSBebanPerusahaan,
+                totalBpjsKSBebanPegawai,
+                totalBpjsTKBebanPerusahaan,
+                totalBpjsTKBebanPegawai,
+                totalPphPasal21,
+                totalGajiDiterima
         );
     }
 }

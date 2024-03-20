@@ -171,12 +171,12 @@ public class PdfGeneratorService{
         context.put("ketenagakerjaan", HrisConstant.decimalFormatIdr(bpjsTenagaKerja));
 
         var bpjsKesehatan=0D;
-        if(gaji<=HrisConstant.LIMIT_BPJS_KESEHATAN){
-            bpjsKesehatan = HrisConstant.LIMIT_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
-        } else if(gaji<=HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN){
+        if(gaji<=HrisConstant.LIMIT_BAWAH_BPJS_KESEHATAN){
+            bpjsKesehatan = HrisConstant.LIMIT_BAWAH_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+        } else if(gaji<=HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN){
             bpjsKesehatan = gaji * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
-        } else if(gaji>=HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN){
-            bpjsKesehatan = HrisConstant.LIMIT_GAPOK_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
+        } else if(gaji>=HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN){
+            bpjsKesehatan = HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
         }
         context.put("kesehatan", HrisConstant.decimalFormatIdr(bpjsKesehatan));
 

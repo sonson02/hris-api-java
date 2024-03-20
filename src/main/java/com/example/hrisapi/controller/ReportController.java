@@ -1,8 +1,10 @@
 package com.example.hrisapi.controller;
 
 import com.example.hrisapi.api.base.JsonBaseResponse;
-import com.example.hrisapi.api.base.PaginatedReportResponse;
+import com.example.hrisapi.api.base.PaginatedReportTagihanGajiResponse;
+import com.example.hrisapi.api.base.PaginatedReportJamsosResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
+import com.example.hrisapi.dto.response.ReportJamsosResponse;
 import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.service.ReportService;
@@ -21,7 +23,7 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/tagihan_gaji")
-    public ResponseEntity<JsonBaseResponse<PaginatedReportResponse<ReportTagihanGajiResponse>>> reportTagihanGaji(
+    public ResponseEntity<JsonBaseResponse<PaginatedReportTagihanGajiResponse<ReportTagihanGajiResponse>>> reportTagihanGaji(
             @RequestParam(required = false, value = "nip") String nip,
             @RequestParam(required = false, value = "karyawan_name") String name,
             @RequestParam(required = false, value = "unit_id") UUID unitId,
@@ -29,7 +31,7 @@ public class ReportController {
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size)
     {
-        var body = new JsonBaseResponse<PaginatedReportResponse<ReportTagihanGajiResponse>>(
+        var body = new JsonBaseResponse<PaginatedReportTagihanGajiResponse<ReportTagihanGajiResponse>>(
                 System.currentTimeMillis(),
                 reportService.getReportTagihanGaji(nip, name, unitId, periode, page, size)
         );
@@ -47,6 +49,18 @@ public class ReportController {
         var body = new JsonBaseResponse<PaginatedResponse<ReportSPResponse>>(
                 System.currentTimeMillis(),
                 reportService.getReportSP(name, unitId, periode, page, size)
+        );
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/jamsos")
+    public ResponseEntity<JsonBaseResponse<PaginatedReportJamsosResponse<ReportJamsosResponse>>> reportJamsos(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size)
+    {
+        var body = new JsonBaseResponse<PaginatedReportJamsosResponse<ReportJamsosResponse>>(
+                System.currentTimeMillis(),
+                reportService.getReportJamsos(page, size)
         );
         return ResponseEntity.ok(body);
     }

@@ -1,14 +1,7 @@
 package com.example.hrisapi.constant;
 
-import com.example.hrisapi.api.base.PaginatedDashboardResponse;
-import com.example.hrisapi.api.base.PaginatedReportResponse;
-import com.example.hrisapi.api.base.PaginatedResponse;
-import com.example.hrisapi.api.base.PaginatedSlipGajiByNipResponse;
-import com.example.hrisapi.api.exception.DataNotFoundException;
-import com.example.hrisapi.entity.UnitMasterEntity;
-import com.example.hrisapi.repository.UnitMasterRepository;
+import com.example.hrisapi.api.base.*;
 import lombok.var;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -31,11 +24,25 @@ public class HrisConstant {
 
     public static final Double BPJS_TENAGA_KERJA_PERCENTAGE = 0.02;
 
-    public static final Double LIMIT_BPJS_KESEHATAN = 4641854D;
+    public static final Double LIMIT_BAWAH_BPJS_KESEHATAN = 4641854D;
 
-    public static final Double LIMIT_GAPOK_BPJS_KESEHATAN = 12000000D;
+    public static final Double LIMIT_ATAS_BPJS_KESEHATAN = 12000000D;
 
     public static final Double BPJS_KESEHATAN_PERCENTAGE = 0.01;
+
+    public static final Double BPJS_KK_JKK = 0.0174;
+
+    public static final Double BPJS_KK_JKM = 0.0003;
+
+    public static final Double BPJS_KK_JHT = 0.037;
+
+    public static final Double BPJS_KK_B_PEG = 0.02;
+
+    public static final Double LIMIT_BAWAH_BPJS_KS_BEBAN_PEGAWAI = 4901798D;
+
+    public static final Double BPJS_KS_BEBAN_PEGAWAI_PERCENTAGE = 0.04;
+
+    public static final Double LIMIT_BPJS_TK = 9559600D;
 
     public static PaginatedResponse<?> extractPaginationList(int page, int size, final List<?> listMaster) {
         final var fromIndex = (page - 1) * size;
@@ -116,11 +123,11 @@ public class HrisConstant {
         return tahun;
     }
 
-    public static PaginatedReportResponse<?> extractPaginationListReport(int page, int size, final List<?> listMaster,
-                                                                         Double totalGaji, Double totalTunjangan, Double totalGajiDibayar,
-                                                                         Double totalManajemenFee, Double totalTagihanGaji, Double totalUangMakan,
-                                                                         Double totalTunjanganKhusus, Double totalTunjanganVariabel,
-                                                                         Double totalTunjanganKomunikasi, Double totalPph11) {
+    public static PaginatedReportTagihanGajiResponse<?> extractPaginationListReportTagihanGaji(int page, int size, final List<?> listMaster,
+                                                                                               Double totalGaji, Double totalTunjangan, Double totalGajiDibayar,
+                                                                                               Double totalManajemenFee, Double totalTagihanGaji, Double totalUangMakan,
+                                                                                               Double totalTunjanganKhusus, Double totalTunjanganVariabel,
+                                                                                               Double totalTunjanganKomunikasi, Double totalPph11) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
 
@@ -130,7 +137,7 @@ public class HrisConstant {
             );
         }
 
-        return PaginatedReportResponse
+        return PaginatedReportTagihanGajiResponse
                 .builder()
                 .page(page)
                 .size(size)
@@ -210,6 +217,42 @@ public class HrisConstant {
                 .builder()
                 .totalRecord(listMaster.size())
                 .data(paginatedList)
+                .build();
+    }
+
+    public static PaginatedReportJamsosResponse<?> extractPaginationListReportJamsos(int page, int size, final List<?> listMaster,
+                                                                               Double totalGaji, Double totalGajiTambahUangMakan, Double totalBpjsKKJkk,
+                                                                               Double totalBpjsKKJkm, Double totalBpjsKKJht, Double totalBpjsKKJkkJkmJht,
+                                                                               Double totalBpjsKKBebanPegawai, Double totalBpjsKSBebanPerusahaan,
+                                                                               Double totalBpjsKSBebanPegawai, Double totalBpjsTKBebanPerusahaan, Double totalBpjsTKBebanPegawai, Double totalPphPasal21, Double totalGajiDiterima) {
+        final var fromIndex = (page - 1) * size;
+        final var paginatedList = new ArrayList<>();
+
+        if (fromIndex < listMaster.size()) {
+            paginatedList.addAll(
+                    listMaster.subList(fromIndex, Math.min(fromIndex + size, listMaster.size()))
+            );
+        }
+
+        return PaginatedReportJamsosResponse
+                .builder()
+                .page(page)
+                .size(size)
+                .totalRecord(listMaster.size())
+                .data(paginatedList)
+                .totalGaji(totalGaji)
+                .totalGajiTambahUangMakan(totalGajiTambahUangMakan)
+                .totalBpjsKkJkk(totalBpjsKKJkk)
+                .totalBpjsKkJkm(totalBpjsKKJkm)
+                .totalBpjsKkJht(totalBpjsKKJht)
+                .totalBpjsKkJkkJkmJht(totalBpjsKKJkkJkmJht)
+                .totalBpjsKkBebanPegawai(totalBpjsKKBebanPegawai)
+                .totalBpjsKsBebanPerusahaan(totalBpjsKSBebanPerusahaan)
+                .totalBpjsKsBebanPegawai(totalBpjsKSBebanPegawai)
+                .totalBpjsTkBebanPerusahaan(totalBpjsTKBebanPerusahaan)
+                .totalBpjsTkBebanPegawai(totalBpjsTKBebanPegawai)
+                .totalPphPasal21(totalPphPasal21)
+                .totalGajiDiterima(totalGajiDiterima)
                 .build();
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaginatedReportResponse<T> {
+public class PaginatedReportTagihanGajiResponse<T> {
 
   private int totalRecord;
 

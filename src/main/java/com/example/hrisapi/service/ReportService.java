@@ -7,14 +7,9 @@ import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.ReportJamsosResponse;
 import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
-import com.example.hrisapi.entity.JabatanMasterEntity;
-import com.example.hrisapi.entity.KaryawanEntity;
-import com.example.hrisapi.entity.KontrakKerjaEntity;
-import com.example.hrisapi.entity.TempatTugasMasterEntity;
-import com.example.hrisapi.repository.JabatanMasterRepository;
-import com.example.hrisapi.repository.KaryawanRepository;
-import com.example.hrisapi.repository.KontrakKerjaRepository;
-import com.example.hrisapi.repository.TempatTugasMasterRepository;
+import com.example.hrisapi.entity.*;
+import com.example.hrisapi.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +32,9 @@ public class ReportService {
 
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
+
+    @Autowired
+    private MasterPph21Repository pph21Repository;
 
     public PaginatedReportTagihanGajiResponse<ReportTagihanGajiResponse> getReportTagihanGaji(String nip, String name, UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
@@ -223,6 +221,7 @@ public class ReportService {
             ReportJamsosResponse response = new ReportJamsosResponse();
             response.setKaryawanNip(ke.getKaryawanNip());
             response.setKaryawanName(ke.getKaryawanName());
+            response.setStatusNikah(ke.getStatusNikah());
 
             KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
 
@@ -307,10 +306,18 @@ public class ReportService {
                 } else if(gaji > HrisConstant.LIMIT_BPJS_TK){
                     bpjsTKBebanPegawai = HrisConstant.LIMIT_BPJS_TK * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
                 }
-                response.setBpjsTkBebanPerusahaan(bpjsTKBebanPegawai);
+                response.setBpjsTkBebanPegawai(bpjsTKBebanPegawai);
                 totalBpjsTKBebanPegawai += bpjsTKBebanPegawai;
 
                 //PPH PASAL 21
+                String ter = jenisTerForPph21(ke.getStatusNikah());
+                MasterPph21Entity masterPph21Ter = pph21Repository.getNominalTer(ter, Double.valueOf(gaji));
+                Double nominalTer = masterPph21Ter.getPph21Ter();
+
+                var pph21 = gaji * nominalTer;
+
+                response.setPphPasal21(pph21);
+                totalPphPasal21 += pph21;
 
                 //GAJI DITERIMA
                 var gajiDiterima = gajiTambahUangMakan - bpjsKKBebanPegawai - bpjsKSBebanPegawai - bpjsTKBebanPegawai;
@@ -338,5 +345,20 @@ public class ReportService {
                 totalPphPasal21,
                 totalGajiDiterima
         );
+    }
+
+    private String jenisTerForPph21(String statusNikah){
+        String ter = "";
+        switch (statusNikah) {
+            case "TK"   : ter = "A"; break;
+            case "TK1"  : ter = "A"; break;
+            case "K0"   : ter = "A"; break;
+            case "TK2"  : ter = "B"; break;
+            case "TK3"  : ter = "B"; break;
+            case "K1"   : ter = "B"; break;
+            case "K2"   : ter = "B"; break;
+            case "K3"   : ter = "C"; break;
+        }
+        return ter;
     }
 }

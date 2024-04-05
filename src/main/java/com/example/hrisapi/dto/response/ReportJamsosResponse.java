@@ -15,6 +15,8 @@ public class ReportJamsosResponse {
 
     private String karyawanName;
 
+    private String statusNikah;
+
     private String jabatanName;
 
     private String namaProyek;

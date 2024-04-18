@@ -1,10 +1,8 @@
 package com.example.hrisapi.controller;
 
-import com.example.hrisapi.api.base.JsonBaseResponse;
-import com.example.hrisapi.api.base.PaginatedReportTagihanGajiResponse;
-import com.example.hrisapi.api.base.PaginatedReportJamsosResponse;
-import com.example.hrisapi.api.base.PaginatedResponse;
+import com.example.hrisapi.api.base.*;
 import com.example.hrisapi.dto.response.ReportJamsosResponse;
+import com.example.hrisapi.dto.response.ReportKompensasiResponse;
 import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.service.ReportService;
@@ -55,14 +53,29 @@ public class ReportController {
 
     @GetMapping("/jamsos")
     public ResponseEntity<JsonBaseResponse<PaginatedReportJamsosResponse<ReportJamsosResponse>>> reportJamsos(
+            @RequestParam(required = false, value = "unit_id") UUID unitId,
+            @RequestParam(required = false, value = "periode") String periode,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size)
     {
         var body = new JsonBaseResponse<PaginatedReportJamsosResponse<ReportJamsosResponse>>(
                 System.currentTimeMillis(),
-                reportService.getReportJamsos(page, size)
+                reportService.getReportJamsos(unitId, periode, page, size)
         );
         return ResponseEntity.ok(body);
     }
 
+    @GetMapping("/kompensasi")
+    public ResponseEntity<JsonBaseResponse<PaginatedReportKompensasiResponse<ReportKompensasiResponse>>> reportKompensasi(
+            @RequestParam(required = false, value = "unit_id") UUID unitId,
+            @RequestParam(required = false, value = "periode") String periode,
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size)
+    {
+        var body = new JsonBaseResponse<PaginatedReportKompensasiResponse<ReportKompensasiResponse>>(
+                System.currentTimeMillis(),
+                reportService.getReportKompensasi(unitId, periode, page, size)
+        );
+        return ResponseEntity.ok(body);
+    }
 }

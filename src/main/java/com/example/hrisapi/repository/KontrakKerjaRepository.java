@@ -1,12 +1,12 @@
 package com.example.hrisapi.repository;
 
-import com.example.hrisapi.entity.KaryawanEntity;
 import com.example.hrisapi.entity.KontrakKerjaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,4 +50,14 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
             "limit 1",
             nativeQuery = true)
     KontrakKerjaEntity getKaryawanNipAndIsActive(@Param("karyawanNip") String karyawanNip);
+
+    @Query(value = "select * from dbo.kontrak_kerja kk where karyawan_nip = :karyawanNip ",
+            nativeQuery = true)
+    List<KontrakKerjaEntity> getAllKontrakByKaryawanNip(@Param("karyawanNip") String karyawanNip);
+
+    @Query(value = "select date_part('month', age(tgl_habis_kontrak, tgl_masuk_kerja)) " +
+            "from dbo.kontrak_kerja kk " +
+            "where karyawan_nip = :karyawanNip and period_kontrak = :periodKontrak"
+            , nativeQuery = true)
+    Double getMonthForOnePeriodKontrak(@Param("karyawanNip") String karyawanNip, @Param("periodKontrak") Integer periodKontrak );
 }

@@ -255,4 +255,27 @@ public class HrisConstant {
                 .totalGajiDiterima(totalGajiDiterima)
                 .build();
     }
+
+    public static PaginatedReportKompensasiResponse<?> extractPaginationListReportKompensasi(int page, int size, final List<?> listMaster,
+                                                                                     Double totalKompensasiDiterima, Double totalManagementFee, Double totalTotal) {
+        final var fromIndex = (page - 1) * size;
+        final var paginatedList = new ArrayList<>();
+
+        if (fromIndex < listMaster.size()) {
+            paginatedList.addAll(
+                    listMaster.subList(fromIndex, Math.min(fromIndex + size, listMaster.size()))
+            );
+        }
+
+        return PaginatedReportKompensasiResponse
+                .builder()
+                .page(page)
+                .size(size)
+                .totalRecord(listMaster.size())
+                .data(paginatedList)
+                .totalKompensasiDiterima(totalKompensasiDiterima)
+                .totalManagementFee(totalManagementFee)
+                .totalTotal(totalTotal)
+                .build();
+    }
 }

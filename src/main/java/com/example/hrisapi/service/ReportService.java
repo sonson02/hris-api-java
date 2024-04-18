@@ -1,10 +1,12 @@
 package com.example.hrisapi.service;
 
 import com.example.hrisapi.api.base.PaginatedReportJamsosResponse;
+import com.example.hrisapi.api.base.PaginatedReportKompensasiResponse;
 import com.example.hrisapi.api.base.PaginatedReportTagihanGajiResponse;
 import com.example.hrisapi.api.base.PaginatedResponse;
 import com.example.hrisapi.constant.HrisConstant;
 import com.example.hrisapi.dto.response.ReportJamsosResponse;
+import com.example.hrisapi.dto.response.ReportKompensasiResponse;
 import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.*;
@@ -12,9 +14,11 @@ import com.example.hrisapi.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.JSqlParserUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -192,11 +196,20 @@ public class ReportService {
         );
     }
 
-    public PaginatedReportJamsosResponse<ReportJamsosResponse> getReportJamsos(Integer page, Integer size){
+    public PaginatedReportJamsosResponse<ReportJamsosResponse> getReportJamsos(UUID unitId, String periode, Integer page, Integer size){
         List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
         List<ReportJamsosResponse> listReportKaryawan = new ArrayList<>();
 
-        listKaryawanEntity = karyawanRepository.getKaryawanForReportGaji();
+        if(unitId!=null){
+            listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if(periode!=null){
+            int bulan = HrisConstant.getBulanPeriode(periode);
+            int tahun = HrisConstant.getTahunPeriode(periode);
+
+            listKaryawanEntity = karyawanRepository.getKaryawanFilterByPeriode(bulan, tahun);
+        } else {
+            listKaryawanEntity = karyawanRepository.getKaryawanForReportGaji();
+        }
 
         var totalGaji=0D;
         var totalGajiTambahUangMakan=0D;
@@ -344,6 +357,79 @@ public class ReportService {
                 totalBpjsTKBebanPegawai,
                 totalPphPasal21,
                 totalGajiDiterima
+        );
+    }
+
+    public PaginatedReportKompensasiResponse<ReportKompensasiResponse> getReportKompensasi(UUID unitId, String periode, Integer page, Integer size){
+        List<KaryawanEntity> listKaryawanEntity = new ArrayList<>();
+        List<ReportKompensasiResponse> listReportKaryawan = new ArrayList<>();
+
+        if(unitId!=null){
+            listKaryawanEntity = karyawanRepository.getFilterKaryawanByUnitIdAndIsActive(unitId);
+        } else if(periode!=null){
+            int bulan = HrisConstant.getBulanPeriode(periode);
+            int tahun = HrisConstant.getTahunPeriode(periode);
+
+            listKaryawanEntity = karyawanRepository.getKaryawanFilterByPeriode(bulan, tahun);
+        } else {
+            listKaryawanEntity = karyawanRepository.getKaryawanForReportGaji();
+        }
+
+        var totalKompensasiDiterima = 0D;
+        var totalManagementFee = 0D;
+        var totalTotal = 0D;
+
+        for(KaryawanEntity ke : listKaryawanEntity) {
+            ReportKompensasiResponse response = new ReportKompensasiResponse();
+            response.setKaryawanNip(ke.getKaryawanNip());
+            response.setKaryawanName(ke.getKaryawanName());
+            response.setTanggalBerlakuKompensasi(HrisConstant.formatDate(new Date()));
+
+            KontrakKerjaEntity kke = kontrakKerjaRepository.getKaryawanNipAndIsActive(ke.getKaryawanNip());
+
+            if (kke != null) {
+                JabatanMasterEntity jme = jabatanMasterRepository.findByJabatanId(kke.getJabatanId());
+                if (jme != null) {
+                    response.setJabatanName(jme.getJabatanName());
+                }
+            }
+
+            //kompensasi diterima
+            var satuanKompensasiDiterima = 0D;
+            var kompensasiDiterima = 0D;
+
+            List<KontrakKerjaEntity> listAllKontrakKaryawan = kontrakKerjaRepository.getAllKontrakByKaryawanNip(ke.getKaryawanNip());
+
+            for (KontrakKerjaEntity satuanKaryawanKontrak : listAllKontrakKaryawan) {
+                Double monthDiff = kontrakKerjaRepository.getMonthForOnePeriodKontrak(satuanKaryawanKontrak.getKaryawanNip(), satuanKaryawanKontrak.getPeriodKontrak());
+
+                var pembagiBulan = (monthDiff / 12);
+
+                satuanKompensasiDiterima = Math.round(pembagiBulan * satuanKaryawanKontrak.getGaji());
+                kompensasiDiterima += satuanKompensasiDiterima;
+            }
+            response.setKompensasiDiterima(kompensasiDiterima);
+            totalKompensasiDiterima += kompensasiDiterima;
+
+            //management fee
+            var managementFee = kompensasiDiterima * 0.1;
+            response.setManagementFee(managementFee);
+            totalManagementFee += managementFee;
+
+            var total = kompensasiDiterima + managementFee;
+            response.setTotal(total);
+            totalTotal += total;
+
+            listReportKaryawan.add(response);
+        }
+
+        return (PaginatedReportKompensasiResponse<ReportKompensasiResponse>) HrisConstant.extractPaginationListReportKompensasi(
+                page,
+                size,
+                listReportKaryawan,
+                totalKompensasiDiterima,
+                totalManagementFee,
+                totalTotal
         );
     }
 

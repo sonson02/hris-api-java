@@ -436,11 +436,11 @@ public class ReportService {
     private String jenisTerForPph21(String statusNikah){
         String ter = "";
         switch (statusNikah) {
-            case "TK"   : ter = "A"; break;
+            case "TK0"   : ter = "A"; break;
             case "TK1"  : ter = "A"; break;
-            case "K0"   : ter = "A"; break;
             case "TK2"  : ter = "B"; break;
             case "TK3"  : ter = "B"; break;
+            case "K0"   : ter = "A"; break;
             case "K1"   : ter = "B"; break;
             case "K2"   : ter = "B"; break;
             case "K3"   : ter = "C"; break;

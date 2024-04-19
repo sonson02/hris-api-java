@@ -47,6 +47,9 @@ public class KontrakKerjaService {
     @Autowired
     private FileUploadRepository fileUploadRepository;
 
+    @Autowired
+    private KontrakKerjaHistoryRepository kontrakKerjaHistoryRepository;
+
     public PaginatedResponse<KontrakKerjaResponse> getListKontrak(String nip, String name, UUID unitId, Integer page, Integer size){
         List<KontrakKerjaEntity> listKontrakKerjaEntity = new ArrayList<>();
 
@@ -128,6 +131,9 @@ public class KontrakKerjaService {
         if(kkeExist==null){
             throw new DataNotFoundException();
         }
+
+        KontrakKerjaHistoryEntity kkhe = getKontrakKerjaHistory(kkeExist);
+        kontrakKerjaHistoryRepository.save(kkhe);
 
         ModelMapper objmapper = new ModelMapper();
         objmapper.getConfiguration().setSkipNullEnabled(true);
@@ -284,5 +290,40 @@ public class KontrakKerjaService {
         response.setUsrUpdate(kke.getUsrUpdate());
         response.setUploadDocKontrak(kke.getUploadDocKontrak());
         response.setIsUpload(kke.getIsUpload());
+    }
+
+    private KontrakKerjaHistoryEntity getKontrakKerjaHistory(KontrakKerjaEntity entity) {
+
+        KontrakKerjaHistoryEntity kkh = new KontrakKerjaHistoryEntity();
+        kkh.setKontrakKerjaHistoryId(UUID.randomUUID());
+        kkh.setKontrakId(entity.getKontrakId());
+        kkh.setDtmUpdate(entity.getDtmUpdate());
+        kkh.setIsActive(entity.getIsActive());
+        kkh.setKaryawanId(entity.getKaryawanId());
+        kkh.setKaryawanNip(entity.getKaryawanNip());
+        kkh.setKontrakKode(entity.getKontrakKode());
+        kkh.setPeriodKontrak(entity.getPeriodKontrak());
+        kkh.setUsrUpdate(entity.getUsrUpdate());
+        kkh.setFileUploadId(entity.getFileUploadId());
+        kkh.setRequestNo(entity.getRequestNo());
+        kkh.setRequestDate(entity.getRequestDate());
+        kkh.setGaji(entity.getGaji());
+        kkh.setTempatTugasId(entity.getTempatTugasId());
+        kkh.setTglHabisKontrak(entity.getTglHabisKontrak());
+        kkh.setTglMasukKerja(entity.getTglMasukKerja());
+        kkh.setUnitId(entity.getUnitId());
+        kkh.setJabatanId(entity.getJabatanId());
+        kkh.setTunjanganKomunikasi(entity.getTunjanganKomunikasi());
+        kkh.setUangMakan(entity.getUangMakan());
+        kkh.setTunjangan(entity.getTunjangan());
+        kkh.setTunjanganKhusus(entity.getTunjanganKhusus());
+        kkh.setTunjanganVariable(entity.getTunjanganVariable());
+        kkh.setUploadDocKontrak(entity.getUploadDocKontrak());
+        kkh.setIsUpload(entity.getIsUpload());
+        kkh.setAlasan(entity.getAlasan());
+        kkh.setTglBerhentiKerja(entity.getTglBerhentiKerja());
+        kkh.setFlagAction("UPDATE");
+
+        return kkh;
     }
 }

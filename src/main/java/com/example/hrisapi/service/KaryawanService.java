@@ -46,6 +46,9 @@ public class KaryawanService {
     @Autowired
     private BankMasterRepository bankMasterRepository;
 
+    @Autowired
+    private KaryawanHistoryRepository karyawanHistoryRepository;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public PaginatedResponse<ListKaryawanResponse> getListKaryawan(String nip, String name, UUID unitId, Integer page, Integer size){
@@ -103,6 +106,9 @@ public class KaryawanService {
         if(keExist==null){
             throw new DataNotFoundException();
         }
+
+        KaryawanHistoryEntity keH = getKaryawanHistoryEntity(keExist);
+        karyawanHistoryRepository.save(keH);
 
         FileUploadEntity fileCv = fileUploadRepository.findByFileUploadId(keExist.getFileUploadId());
         fileCv.setFileName(request.getLampiranCv());
@@ -269,7 +275,6 @@ public class KaryawanService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        karyawanRepository.save(ke);
         return ke;
     }
 
@@ -460,5 +465,54 @@ public class KaryawanService {
         }
 
         listKaryawanResponse.add(response);
+    }
+
+    private KaryawanHistoryEntity getKaryawanHistoryEntity(KaryawanEntity entity) {
+        KaryawanHistoryEntity keH = new KaryawanHistoryEntity();
+        keH.setKaryawanHistoryId(UUID.randomUUID());
+        keH.setKaryawanId(entity.getKaryawanId());
+        keH.setKaryawanNip(entity.getKaryawanNip());
+        keH.setKaryawanName(entity.getKaryawanName());
+        keH.setTempatLahir(entity.getTempatLahir());
+        keH.setTanggalLahir(entity.getTanggalLahir());
+        keH.setAgama(entity.getAgama());
+        keH.setGender(entity.getGender());
+        keH.setStatusNikah(entity.getStatusNikah());
+        keH.setAlamatRumah(entity.getAlamatRumah());
+        keH.setBankId(entity.getBankId());
+        keH.setNoRekening(entity.getNoRekening());
+        keH.setEmail(entity.getEmail());
+        keH.setNoHandphone(entity.getNoHandphone());
+        keH.setNonik(entity.getNonik());
+        keH.setNokk(entity.getNokk());
+        keH.setNonpwp(entity.getNonpwp());
+        keH.setNoBpjsKesehatan(entity.getNoBpjsKesehatan());
+        keH.setNoBpjsTenagaKerja(entity.getNoBpjsTenagaKerja());
+        keH.setGolonganDarah(entity.getGolonganDarah());
+        keH.setNamaAyahKandung(entity.getNamaAyahKandung());
+        keH.setNamaIbuKandung(entity.getNamaIbuKandung());
+        keH.setKeluargaYangDihubungi(entity.getKeluargaYangDihubungi());
+        keH.setNamaKeluargaYangDihubungi(entity.getNamaKeluargaYangDihubungi());
+        keH.setAlamatDomisili(entity.getAlamatDomisili());
+        keH.setNoHpKeluarga(entity.getNoHpKeluarga());
+        keH.setRekeningAtasNama(entity.getRekeningAtasNama());
+
+        keH.setIsActive(entity.getIsActive());
+        keH.setFileUploadId(entity.getFileUploadId());
+        keH.setCreatedDate(entity.getCreatedDate());
+        keH.setSuratPeringatan(entity.getSuratPeringatan());
+        keH.setTanggalSuratPeringatan(entity.getTanggalSuratPeringatan());
+        keH.setDtmUpdate(entity.getDtmUpdate());
+        keH.setUsrUpdate(entity.getUsrUpdate());
+        keH.setFlagAction("UPDATE");
+
+        try {
+            keH.setPendidikanTerakhir(objectMapper.writeValueAsString(entity.getPendidikanTerakhir()));
+            keH.setRiwayatPekerjaan(objectMapper.writeValueAsString(entity.getRiwayatPekerjaan()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return keH;
     }
 }

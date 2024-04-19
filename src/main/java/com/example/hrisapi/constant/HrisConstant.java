@@ -224,7 +224,10 @@ public class HrisConstant {
                                                                                Double totalGaji, Double totalGajiTambahUangMakan, Double totalBpjsKKJkk,
                                                                                Double totalBpjsKKJkm, Double totalBpjsKKJht, Double totalBpjsKKJkkJkmJht,
                                                                                Double totalBpjsKKBebanPegawai, Double totalBpjsKSBebanPerusahaan,
-                                                                               Double totalBpjsKSBebanPegawai, Double totalBpjsTKBebanPerusahaan, Double totalBpjsTKBebanPegawai, Double totalPphPasal21, Double totalGajiDiterima) {
+                                                                               Double totalBpjsKSBebanPegawai, Double totalBpjsTKBebanPerusahaan, Double totalBpjsTKBebanPegawai,
+                                                                                     Double totalPphPasal21, Double totalGajiDiterima,
+                                                                                     Double subTotalA, Double managementFee5, Double subTotalAB, Double ppn11,
+                                                                                     Double grandTotal, String terbilang) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
 
@@ -253,11 +256,18 @@ public class HrisConstant {
                 .totalBpjsTkBebanPegawai(totalBpjsTKBebanPegawai)
                 .totalPphPasal21(totalPphPasal21)
                 .totalGajiDiterima(totalGajiDiterima)
+                .subTotalA(subTotalA)
+                .managementFee5(managementFee5)
+                .subTotalAB(subTotalAB)
+                .ppn11(ppn11)
+                .grandTotal(grandTotal)
+                .terbilang(terbilang)
                 .build();
     }
 
     public static PaginatedReportKompensasiResponse<?> extractPaginationListReportKompensasi(int page, int size, final List<?> listMaster,
-                                                                                     Double totalKompensasiDiterima, Double totalManagementFee, Double totalTotal) {
+                                                                                     Double totalKompensasiDiterima, Double totalManagementFee, Double totalTotal,
+                                                                                             Double pph11, Double totalRekap, String terbilang) {
         final var fromIndex = (page - 1) * size;
         final var paginatedList = new ArrayList<>();
 
@@ -276,6 +286,9 @@ public class HrisConstant {
                 .totalKompensasiDiterima(totalKompensasiDiterima)
                 .totalManagementFee(totalManagementFee)
                 .totalTotal(totalTotal)
+                .pph11(pph11)
+                .totalRekap(totalRekap)
+                .terbilang(terbilang)
                 .build();
     }
 }

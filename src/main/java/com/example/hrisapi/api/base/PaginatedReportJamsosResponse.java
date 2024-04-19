@@ -47,5 +47,17 @@ public class PaginatedReportJamsosResponse<T> {
 
   private Double totalGajiDiterima;
 
+  private Double subTotalA;
+
+  private Double managementFee5;
+
+  private Double subTotalAB;
+
+  private Double ppn11;
+
+  private Double grandTotal;
+
+  private String terbilang;
+
 
 }

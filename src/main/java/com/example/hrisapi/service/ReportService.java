@@ -11,10 +11,8 @@ import com.example.hrisapi.dto.response.ReportSPResponse;
 import com.example.hrisapi.dto.response.ReportTagihanGajiResponse;
 import com.example.hrisapi.entity.*;
 import com.example.hrisapi.repository.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.JSqlParserUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -230,6 +228,13 @@ public class ReportService {
         var totalPphPasal21=0D;
         var totalGajiDiterima=0D;
 
+        var subTotalA = 0D;
+        var managementFee5 = 0D;
+        var subTotalAB = 0D;
+        var ppn11 = 0D;
+        var grandTotal = 0D;
+        var terbilang = "";
+
         for(KaryawanEntity ke : listKaryawanEntity){
             ReportJamsosResponse response = new ReportJamsosResponse();
             response.setKaryawanNip(ke.getKaryawanNip());
@@ -255,28 +260,28 @@ public class ReportService {
 
                 var gajiTambahUangMakan = gaji + kke.getUangMakan();
                 response.setGajiTambahUangMakan(Double.valueOf(gajiTambahUangMakan));
-                totalGajiTambahUangMakan += gajiTambahUangMakan;
+                totalGajiTambahUangMakan += (int) gajiTambahUangMakan;
 
                 var bpjsKKJkk = gaji * HrisConstant.BPJS_KK_JKK;
                 response.setBpjsKkJkk(bpjsKKJkk);
-                totalBpjsKKJkk += bpjsKKJkk;
+                totalBpjsKKJkk += (int) bpjsKKJkk;
 
                 var bpjsKKJkm = gaji * HrisConstant.BPJS_KK_JKM;
                 response.setBpjsKkJkm(bpjsKKJkm);
-                totalBpjsKKJkm += bpjsKKJkm;
+                totalBpjsKKJkm += (int) bpjsKKJkm;
 
                 var bpjsKKJht = gaji * HrisConstant.BPJS_KK_JHT;
                 response.setBpjsKkJht(bpjsKKJht);
-                totalBpjsKKJht += bpjsKKJht;
+                totalBpjsKKJht += (int) bpjsKKJht;
 
                 var bpjsJkkJkmJht = bpjsKKJkk + bpjsKKJkm + bpjsKKJht;
                 response.setBpjsKkJkkJkmJht(bpjsJkkJkmJht);
-                totalBpjsKKJkkJkmJht += bpjsJkkJkmJht;
+                totalBpjsKKJkkJkmJht += (int) bpjsJkkJkmJht;
 
                 //BPJS KK BEBAN PEGAWAI
                 var bpjsKKBebanPegawai = gaji * HrisConstant.BPJS_KK_B_PEG;
                 response.setBpjsKkBebanPegawai(bpjsKKBebanPegawai);
-                totalBpjsKKBebanPegawai += bpjsKKBebanPegawai;
+                totalBpjsKKBebanPegawai += (int) bpjsKKBebanPegawai;
 
                 //BPJS KS BEBAN PERUSAHAAN
                 var bpjsKSBebanPerusahaan = 0D;
@@ -288,7 +293,7 @@ public class ReportService {
                     bpjsKSBebanPerusahaan = HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
                 }
                 response.setBpjsKsBebanPerusahaan(bpjsKSBebanPerusahaan);
-                totalBpjsKSBebanPerusahaan += bpjsKSBebanPerusahaan;
+                totalBpjsKSBebanPerusahaan += (int) bpjsKSBebanPerusahaan;
 
                 //BPJS KS BEBAN PEGAWAI
                 var bpjsKSBebanPegawai = 0D;
@@ -300,7 +305,7 @@ public class ReportService {
                     bpjsKSBebanPerusahaan = HrisConstant.LIMIT_ATAS_BPJS_KESEHATAN * HrisConstant.BPJS_KS_BEBAN_PEGAWAI_PERCENTAGE;
                 }
                 response.setBpjsKsBebanPegawai(bpjsKSBebanPegawai);
-                totalBpjsKSBebanPegawai += bpjsKSBebanPegawai;
+                totalBpjsKSBebanPegawai += (int) bpjsKSBebanPegawai;
 
                 //BPJS TK BEBAN PERUSAHAAN
                 var bpjsTKBebanPerusahaan = 0D;
@@ -310,7 +315,7 @@ public class ReportService {
                     bpjsTKBebanPerusahaan = HrisConstant.LIMIT_BPJS_TK * HrisConstant.BPJS_KK_B_PEG;
                 }
                 response.setBpjsTkBebanPerusahaan(bpjsTKBebanPerusahaan);
-                totalBpjsTKBebanPerusahaan += bpjsTKBebanPerusahaan;
+                totalBpjsTKBebanPerusahaan += (int) bpjsTKBebanPerusahaan;
 
                 //BPJS TK BEBAN PEGAWAI
                 var bpjsTKBebanPegawai = 0D;
@@ -320,7 +325,7 @@ public class ReportService {
                     bpjsTKBebanPegawai = HrisConstant.LIMIT_BPJS_TK * HrisConstant.BPJS_KESEHATAN_PERCENTAGE;
                 }
                 response.setBpjsTkBebanPegawai(bpjsTKBebanPegawai);
-                totalBpjsTKBebanPegawai += bpjsTKBebanPegawai;
+                totalBpjsTKBebanPegawai += (int) bpjsTKBebanPegawai;
 
                 //PPH PASAL 21
                 String ter = jenisTerForPph21(ke.getStatusNikah());
@@ -330,15 +335,21 @@ public class ReportService {
                 var pph21 = gaji * nominalTer;
 
                 response.setPphPasal21(pph21);
-                totalPphPasal21 += pph21;
+                totalPphPasal21 += (int) pph21;
 
                 //GAJI DITERIMA
                 var gajiDiterima = gajiTambahUangMakan - bpjsKKBebanPegawai - bpjsKSBebanPegawai - bpjsTKBebanPegawai;
                 response.setGajiDiterima(gajiDiterima);
-                totalGajiDiterima += gajiDiterima;
+                totalGajiDiterima += (int) gajiDiterima;
             }
             listReportKaryawan.add(response);
         }
+        subTotalA = (int) totalBpjsKKJkkJkmJht + totalBpjsTKBebanPerusahaan + totalBpjsKSBebanPerusahaan + totalPphPasal21;
+        managementFee5 = (int) subTotalA * 0.05;
+        subTotalAB = (int) subTotalA + managementFee5;
+        ppn11 = managementFee5 * 0.11;
+        grandTotal = subTotalAB + ppn11;
+        terbilang = HrisConstant.angkaToTerbilang(grandTotal);
 
         return (PaginatedReportJamsosResponse<ReportJamsosResponse>) HrisConstant.extractPaginationListReportJamsos(
                 page,
@@ -356,7 +367,13 @@ public class ReportService {
                 totalBpjsTKBebanPerusahaan,
                 totalBpjsTKBebanPegawai,
                 totalPphPasal21,
-                totalGajiDiterima
+                totalGajiDiterima,
+                subTotalA,
+                managementFee5,
+                subTotalAB,
+                ppn11,
+                grandTotal,
+                terbilang
         );
     }
 
@@ -378,6 +395,10 @@ public class ReportService {
         var totalKompensasiDiterima = 0D;
         var totalManagementFee = 0D;
         var totalTotal = 0D;
+
+        var pph11 = 0D;
+        var totalRekap = 0D;
+        var terbilang = "";
 
         for(KaryawanEntity ke : listKaryawanEntity) {
             ReportKompensasiResponse response = new ReportKompensasiResponse();
@@ -406,22 +427,25 @@ public class ReportService {
                 var pembagiBulan = (monthDiff / 12);
 
                 satuanKompensasiDiterima = Math.round(pembagiBulan * satuanKaryawanKontrak.getGaji());
-                kompensasiDiterima += satuanKompensasiDiterima;
+                kompensasiDiterima += (int) satuanKompensasiDiterima;
             }
             response.setKompensasiDiterima(kompensasiDiterima);
-            totalKompensasiDiterima += kompensasiDiterima;
+            totalKompensasiDiterima += (int) kompensasiDiterima;
 
             //management fee
             var managementFee = kompensasiDiterima * 0.1;
             response.setManagementFee(managementFee);
-            totalManagementFee += managementFee;
+            totalManagementFee += (int) managementFee;
 
             var total = kompensasiDiterima + managementFee;
             response.setTotal(total);
-            totalTotal += total;
+            totalTotal += (int) total;
 
             listReportKaryawan.add(response);
         }
+        pph11 = (int) totalManagementFee * 0.11;
+        totalRekap = (int) totalKompensasiDiterima + totalManagementFee + pph11;
+        terbilang = HrisConstant.angkaToTerbilang(totalRekap);
 
         return (PaginatedReportKompensasiResponse<ReportKompensasiResponse>) HrisConstant.extractPaginationListReportKompensasi(
                 page,
@@ -429,7 +453,10 @@ public class ReportService {
                 listReportKaryawan,
                 totalKompensasiDiterima,
                 totalManagementFee,
-                totalTotal
+                totalTotal,
+                pph11,
+                totalRekap,
+                terbilang
         );
     }
 

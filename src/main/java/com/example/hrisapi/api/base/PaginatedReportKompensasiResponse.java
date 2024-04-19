@@ -25,4 +25,11 @@ public class PaginatedReportKompensasiResponse<T> {
   private Double totalManagementFee;
 
   private Double totalTotal;
+
+  private Double pph11;
+
+  private Double totalRekap;
+
+  private String terbilang;
+
 }

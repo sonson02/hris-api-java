@@ -460,7 +460,7 @@ public class ReportService {
         );
     }
 
-    private String jenisTerForPph21(String statusNikah){
+    public String jenisTerForPph21(String statusNikah){
         String ter = "";
         switch (statusNikah) {
             case "TK0"   : ter = "A"; break;

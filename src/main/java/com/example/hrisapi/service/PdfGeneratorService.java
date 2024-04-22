@@ -41,6 +41,12 @@ public class PdfGeneratorService{
     @Autowired
     private JabatanMasterRepository jabatanMasterRepository;
 
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private MasterPph21Repository pph21Repository;
+
     public ByteArrayOutputStream generatePdf(String html) {
         PdfWriter pdfWriter = null;
         Document document;
@@ -159,9 +165,16 @@ public class PdfGeneratorService{
         context.put("penghasilan", HrisConstant.decimalFormatIdr(Double.valueOf(penghasilan)));
 
         //kolom III. Pajak
-        context.put("pph21", 0);
+        String ter = reportService.jenisTerForPph21(karyawanExist.getStatusNikah());
+        MasterPph21Entity masterPph21Ter = pph21Repository.getNominalTer(ter, Double.valueOf(gaji));
+        Double nominalTer = masterPph21Ter.getPph21Ter();
+
+        var pph21 = gaji * nominalTer;
+        context.put("pph21", HrisConstant.decimalFormatIdr(Double.valueOf(pph21)));
         context.put("pph21perusahaan",0);
-        context.put("sisaPajak", 0);
+
+        var sisaPajak = pph21;
+        context.put("sisaPajak", HrisConstant.decimalFormatIdr(Double.valueOf(sisaPajak)));
 
         //kolom IV. Iuran
         var bpjsJaminanPensiun = gaji * HrisConstant.BPJS_JAMINAN_PENSIUN_PERCENTAGE;

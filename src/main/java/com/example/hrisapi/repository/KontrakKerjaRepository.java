@@ -60,4 +60,12 @@ public interface KontrakKerjaRepository extends JpaRepository<KontrakKerjaEntity
             "where karyawan_nip = :karyawanNip and period_kontrak = :periodKontrak"
             , nativeQuery = true)
     Double getMonthForOnePeriodKontrak(@Param("karyawanNip") String karyawanNip, @Param("periodKontrak") Integer periodKontrak );
+
+    @Query(value = "select * from dbo.kontrak_kerja kk " +
+            "where kk.is_active = true and " +
+            "date_part('day', kk.tgl_habis_kontrak) = date_part('day', now()) and " +
+            "date_part('month', kk.tgl_habis_kontrak) = date_part('month', now()) and " +
+            "date_part('year', kk.tgl_habis_kontrak) = date_part('year', now()) "
+            , nativeQuery = true)
+    List<KontrakKerjaEntity> getKaryawanTglHabisKontrak();
 }

@@ -93,6 +93,7 @@ public class KaryawanService {
             }
         }
         KaryawanEntity ke = getKaryawanEntity(request);
+        karyawanRepository.save(ke);
 
         KaryawanResponse response = getKaryawanResponse(ke);
         return response;
